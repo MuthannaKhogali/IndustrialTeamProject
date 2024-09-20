@@ -33,6 +33,6 @@ function register(){
 
 <style scoped>
 :global(body) {
-  background-color: #306E36;
+  background-color: #E8E9EB;
 }
 </style>

@@ -21,7 +21,7 @@
 
       <!--user money with button which will take the user to transfer screen -->
       <div class="moneystuff">
-        <h1>Available Balance: £1,000,000</h1>
+        <h1>Balance: £1,000,000</h1>
         <router-link to="/transaction">
           <button>Transfer</button>
         </router-link>
@@ -31,44 +31,45 @@
 
     <!-- this is the transaction history section which will display recent payments -->
      <!-- hardcoded some companies for now-->
-    <div class="transactionhistory">
-      <div class="company">
-        <h1>The Evil Company</h1>
-        <h2>amount: £10</h2>
-        <h3>Exp: 5</h3>
-        <h4>Paid on Dec 26</h4>
+
+    <div class = "col">
+      <div class="transactionhistory">
+      <div class="company card rounded-0">
+        <div class = "card-body">
+          <div class = "card-title">
+            <h1>The Evil Company</h1>
+          </div>
+          <h2>amount: £10</h2>
+          <h3>Exp: 5</h3>
+          <h4>Paid on Dec 26</h4>
+        </div>
+      </div>
+      <div class="company card rounded-0">
+        <div class = "card-body">
+          <div class = "card-title">
+            <h1>The Evil Company</h1>
+          </div>
+          <h2>amount: £10</h2>
+          <h3>Exp: 5</h3>
+          <h4>Paid on Dec 26</h4>
+        </div>
       </div>
 
-      <div class="company">
-        <h1>The Not As Evil Company</h1>
-        <h2>amount: £60</h2>
-        <h3>Exp: 20</h3>
-        <h4>Paid on Dec 26</h4>
-      </div>
-
-      <div class="company">
-        <h1>The Good Company</h1>
-        <h2>amount: £150</h2>
-        <h3>Exp: 50</h3>
-        <h4>Paid on Dec 25</h4>
-      </div>
-
-      <div class="company">
-        <h1>The Good Company</h1>
-        <h2>amount: £150</h2>
-        <h3>Exp: 50</h3>
-        <h4>Paid on Dec 25</h4>
-      </div>
-
-      <div class="company">
-        <h1>The Good Company</h1>
-        <h2>amount: £150</h2>
-        <h3>Exp: 50</h3>
-        <h4>Paid on Dec 25</h4>
+      <div class="company card rounded-0">
+        <div class = "card-body">
+          <div class = "card-title">
+            <h1>The Evil Company</h1>
+          </div>
+          <h2>amount: £10</h2>
+          <h3>Exp: 5</h3>
+          <h4>Paid on Dec 26</h4>
+        </div>
       </div>
 
     </div>
   </div>
+
+    </div>
 </template>
 
 <script>
@@ -79,8 +80,13 @@ export default {
 
 <style scoped>
 
+:global(body) {
+  background-color: #E8E9EB;
+}
+
 /*mainpage is the whole page */
 .mainpage {
+  font-family: "Roboto Slab", serif;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -89,7 +95,7 @@ export default {
 
 /*this is the top section which has username, id, level, money and transfer button*/
 .userandmoney {
-  background-color: #D9D9D9;
+  background-color: #FFFFFF;
   border-style:solid;
   border-width:1px;
   border-color:darkgray;
@@ -137,7 +143,7 @@ export default {
 
 /*Tranfer button styles*/
 button {
-  background-color: black;
+  background-color: #0F0A0A;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -156,12 +162,12 @@ button {
 /*style for the company div, which displays transaction history companies*/
 .company {
   font-size: 15px;
-  background-color: #D9D9D9;
+  background-color: #FFFFFF;
   margin-bottom: 10px;
   text-align:left;
   border-style:solid;
-  border-width:1px;
-  border-color:darkgray;
+  border-width: 2px 2px 2px 35px;
+  border-color:#306E36;
   border-radius: 20px;
 }
 
