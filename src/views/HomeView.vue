@@ -7,9 +7,16 @@
     <div class="userandmoney">
       <!--user name, account id and level -->
       <div class="userinfo">
-        <h1>Name Surname</h1>
-        <h3>AC: 12079310237</h3>
-        <p>Level 17</p>
+
+        <!-- app logo (used the logo which comes from vue.js for now)-->
+        <div class="logo">
+          <img src="../assets/logo.png" width="50" height="50">
+        </div>
+
+        <!-- hardcoded some details for now-->
+        <h1 class="username">Name Surname</h1>
+        <h2 class="accountID">AC: 12079310237</h2>
+        <h3 class="userlevel">Level 17</h3>
       </div>
 
       <!--user money with button which will take the user to transfer screen -->
@@ -45,6 +52,21 @@
         <h3>Exp: 50</h3>
         <h4>Paid on Dec 25</h4>
       </div>
+
+      <div class="company">
+        <h1>The Good Company</h1>
+        <h2>amount: £150</h2>
+        <h3>Exp: 50</h3>
+        <h4>Paid on Dec 25</h4>
+      </div>
+
+      <div class="company">
+        <h1>The Good Company</h1>
+        <h2>amount: £150</h2>
+        <h3>Exp: 50</h3>
+        <h4>Paid on Dec 25</h4>
+      </div>
+
     </div>
   </div>
 </template>
@@ -57,6 +79,7 @@ export default {
 
 <style scoped>
 
+/*mainpage is the whole page */
 .mainpage {
   display: flex;
   flex-direction: column;
@@ -64,35 +87,82 @@ export default {
   width: 100%;
 }
 
+/*this is the top section which has username, id, level, money and transfer button*/
 .userandmoney {
-  flex: 0 0 40%; 
-  background-color: gray;
+  background-color: #D9D9D9;
+  border-style:solid;
+  border-width:1px;
+  border-color:darkgray;
 }
 
+/*style for the app logo*/
+.logo{
+  width:50px;
+  height:50px;
+  float:right;
+  margin:10px;
+}
+
+/*this is for the user details which are name id and level*/
 .userinfo{
- text-align:left; 
+  font-size:25px;
+  text-align:left;
+  border-style:solid;
+  border-width:1px;
+  border-color:darkgray;
 }
 
+/*style for the name of the user*/
+.username{
+  margin:0px 0px 0px 0px;
+}
+
+/*style for the account id number*/
+.accountID{
+  margin:10px 0px 0px 0px;
+  font-size:25px;
+}
+
+/*style for the user level*/
+.userlevel{
+  margin:10px 0px 10px 0px;
+  color:blue;
+  font-size:20px;
+}
+
+/*style for the money and the tranfer button section*/
 .moneystuff {
-  text-align:center;
+  margin-bottom:20px;
 }
 
-.transactionhistory {
-  flex: 1;
-  background-color: #f0f0f0;
-  overflow-y: auto;
-  padding: 10px;
-}
-
+/*Tranfer button styles*/
 button {
-  margin-top: 20px;
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 30px;
 }
 
+/*this is the remaining 60% section which has the history of transactions*/
+.transactionhistory {
+  background-color: white;
+  margin: 10px 0px 10px 0px;
+}
+
+/*style for the company div, which displays transaction history companies*/
 .company {
   font-size: 15px;
-  background-color: darkgray;
+  background-color: #D9D9D9;
   margin-bottom: 10px;
-  padding: 10px;
   text-align:left;
+  border-style:solid;
+  border-width:1px;
+  border-color:darkgray;
+  border-radius: 20px;
 }
+
 </style>
