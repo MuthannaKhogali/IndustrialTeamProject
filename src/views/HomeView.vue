@@ -24,7 +24,7 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
      <!-- hardcoded some companies for now-->
 
     <div class = "row">
-      <div class="transactionhistory" v-for="info in transactionArray">
+      <div class="transactionhistory" v-bind:key="info" v-for="info in transactionArray">
         <TransactionCard :info = info></TransactionCard>
       </div>
     </div>

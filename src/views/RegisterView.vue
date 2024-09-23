@@ -1,7 +1,7 @@
 <script setup>
 import {ref} from "vue";
 
-const formData = ref({accountNo : undefined, firstname : undefined, secondname : undefined,  money : undefined})
+const formData = ref({accountNo : String, name : String, money : String})
 
 function register(){
     console.log(formData)
@@ -15,8 +15,7 @@ function register(){
                     <img src="https://placehold.jp/60x60.png" alt="Placeholder" class="pb-5">
                     <h1 class = "text-light">Register</h1>
                     <input type="text" v-model = "formData.accountNo" placeholder="Account Number"></input><br>
-                    <input type="text" v-model = "formData.firstname" placeholder="First Name"></input><br>
-                    <input type="text" v-model = "formData.secondname" placeholder="Second Name"></input><br>
+                    <input type="text" v-model = "formData.name" placeholder="First Name"></input><br>
                     <input type="text" v-model = "formData.money" placeholder="e.g. £500"></input><br>
                     <div @click="register" class="btn btn-light mt-4">Register Account</div>
             </div>

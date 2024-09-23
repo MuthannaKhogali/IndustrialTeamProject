@@ -1,12 +1,14 @@
 <script setup>
-    const props = defineProps({
-        userInfo : {
-            name : String,
-            accountNo : String,
-            userLevel : Number,
-            balance : String
-        }
-    })
+import {defineProps} from "vue";
+
+const props = defineProps({
+    userInfo : {
+        name : String,
+        accountNo : String,
+        userLevel : Number,
+        balance : String
+    }
+})
 </script>
 
 <template>
