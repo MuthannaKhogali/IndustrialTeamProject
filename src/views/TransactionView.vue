@@ -19,7 +19,10 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
             <h6>Fuel</h6>
         </div>
         <div class = "card-body">
-            <h3>Environmental Score : 5.6 </h3>
+            <h3>Environmental Score : </h3>
+            <div class="container"> 
+                <div class="skill html" id = "info-main">2.5</div>
+            </div> 
             <AlternativeCarousel></AlternativeCarousel>
         </div>
 
@@ -54,5 +57,26 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
 
 .main{
     background-color: #FFFFFF;
+}
+
+/*This is taken from https://www.geeksforgeeks.org/how-to-create-a-progress-bar-using-html-and-css/ */
+.container { 
+    background-color: rgb(192, 192, 192); 
+    width: 100%; 
+    border-radius: 15px; 
+    padding : 0%
+} 
+  
+.skill { 
+    color: white;
+    padding: 1%; 
+    text-align: right; 
+    font-size: 20px; 
+    border-radius: 15px; 
+} 
+
+#info-main {
+    background-color: v-bind("info.colour"); 
+    width: v-bind("info.score"); 
 }
 </style>
