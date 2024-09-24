@@ -17,7 +17,7 @@ console.log(percentage)
 </script>
 
 <template>
-<div class="company card rounded-0">
+<div class="company card rounded-0 px-4 bg-light">
         <div class = "card-body">
           <div class = "card-title">
             <h1>Good Company</h1>
@@ -25,6 +25,9 @@ console.log(percentage)
             <div class="container"> 
                 <div class="skill" :style = "{'background-color' : props.info.colour, 'width' : percentage}">{{ props.info.score }}</div>
             </div> 
+            <div class="mt-3">
+                <button type="button" class="btn btn-success">Change Payment</button>
+            </div>
           </div>
         </div>
     </div>

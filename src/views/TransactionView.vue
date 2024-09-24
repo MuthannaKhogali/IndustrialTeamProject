@@ -12,7 +12,8 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
 <div class = "mainpage">
     <UserInfo :userInfo = "userInfo"></UserInfo>
 
-    <div class = "card my-4 company rounded-0">
+    <div class = "row">
+        <div class = "card my-4 company rounded-0">
         <div class = "card-title ps-2">
             <h1>Evil Corp LTD</h1>
             <h6>AC: 2174901072</h6>
@@ -25,7 +26,7 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
             </div> 
             <AlternativeCarousel></AlternativeCarousel>
         </div>
-
+    </div>
     </div>
 
 </div>

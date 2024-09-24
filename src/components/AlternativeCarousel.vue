@@ -20,12 +20,7 @@ const alternatives = [
 </script>
 
 <template>
-    <div id="carouselExampleIndicators" class="carousel slide py-3">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
+    <div id="carouselExampleIndicators" class="carousel carousel-dark slide py-3">
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <CarouselCard :info="alternatives[0]"></CarouselCard>
