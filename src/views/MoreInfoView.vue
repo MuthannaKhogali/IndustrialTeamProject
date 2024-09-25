@@ -23,9 +23,8 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
             <h3>Environmental Score : </h3>
             <div class="container"> 
                 <div class="skill html" id = "info-main">2.5</div>
-            </div> 
+            </div>
             <AlternativeCarousel></AlternativeCarousel>
-            <button type="button" class="btn btn-success">Make Payment</button>
         </div>
     </div>
     </div>

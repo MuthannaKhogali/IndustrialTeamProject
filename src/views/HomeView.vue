@@ -13,7 +13,7 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
 </script>
 
 <template>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!--whole page-->
   <div class="mainpage">
 
@@ -30,6 +30,13 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
     </div>
 
   </div>
+
+  
+    <!-- floating button is taken from https://codepen.io/androidcss/pen/yOopGp -->
+  <a href="http://localhost:8080/#/transaction" class="float">
+    <i class="fa fa-plus my-float"></i>
+  </a>
+
 </template>
 
 <style scoped>
@@ -55,6 +62,23 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
 .transactionhistory {
   background-color: white;
   margin: 10px 0px 10px 0px;
+}
+
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#306E36;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.my-float{
+	margin-top:22px;
 }
 
 </style>

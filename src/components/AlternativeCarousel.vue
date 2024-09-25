@@ -1,16 +1,29 @@
 <script setup>
+import CarouselCard from "@/components/CarouselCard.vue"
+
+const alternatives = [
+    {
+        colour: "#306E36",
+        score: 7.5,
+        name : "Good Company",
+        accountNo : "23495945"
+    },
+    {
+        colour: "#306E36",
+        score: 8,
+        name : "Great Company",
+        accountNo : "23495945"
+    }    
+]
+
+
 </script>
 
 <template>
-    <div id="carouselExampleIndicators" class="carousel slide">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
+    <div id="carouselExampleIndicators" class="carousel carousel-dark slide py-3">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <h1>HELLO</h1>
+                <CarouselCard :info="alternatives[0]"></CarouselCard>
             </div>
             <div class="carousel-item">
                 <h1>HELLO 2</h1>
@@ -29,3 +42,4 @@
         </button>
     </div>
 </template>
+
