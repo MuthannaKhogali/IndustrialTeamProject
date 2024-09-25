@@ -1,0 +1,69 @@
+Company Name,Spending Category,Carbon Emissions,Waste Management,Sustainability Practices,Account Number,Summary
+RedFuel Services,Fuel,3,4,2,000000001,"RedFuel Services focuses on retail, specializing in affordable groceries. They invest heavily in sustainable farming but have higher carbon emissions from transportation."
+HighTech Gadgets,Technology,3,4,3,000000002,"HighTech Gadgets dominates e-commerce and cloud computing. Their carbon emissions are high due to global operations, but they score well in waste management and sustainability practices."
+EcoFarm Produce,Agriculture,9,9,8,000000003,EcoFarm Produce focuses on software and hardware solutions. They are improving in waste management but lag in emissions due to manufacturing.
+GreenFuture Groceries,Groceries,9,9,9,000000004,"GreenFuture Groceries is involved in retail and logistics. Their carbon emissions are high from large-scale operations, but they are making efforts in waste management and sustainability."
+PureWaste Management,Waste Management,9,9,9,000000005,"PureWaste Management is a leader in tech, advertising, and AI. They perform well in sustainability practices due to renewable energy use but are marked down for electronic waste."
+CarbonPolluters Fuel,Fuel,1,3,2,000000006,CarbonPolluters Fuel is in the fossil fuel industry. They score poorly in carbon emissions and sustainability but are investing in renewable energy projects.
+FastMed Healthcare,Healthcare,6,6,7,000000007,FastMed Healthcare is another fossil fuel giant. They are struggling with carbon emissions but have made strides in waste management through better refining techniques.
+EcoAgriculture Ltd.,Agriculture,9,8,8,000000008,EcoAgriculture Ltd. has high emissions due to oil drilling but is investing in waste management innovations and better sustainability practices.
+SmartWaste Solutions,Waste Management,8,7,8,000000009,SmartWaste Solutions specializes in wholesale and retail. They excel in waste management through reduced packaging but face challenges in sustainability and carbon emissions.
+LowImpact Groceries,Groceries,8,6,7,000000010,"LowImpact Groceries focuses on consumer electronics. They have improved in waste management by recycling devices, but carbon emissions from global production remain high."
+FashionForward Ltd.,Fashion,5,6,4,000000011,"FashionForward Ltd. is in the retail industry. Their scores reflect their efforts in reducing waste and carbon emissions, but they have room for improvement."
+MovieTime Cinemas,Entertainment,5,4,6,000000012,"MovieTime Cinemas is a streaming service. Their carbon footprint comes from data centers, though they offset this with strong sustainability practices."
+CarbonMax Fuel,Fuel,4,3,2,000000013,"CarbonMax Fuel is a media giant, with significant investments in entertainment. They have worked on reducing emissions but still lag in waste management."
+GreenWaste Management,Waste Management,9,9,9,000000014,"GreenWaste Management is a streaming and media company. They score moderately well in sustainability, though their data center operations contribute to emissions."
+TeleCom Networks,Telecommunications,7,6,5,000000015,"TeleCom Networks is a major player in fossil fuels, and their scores reflect the environmental cost of oil production and transportation."
+CleanEnergy Ventures,Energy,10,10,9,000000016,CleanEnergy Ventures provides video conferencing services. They have low emissions but are working on improving sustainability in data center operations.
+FastFashion Corp.,Fashion,2,4,3,000000017,FastFashion Corp. operates in ride-sharing. They have moderate emissions but score well in sustainability as they move toward electric vehicles.
+EcoBuilders Inc.,Construction,9,8,8,000000018,"EcoBuilders Inc. is a ride-sharing company focusing on reducing emissions through electric vehicles, but they still have waste management issues."
+RedMed Healthcare,Healthcare,3,3,4,000000019,RedMed Healthcare is a streaming platform that uses a lot of energy in data centers but offsets it with renewable energy initiatives.
+EcoGroceries Solutions,Groceries,7,5,6,000000020,"EcoGroceries Solutions is a leader in electric vehicles, scoring very well in sustainability practices but facing challenges in waste management."
+CleanAuto Automotive,Automotive,6,7,6,000000021,"CleanAuto Automotive is in the sportswear industry, with a focus on sustainability in materials but moderate emissions from production."
+SunPower Energy,Energy,9,9,8,000000022,"SunPower Energy focuses on fashion and footwear. They have made efforts in sustainable materials, but production processes still contribute to emissions."
+CarbonHeavy Fashion,Fashion,2,3,2,000000023,CarbonHeavy Fashion focuses on affordable furniture with sustainability in mind. They excel in waste management through recycled materials but face challenges in emissions from global shipping.
+HeavyWaste Services,Waste Management,3,3,4,000000024,"HeavyWaste Services is in the fast fashion industry, with room for improvement in sustainability despite efforts to reduce waste and emissions."
+PlanetEd Solutions,Education,7,8,7,000000025,PlanetEd Solutions is a fast food giant. They struggle with waste from packaging and high emissions from supply chains but are improving sustainability in sourcing ingredients.
+CleanTech Innovations,Technology,9,8,8,000000026,CleanTech Innovations is a coffee chain that performs well in sourcing sustainable coffee but faces challenges with waste and emissions from global operations.
+QuickFuel Corp.,Fuel,3,4,3,000000027,QuickFuel Corp. is a beverage company with high waste from packaging but good sustainability practices in water management.
+PlanetTransport,Transport,6,6,6,000000028,"PlanetTransport is in the beverage industry, facing waste issues from packaging but improving in sustainability through water conservation."
+GreenGrocers Inc.,Groceries,8,7,6,000000029,GreenGrocers Inc. specializes in food manufacturing. They have strong waste management practices but face challenges in emissions from agriculture.
+EcoBuilders Construction,Construction,8,9,8,000000030,EcoBuilders Construction is a global food giant. They are working on sustainability in sourcing but struggle with carbon emissions from supply chains.
+MovieMania Entertainment,Entertainment,6,6,5,000000031,MovieMania Entertainment is an automaker making strides in electric vehicles but still faces high emissions from production and logistics.
+FashionImpact Ltd.,Fashion,4,4,2,000000032,"FashionImpact Ltd. is in the automotive industry, working on improving sustainability with electric vehicles but still has high emissions from traditional car production."
+HeavyFuel Corp.,Fuel,3,3,2,000000033,"HeavyFuel Corp. focuses on vehicles, making slow progress in reducing emissions while improving waste management and sustainability."
+QuickWaste Disposal,Waste Management,9,9,8,000000034,QuickWaste Disposal is a global hospitality company. They excel in waste management but have high carbon emissions from global travel.
+FastTech Corp.,Technology,5,6,7,000000035,FastTech Corp. is another hospitality giant. They are investing in sustainability but struggle with emissions from global operations.
+CleanHotels Hospitality,Hospitality,3,3,3,000000036,CleanHotels Hospitality is a travel platform working on sustainable tourism but facing high carbon emissions from its partners.
+CarbonSmart Transport,Transport,9,9,9,000000037,"CarbonSmart Transport is in the short-term rental market, with good sustainability practices but moderate emissions from travel-related activities."
+FashionRed Corp.,Fashion,8,8,9,000000038,FashionRed Corp. is a travel platform. They are investing in sustainable tourism but face challenges with emissions from travel.
+SolarFuel Innovations,Energy,2,3,2,000000039,SolarFuel Innovations is a professional networking platform with low emissions but room to improve in sustainability and waste management.
+PlanetEd Ltd.,Education,4,3,4,000000040,PlanetEd Ltd. is a social media company with moderate emissions from data centers but is making improvements in sustainability.
+HeavyWaste Corp.,Waste Management,7,8,7,000000041,HeavyWaste Corp. focuses on social networking. They score well in sustainability but face challenges in waste management from digital operations.
+RedEnergy Ltd.,Energy,6,5,7,000000042,RedEnergy Ltd. is a social media giant with moderate emissions but good sustainability initiatives.
+FreshFuel Automotive,Automotive,8,7,8,000000043,FreshFuel Automotive is a messaging platform with low emissions but still working on improving its sustainability practices.
+EcoFarm Agriculture,Agriculture,9,9,8,000000044,EcoFarm Agriculture is a chat platform with low emissions but is investing in data center sustainability improvements.
+PureGroceries Solutions,Groceries,6,7,6,000000045,PureGroceries Solutions is a video-sharing platform with high energy usage but good sustainability practices in offsetting carbon.
+GreenBuilders Ltd.,Construction,7,8,8,000000046,"GreenBuilders Ltd. specializes in creative tools, scoring well in sustainability but facing waste management challenges from server farms."
+SmartAuto Corp.,Automotive,3,3,2,000000047,"SmartAuto Corp. focuses on cloud services, excelling in sustainability but facing challenges with emissions from data centers."
+GreenTelecom Inc.,Telecommunications,10,9,9,000000048,GreenTelecom Inc. is a database provider working on sustainability in cloud operations but still has emissions issues from data centers.
+HeavyWaste Disposal,Waste Management,8,7,7,000000049,HeavyWaste Disposal is a tech company working on improving emissions but excelling in waste management with recycled hardware.
+GreenEnergy Corp.,Energy,2,3,2,000000050,GreenEnergy Corp. is a hardware company with moderate emissions and good sustainability practices in recycling.
+EcoHospitality Ltd.,Hospitality,6,6,5,000000051,EcoHospitality Ltd. is a tech manufacturer struggling with emissions but making strides in sustainability and waste management.
+FashionFast Ltd.,Fashion,10,9,9,000000052,FashionFast Ltd. is a social media platform focused on content sharing. They have good sustainability practices but room for improvement in emissions.
+CleanAuto Services,Automotive,9,8,7,000000053,CleanAuto Services is a social media platform with moderate emissions but improving sustainability through green energy.
+SolarTech Innovations,Technology,8,7,7,000000054,SolarTech Innovations is a messaging platform with low emissions but room for improvement in sustainability.
+GreenFarm Produce,Agriculture,4,5,4,000000055,GreenFarm Produce focuses on retail technology. They score well in waste management but have moderate emissions from server operations.
+SmartWaste Industries,Waste Management,3,4,3,000000056,SmartWaste Industries is a financial service company excelling in sustainability but facing challenges in emissions from global operations.
+FreshTech Corp.,Technology,8,9,8,000000057,FreshTech Corp. is a payment network with moderate emissions but strong sustainability practices in corporate operations.
+PureFuel Corp.,Fuel,9,8,8,000000058,PureFuel Corp. is a global payments company with moderate emissions but a good track record in sustainability.
+FastBuilders Construction,Construction,3,4,3,000000059,FastBuilders Construction is a financial services company with good sustainability practices but moderate emissions from global operations.
+CleanAgriculture Ltd.,Agriculture,9,9,9,000000060,CleanAgriculture Ltd. is an insurance company scoring well in sustainability but still facing challenges in emissions from global operations.
+CarbonImpact Telecom,Telecommunications,2,3,4,000000061,CarbonImpact Telecom is involved in power and lighting. They are making strides in sustainability but struggle with high carbon emissions.
+SunPower Hospitality,Hospitality,6,5,6,000000062,SunPower Hospitality is a consumer goods company working on reducing emissions but excelling in waste management.
+FastFuel Corp.,Fuel,3,3,4,000000063,FastFuel Corp. is a consumer goods company with strong sustainability initiatives but room for improvement in emissions.
+EcoTransport Corp.,Transport,8,9,8,000000064,EcoTransport Corp. focuses on pharmaceuticals. They have moderate emissions but are working on sustainability in drug manufacturing.
+RedWaste Management,Waste Management,8,7,8,000000065,RedWaste Management is a biotech company excelling in sustainability but facing challenges with emissions from global production.
+PureBuilders Ltd.,Construction,9,9,9,000000066,PureBuilders Ltd. is a pharmaceutical giant with strong sustainability practices but moderate emissions from manufacturing.
+GreenGrocers Solutions,Groceries,4,4,5,000000067,"GreenGrocers Solutions is in the aerospace industry, struggling with emissions but making strides in waste management."
+CleanEnergy Inc.,Energy,7,6,7,000000068,CleanEnergy Inc. focuses on defense technologies with room for improvement in emissions and sustainability.
