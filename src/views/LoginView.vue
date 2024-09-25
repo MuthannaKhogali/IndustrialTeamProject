@@ -21,7 +21,7 @@ function register(){
     <div class="d-flex flex-column min-vh-100 min-vw-100">
         <div class="d-flex flex-grow-1 justify-content-center align-items-center">
             <div style = "color : #F3F9E3; font-family: 'Noto Sans', sans-serif;">
-                <img src="../assets/Logo.png" width="100" height="150" class="pb-5">
+                <img src="../assets/logo.png" width="100" height="150" class="pb-5">
                     <h1 class = "text-light">Login</h1>
                     <input v-model="accountNo" placeholder="Account" class="rounded mb-3"><br>
                     <div @click="submit" class="btn btn-light mt-4">Go</div><br>

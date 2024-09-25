@@ -25,7 +25,7 @@ const props = defineProps({
         <!--user money with button which will take the user to transfer screen -->
         <div class="moneystuff col-6">
             <div class="logo">
-            <img src="../assets/Logo.png" width="60" height="60">
+            <img src="../assets/logo.png" width="60" height="60">
             </div>
             <h1 class = "me-2">£{{ props.userInfo.balance || "Unknown" }}</h1>
             <!-- app logo (used the logo which comes from vue.js for now)-->
