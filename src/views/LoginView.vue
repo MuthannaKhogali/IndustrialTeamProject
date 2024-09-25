@@ -23,7 +23,7 @@ function register(){
             <div style = "color : #F3F9E3; font-family: 'Noto Sans', sans-serif;">
                     <img src="Logo.png" alt="Placeholder" class="pb-5">
                     <h1 class = "text-light">Login</h1>
-                    <input type="text" class = "rounded" v-model = "accountNo" placeholder="Account Number"></input><br>
+                    <input type="text" class = "rounded" v-model = "accountNo" placeholder="Account Number"/><br>
                     <div @click="submit" class="btn btn-light mt-4">Go</div><br>
                     <div @click="register" class="btn btn-light mt-4">Register Account</div>
             </div>
