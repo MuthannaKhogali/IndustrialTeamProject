@@ -1,6 +1,6 @@
 <script setup>
 import UserInfo from "@/components/UserInfo.vue"
-import AlternativeCarousel from "@/components/AlternativeCarousel.vue"
+import InfoCarousel from "@/components/InfoCarousel.vue"
 
 const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel : 17, balance : "17345.23"}
 </script>
@@ -18,13 +18,16 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
             <h1>Evil Corp LTD</h1>
             <h6>AC: 2174901072</h6>
             <h6>Fuel</h6>
+            <h6>Waste Management : 23</h6>
+            <h6>Sustainability Practices : 43</h6>
+            <h6>Carbon Emission: 59</h6>
         </div>
         <div class = "card-body">
             <h3>Environmental Score : </h3>
             <div class="container"> 
                 <div class="skill html" id = "info-main">2.5</div>
             </div>
-            <AlternativeCarousel></AlternativeCarousel>
+            <InfoCarousel></InfoCarousel>
         </div>
     </div>
     </div>
