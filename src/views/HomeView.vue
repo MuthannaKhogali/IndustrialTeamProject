@@ -32,7 +32,7 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
   </div>
 
   
-    <!-- floating button is referenced from https://codepen.io/androidcss/pen/yOopGp -->
+    <!-- floating button is taken from https://codepen.io/androidcss/pen/yOopGp -->
   <a href="http://localhost:8080/#/transaction" class="float">
     <i class="fa fa-plus my-float"></i>
   </a>
@@ -70,7 +70,7 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
 	height:60px;
 	bottom:40px;
 	right:40px;
-	background-color:#0C9;
+	background-color:#306E36;
 	color:#FFF;
 	border-radius:50px;
 	text-align:center;
