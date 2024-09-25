@@ -2,6 +2,10 @@
 import UserInfo from '@/components/UserInfo.vue';
 import TransactionCard from '@/components/TransactionCard.vue';
 
+const data = fetch("https://qmbank.uk/api/accounts/1")
+
+console.log(data)
+
 const transactionArray = [
   {name : "Evil Corp LTD", amount : 50, experience : 5, date : "Paid on Dec 26", colour : "#DB2B39"},
   {name : "Mid Corp LTD", amount : 100, experience : 10, date : "Paid on Dec 26", colour : "#F3A712"},
