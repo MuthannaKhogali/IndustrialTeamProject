@@ -12,10 +12,9 @@ function register(){
     <div class="d-flex flex-column min-vh-100 min-vw-100">
         <div class="d-flex flex-grow-1 justify-content-center align-items-center">
             <div style = "color : #F3F9E3">
-                    <img src="https://placehold.jp/60x60.png" alt="Placeholder" class="pb-5">
+                <img src="../assets/logo.png" width="100" height="150" class="pb-5">
                     <h1 class = "text-light">Register</h1>
                     <input v-model="name" placeholder="Name" class="rounded mb-3"><br>
-                    <input v-model="accountNo" placeholder="Account Number" class="rounded mb-3"><br>
                     <input v-model="money" placeholder="Money, eg £500" class="rounded mb-3"><br>
                     <div @click="register" class="btn btn-light mt-4">Register Account</div>
             </div>
