@@ -67,7 +67,9 @@ function CheckPayee(){
 
         <!--https://getbootstrap.com/docs/4.0/components/buttons/-->
         <div style= "margin-top:20px;" class="button-container">
-        <button type="button" @click="CheckPayee" class="btn btn-dark">Check Payee</button>
+          <a href="http://localhost:8080/#/transaction">
+        <button type="button" @click="CheckPayee" href="http://localhost:8080/#/transaction" class="btn btn-dark">Check Payee</button>
+          </a>
         </div>
 
 
