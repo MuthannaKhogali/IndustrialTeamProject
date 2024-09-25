@@ -33,7 +33,7 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
 
   
     <!-- floating button is taken from https://codepen.io/androidcss/pen/yOopGp -->
-  <a href="http://localhost:8080/#/transaction" class="float">
+  <a href="http://localhost:8080/#/payeedetails" class="float">
     <i class="fa fa-plus my-float"></i>
   </a>
 
