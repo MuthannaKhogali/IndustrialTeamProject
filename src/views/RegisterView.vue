@@ -14,9 +14,9 @@ function register(){
             <div style = "color : #F3F9E3">
                     <img src="https://placehold.jp/60x60.png" alt="Placeholder" class="pb-5">
                     <h1 class = "text-light">Register</h1>
-                    <input type="text" v-model = "formData.accountNo" placeholder="Account Number"></input><br>
-                    <input type="text" v-model = "formData.name" placeholder="First Name"></input><br>
-                    <input type="text" v-model = "formData.money" placeholder="e.g. £500"></input><br>
+                    <input v-model="name" placeholder="Name" class="rounded mb-3"><br>
+                    <input v-model="accountNo" placeholder="Account Number" class="rounded mb-3"><br>
+                    <input v-model="money" placeholder="Money, eg £500" class="rounded mb-3"><br>
                     <div @click="register" class="btn btn-light mt-4">Register Account</div>
             </div>
         </div>
