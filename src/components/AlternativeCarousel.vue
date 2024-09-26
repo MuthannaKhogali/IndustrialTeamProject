@@ -1,18 +1,26 @@
 <script setup>
 import CarouselCard from "@/components/CarouselCard.vue"
+import {defineProps} from "vue";
+
+
+const props = defineProps({
+    transaction : Boolean
+})
 
 const alternatives = [
     {
-        colour: "#306E36",
-        score: 7.5,
-        name : "Good Company",
-        accountNo : "23495945"
+        colour: "#F3A712",
+        score: 5,
+        name : "OK Company",
+        accountNo : "23495945",
+        active : false
     },
     {
         colour: "#306E36",
         score: 8,
         name : "Great Company",
-        accountNo : "23495945"
+        accountNo : "23495945",
+        active : true
     }    
 ]
 
@@ -20,16 +28,10 @@ const alternatives = [
 </script>
 
 <template>
-    <div id="carouselExampleIndicators" class="carousel carousel-dark slide py-3">
+    <div id="carouselExampleIndicators" class="carousel carousel-dark slide pb-3">
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <CarouselCard :info="alternatives[0]"></CarouselCard>
-            </div>
-            <div class="carousel-item">
-                <h1>HELLO 2</h1>
-            </div>
-            <div class="carousel-item">
-                <h1>HELLO 3</h1>
+            <div class="carousel-item" v-for="info in alternatives" v-bind:key = "info.name" v-bind:class="(info.active ? 'active' : '')">
+                <CarouselCard :info="info" :transaction = "props.transaction"></CarouselCard>
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">

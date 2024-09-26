@@ -1,8 +1,12 @@
 <script setup>
 import UserInfo from "@/components/UserInfo.vue"
-import InfoCarousel from "@/components/InfoCarousel.vue"
+import AlternativeCarousel from "@/components/AlternativeCarousel.vue"
 
-const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel : 17, balance : "17345.23"}
+const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel : 8, balance : "17345.23"}
+
+const compInfo = {name : "Evil Corp LTD", accountNo : "32538934425", score : 2.5, colour : "#DB2B39"}
+
+const percentage = compInfo.score * 10 + "%"
 </script>
 
 
@@ -14,22 +18,26 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
 
     <div class = "row">
         <div class = "card my-4 company rounded-0">
-        <div class = "card-title ps-2">
-            <h1>Evil Corp LTD</h1>
-            <h6>AC: 2174901072</h6>
-            <h6>Fuel</h6>
-            <h6>Waste Management : 23</h6>
-            <h6>Sustainability Practices : 43</h6>
-            <h6>Carbon Emission: 59</h6>
-        </div>
-        <div class = "card-body">
-            <h3>Environmental Score : </h3>
-            <div class="container"> 
-                <div class="skill html" id = "info-main">2.5</div>
+            <div class = "card-title ps-2">
+                <h1>{{ compInfo.name }}</h1>
+                <h6>AC: {{ compInfo.accountNo }}</h6>
             </div>
-            <InfoCarousel></InfoCarousel>
+            <div class = "mx-2">
+                <h3>Environmental Score : </h3>
+                <div class="container"> 
+                    <div class="skill" id = "info-main">{{ compInfo.score }}</div>
+                </div>
+                <div class = "ps-2">
+                    <h6>Waste Management : 23</h6>
+                    <h6>Sustainability Practices : 43</h6>
+                    <h6>Carbon Emission: 59</h6>
+                </div>
+                <h3 class = "pt-3">Alternative Companies:</h3>
+                <div class = "px-3">
+                    <AlternativeCarousel :transaction="false"></AlternativeCarousel>
+                </div>
+            </div>
         </div>
-    </div>
     </div>
 
 </div>
@@ -80,7 +88,7 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
 } 
 
 #info-main {
-    background-color: v-bind("info.colour"); 
-    width: v-bind("info.score"); 
+    background-color: v-bind("compInfo.colour"); 
+    width: v-bind("percentage"); 
 }
 </style>

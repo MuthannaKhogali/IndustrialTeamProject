@@ -30,6 +30,9 @@ const props = defineProps({
             <h1 class = "me-2">£{{ props.userInfo.balance || "Unknown" }}</h1>
             <!-- app logo (used the logo which comes from vue.js for now)-->
         </div>
+        <div class="container"> 
+          <div class="skill" id = "user-scores"></div>
+        </div> 
     </div>
 </template>
 
@@ -78,6 +81,27 @@ const props = defineProps({
 .moneystuff {
   margin-bottom:20px;
   text-align: right;
+}
+
+/*This is taken from https://www.geeksforgeeks.org/how-to-create-a-progress-bar-using-html-and-css/ */
+.container { 
+    background-color: rgb(192, 192, 192); 
+    width: 100%; 
+    border-radius: 15px; 
+    padding : 0%
+} 
+  
+.skill { 
+    color: white;
+    padding: 1%; 
+    text-align: right; 
+    font-size: 20px; 
+    border-radius: 15px; 
+} 
+
+#user-scores {
+  background-color: #306E36; 
+  width: 80%; 
 }
 
 /*Tranfer button styles*/

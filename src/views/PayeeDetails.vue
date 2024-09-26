@@ -10,7 +10,6 @@ const PayeeData = ref({payeename : "", accountnumber : "", amount : "", referenc
 function CheckPayee(){
     console.log(PayeeData)
 }
-
 </script>
 
 <template>

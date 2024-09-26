@@ -7,7 +7,8 @@ const props = defineProps({
         score: Number,
         name : String,
         accountNo : String
-    }
+    },
+    transaction : Boolean
 })
 
 // const percentage = props.info.score * 10 + "%"
@@ -20,13 +21,13 @@ console.log(percentage)
 <div class="company card rounded-0 px-4 bg-light">
         <div class = "card-body">
           <div class = "card-title">
-            <h1>Good Company</h1>
+            <h1>{{ info.name }}</h1>
             <h6>AC: 123456789</h6> 
             <div class="container"> 
                 <div class="skill" :style = "{'background-color' : props.info.colour, 'width' : percentage}">{{ props.info.score }}</div>
             </div> 
             <div class="mt-3">
-                <button type="button" class="btn btn-success">Change Payment</button>
+                <button type="button" class="btn" v-bind:class="(transaction ? 'btn-success' : 'btn-primary')">{{ transaction ? "Change Payee" : "More Info" }}</button>
             </div>
           </div>
         </div>

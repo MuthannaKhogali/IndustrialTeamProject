@@ -2,9 +2,7 @@
 import UserInfo from '@/components/UserInfo.vue';
 import TransactionCard from '@/components/TransactionCard.vue';
 
-const data = fetch("https://qmbank.uk/api/accounts/1")
-
-console.log(data)
+//const data = fetch("https://qmbank.uk/api/accounts/1")
 
 const transactionArray = [
   {name : "Evil Corp LTD", amount : 50, experience : 5, date : "Paid on Dec 26", colour : "#DB2B39"},
@@ -12,7 +10,7 @@ const transactionArray = [
   {name : "Good Corp LTD", amount : 200, experience : 20, date : "Paid on Dec 26", colour : "#306E36"}
 ] 
 
-const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel : 17, balance : "17345.23"}
+const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel : 8, balance : "17345.23"}
 
 </script>
 
@@ -44,12 +42,6 @@ const userInfo = {name : "Douglas Inglis", accountNo : "234232116415", userLevel
 </template>
 
 <style scoped>
-
-:global(body) {
-  width: 100%;
-  background-color: #E8E9EB;
-}
-
 /*mainpage is the whole page */
 .mainpage {
   font-family: "Outfit", sans-serif;
