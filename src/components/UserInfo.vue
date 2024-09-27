@@ -37,12 +37,11 @@ function login() {
       </div>
     </div>
     <!--user money with button which will take the user to transfer screen -->
-    <div class="moneystuff col-6">
-      <div class="logo">
+    <div class="moneystuff col-6 d-flex flex-column">
+      <div class="logo ms-auto">
         <img src="../assets/logo.png" width="60" height="60" />
       </div>
-      <br>
-      <h1 class="me-2">£{{ props.userInfo.balance !== undefined ? props.userInfo.balance : "Unknown" }}</h1><br />
+      <h1 class="me-2">£{{ props.userInfo.balance !== undefined ? props.userInfo.balance : "Unknown" }}</h1>
       <div class="logout">
         <div @click="login" class="btn btn-danger" v-if="show" >Log Out</div>
       </div>
