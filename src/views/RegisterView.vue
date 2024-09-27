@@ -1,10 +1,16 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 const formData = ref({ name: String, money: String });
+const router = useRouter();
 
 function register() {
   console.log(formData);
+}
+
+function login() {
+  router.push({ path: "/login" });
 }
 </script>
 
@@ -35,6 +41,13 @@ function register() {
             style="background-color: #306e36"
           >
             Register Account
+          </div><br />
+          <div
+            @click="login"
+            class="btn mt-4 border border-3 border-dark shadow-sm"
+            style="background-color: #306e36"
+          >
+            Have an account?
           </div>
         </div>
       </div>
