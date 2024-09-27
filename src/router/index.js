@@ -8,7 +8,7 @@ import PayeeDetails from '../views/PayeeDetails.vue'
 
 const routes = [
   {
-    path: '/home',
+    path: '/home/:accountNo',
     name: 'home',
     component: HomeView
   },

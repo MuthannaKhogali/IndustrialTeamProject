@@ -36,6 +36,9 @@ const percentage = compInfo.score * 10 + "%"
                 <div class = "px-3">
                     <AlternativeCarousel :transaction="true"></AlternativeCarousel>
                 </div>
+                <div class = "mb-3">
+                <button type="button" class="btn btn-success">Continue Payment</button>
+                </div>
             </div>
     </div>
     </div>

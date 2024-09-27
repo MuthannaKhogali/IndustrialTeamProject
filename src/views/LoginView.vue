@@ -5,9 +5,17 @@ import { useRouter } from "vue-router"
 const accountNo = ref(undefined);
 const router = useRouter();
 
-function submit(){
-    if (accountNo.value == 3) {
-        router.push({path : "/"})
+async function submit(){
+    let result = await fetch("https://qmbank.uk/api/accounts/" + accountNo.value)
+
+    if (result.status == 200){
+        result = await result.json()
+
+        router.push({name : "home", params : {"accountNo" : result.account_id}})
+
+
+    } else {
+        console.log("Login Failed")
     }
 }
 
@@ -24,7 +32,6 @@ function register(){
                 <img src="../assets/logo.png" width="100" height="150" class="pb-5">
                     <h1 class = "text-light">Login</h1>
                     <input type="text" class = "rounded" v-model = "accountNo" placeholder="Account Number"/><br>
-                    <input v-model="accountNo" placeholder="Account" class="rounded mb-3"><br>
                     <div @click="submit" class="btn btn-light mt-4">Go</div><br>
                     <div @click="register" class="btn btn-light mt-4">Register Account</div>
             </div>
