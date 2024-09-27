@@ -7,7 +7,12 @@ tableName = "qmbank-accounts"
 
 
 def lambda_handler(event, context):
-    body = json.loads(base64.b64decode(event["body"]))
+    body = event["body"]
+
+    if event["isBase64Encoded"]:
+        body = base64.b64decode(body)
+
+    body = json.loads(body)
 
     if "name" not in body or "starting_balance" not in body:
         return {"statusCode": 400}
