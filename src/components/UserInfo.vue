@@ -21,7 +21,7 @@ const props = defineProps({
         <h6 class="accountID">
           AC: {{ props.userInfo.account_id || "Not Found" }}
         </h6>
-        <h3 class="userlevel">Level {{ props.userInfo.level || "Unknown" }}</h3>
+        <h3 v-if="props.userInfo.level !== undefined" class="userlevel">Level {{props.userInfo.level}}</h3>
       </div>
     </div>
     <!--user money with button which will take the user to transfer screen -->
@@ -34,7 +34,7 @@ const props = defineProps({
       <!-- app logo (used the logo which comes from vue.js for now)-->
     </div>
     <div class="container">
-      <div class="skill" id="user-scores"></div>
+      <div v-if = "props.userInfo.level !== undefined" class="skill" id="user-scores"></div>
     </div>
   </div>
 </template>

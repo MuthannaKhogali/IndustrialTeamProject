@@ -1,15 +1,33 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-const formData = ref({ name: String, money: String });
+const formData = ref({ name: String, starting_balance: String });
 
-function register() {
-  console.log(formData);
+async function register() {
+  let response = await fetch("https://qmbank.uk/api/accounts", {
+    method: "POST",
+    body: {
+      name: "Lowrie",
+      starting_balance: 323,
+    },
+    headers: {
+      "Content-Type": "application/json;",
+    },
+  });
+
+  if (response.status != 200) {
+    return;
+  } else {
+    console.log(await response.json());
+  }
+
+  useRouter().push({ name: "login" });
 }
 </script>
 
 <template>
-  <div class = "login-body">
+  <div class="login-body">
     <div class="d-flex flex-column min-vh-100 min-vw-100">
       <div class="d-flex flex-grow-1 justify-content-center align-items-center">
         <div>
@@ -26,7 +44,7 @@ function register() {
             type="text"
             class="rounded border-dark shadow-sm border-3"
             style="background-color: #7fb284"
-            v-model="money"
+            v-model="starting_balance"
             placeholder="Money, e.g. £500"
           /><br />
           <div

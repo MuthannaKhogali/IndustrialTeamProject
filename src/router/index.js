@@ -5,6 +5,7 @@ import MoreInfoView from '../views/MoreInfoView.vue'
 import LoginView from "../views/LoginView.vue"
 import RegisterView from "../views/RegisterView.vue"
 import PayeeDetails from '../views/PayeeDetails.vue'
+import ScoreView from '../views/ScoreView.vue'
 
 const routes = [
   {
@@ -32,11 +33,15 @@ const routes = [
     name : "register",
     component : RegisterView
   },
-
   {
     path : '/payeedetails',
     name : "payeedetails",
     component : PayeeDetails
+  },
+  {
+    path : '/score',
+    name : 'score',
+    component : ScoreView
   }
 ]
 
