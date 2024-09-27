@@ -9,8 +9,6 @@ const props = defineProps({
     balance: Number,
   },
 });
-
-console.log(props.userInfo);
 </script>
 
 <template>
