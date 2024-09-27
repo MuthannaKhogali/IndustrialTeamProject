@@ -30,8 +30,10 @@ const props = defineProps({
         <img src="../assets/logo.png" width="60" height="60" />
       </div>
       <br>
-      <h1 class="me-2">£{{ props.userInfo.balance !== undefined ? props.userInfo.balance : "Unknown" }}</h1>
-      <!-- app logo (used the logo which comes from vue.js for now)-->
+      <h1 class="me-2">£{{ props.userInfo.balance !== undefined ? props.userInfo.balance : "Unknown" }}</h1><br />
+      <div class="logout">
+        <a href="http://localhost:8080/#/login" class="btn btn-danger">Log Out</a>
+      </div>
     </div>
     <div class="container">
       <div class="skill" id="user-scores"></div>
@@ -84,6 +86,10 @@ const props = defineProps({
   margin-bottom: 20px;
   text-align: right;
 }
+.logout {
+  padding-right: 5px;
+  text-align: right;
+}
 
 /*This is taken from https://www.geeksforgeeks.org/how-to-create-a-progress-bar-using-html-and-css/ */
 .container {
@@ -117,4 +123,5 @@ button {
   display: inline-block;
   font-size: 30px;
 }
+
 </style>
