@@ -1,5 +1,9 @@
 <script setup>
 import { defineProps } from "vue";
+import { useRouter, useRoute } from "vue-router"
+
+const router = useRouter();
+const route = useRoute();
 
 const props = defineProps({
   userInfo: {
@@ -7,8 +11,16 @@ const props = defineProps({
     account_id: String,
     level: Number,
     balance: Number,
-  },
+  }
 });
+
+const show = route.name === "home"
+
+function login() {
+  router.push({ path: "/login" });
+}
+
+
 </script>
 
 <template>
@@ -32,7 +44,7 @@ const props = defineProps({
       <br>
       <h1 class="me-2">£{{ props.userInfo.balance !== undefined ? props.userInfo.balance : "Unknown" }}</h1><br />
       <div class="logout">
-        <a href="http://localhost:8080/#/login" class="btn btn-danger">Log Out</a>
+        <div @click="login" class="btn btn-danger" v-if="show" >Log Out</div>
       </div>
     </div>
     <div class="container">
@@ -113,7 +125,7 @@ const props = defineProps({
 }
 
 /*Tranfer button styles*/
-button {
+.payeeBtn {
   background-color: #0f0a0a;
   border: none;
   color: white;
