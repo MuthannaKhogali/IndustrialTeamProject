@@ -12,6 +12,6 @@ dynamodb = boto3.resource(
 )
 table = dynamodb.Table(table_name)
 
-item = {"counter": 69}
+item = {"pk": "orderCount", "count": 68}
 
 table.put_item(Item=item)
