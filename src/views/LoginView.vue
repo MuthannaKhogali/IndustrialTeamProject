@@ -19,6 +19,13 @@ async function submit() {
 function register() {
   router.push({ path: "/register" });
 }
+
+function enterLogIn(event) {
+  if (event.key === 'Enter') {
+    submit();
+  }
+}
+
 </script>
 
 <template>
@@ -34,6 +41,7 @@ function register() {
             style="background-color: #7fb284"
             v-model="store.accountNo"
             placeholder="Account Number"
+            @keyup="enterLogIn"
           /><br />
           <div
             @click="submit"
