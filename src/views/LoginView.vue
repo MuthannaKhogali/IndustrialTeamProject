@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from "vue-router";
 import { useStore } from '@/store'
 
@@ -6,13 +7,18 @@ const store = useStore()
 
 const router = useRouter();
 
+const message = ref('');
+
+
+
 async function submit() {
+  message.value = '';
   let result = await fetch("https://qmbank.uk/api/accounts/" + store.accountNo);
   if (result.status == 200) {
     result = await result.json();
     router.push("home");
   } else {
-    console.log("Login Failed");
+    message.value = "The account number does not exist!"; 
   }
 }
 
@@ -43,6 +49,7 @@ function enterLogIn(event) {
             placeholder="Account Number"
             @keyup="enterLogIn"
           /><br />
+          <div>{{ message }}</div>
           <div
             @click="submit"
             class="btn mt-4 border border-3 border-dark shadow-sm"
