@@ -2,9 +2,9 @@
 import UserInfo from "@/components/UserInfo.vue";
 import TransactionCard from "@/components/TransactionCard.vue";
 import { ref } from "vue";
-import { useStore } from '@/store'
+import { useStore } from "@/store";
 
-const store = useStore()
+const store = useStore();
 
 const info = ref({});
 const userInfo = ref({});
