@@ -1,7 +1,5 @@
 <script setup>
 import CarouselCard from "@/components/CarouselCard.vue"
-import {defineProps} from "vue";
-
 
 const props = defineProps({
     transaction : Boolean

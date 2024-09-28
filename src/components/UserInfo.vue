@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps } from "vue";
 import { useRouter, useRoute } from "vue-router"
 import { useStore } from '@/store'
 
