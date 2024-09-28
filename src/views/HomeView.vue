@@ -74,9 +74,9 @@ const transactionArray = [
   </div>
 
   <!-- floating button is taken from https://codepen.io/androidcss/pen/yOopGp -->
-  <router-link to="/payeedetails" class="float">
+  <RouterLink to="/payeedetails" class="float">
     <i class="fa fa-plus my-float"></i>
-  </router-link>
+  </RouterLink>
 </template>
 
 <style scoped>
