@@ -1,15 +1,17 @@
 <script setup>
-import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from '@/store'
 
-const accountNo = ref(undefined);
+const store = useStore()
+
 const router = useRouter();
 
 async function submit() {
-  let result = await fetch("https://qmbank.uk/api/accounts/" + accountNo.value);
+  let result = await fetch("https://qmbank.uk/api/accounts/" + store.accountNo);
   if (result.status == 200) {
     result = await result.json();
-    router.push({ name: "home", params: { accountNo: result.account_id } });
+    router.push("home");
+    // store.accountNo = result.account_id;
   } else {
     console.log("Login Failed");
   }
@@ -31,7 +33,7 @@ function register() {
             type="text"
             class="rounded border-dark shadow-sm border-3"
             style="background-color: #7fb284"
-            v-model="accountNo"
+            v-model="store.accountNo"
             placeholder="Account Number"
           /><br />
           <div
