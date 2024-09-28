@@ -68,7 +68,7 @@ function CheckPayee(){
         <div class="payeeBtn">
         <div style= "margin-top:20px;" class="button-container">
           <router-link to="/transaction">
-        <button type="button" @click="CheckPayee" href="http://localhost:8080/#/transaction" class="btn btn-dark">Check Payee</button>
+        <button type="button" @click="CheckPayee" class="btn btn-dark">Check Payee</button>
           </router-link>
         </div>
       </div>

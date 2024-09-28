@@ -61,7 +61,15 @@ function login() {
             style="background-color: #306e36"
           >
             Register Account
+          </div><br />
+          <div
+            @click="login"
+            class="btn mt-4 border border-3 border-dark shadow-sm"
+            style="background-color: #306e36"
+          >
+            Have an account?
           </div>
+
         </div>
       </div>
     </div>
