@@ -1,40 +1,40 @@
+import base64
 import boto3
+import json
 
-client = boto3.client("dynamodb")
+client = boto3.client("dynamodb", region_name="eu-west-2")
 tableName = "qmbank-accounts"
 
 
 def lambda_handler(event, context):
-    id = event["pathParameters"]["id"]
+    body = event["body"]
 
-    item = client.get_item(TableName=tableName, Key={"account_no": {"N": str(id)}})
+    if event["isBase64Encoded"]:
+        body = base64.b64decode(body)
 
-    if "Item" not in item:
-        return {"statusCode": 404}
+    body = json.loads(body)
 
-    item = item["Item"]
+    if "name" not in body or "starting_balance" not in body:
+        return {"statusCode": 400}
 
-    response = {
-        "account_id": str(id).zfill(8),
-        "name": item["name"]["S"],
-        "balance": int(item["balance"]["N"]),
-    }
+    response = client.update_item(
+        TableName=tableName + "-counter",
+        Key={"pk": {"S": "orderCount"}},
+        UpdateExpression="ADD #cnt :val",
+        ExpressionAttributeNames={"#cnt": "count"},
+        ExpressionAttributeValues={":val": {"N": "1"}},
+        ReturnValues="UPDATED_NEW",
+    )
 
-    if "company_category" in item:
-        response["is_company"] = True
-        response["company_category"] = item["company_category"]["S"]
-        response["company_env_scores"] = [
-            int(item["company_env_scores"]["M"]["carbon_emissions"]["N"]),
-            int(item["company_env_scores"]["M"]["waste_management"]["N"]),
-            int(item["company_env_scores"]["M"]["sustainability_practices"]["N"]),
-        ]
-        response["company_desc"] = item["company_description"]["S"]
-        response["company_rag_score"] = sum(response["company_env_scores"])
-        # response["alternatives"] =
-    else:
-        response["is_company"] = False
-        # TODO
-        response["level"] = 1
-        response["streak"] = 0
+    next_account_no = response["Attributes"]["count"]["N"]
 
-    return response
+    client.put_item(
+        TableName=tableName,
+        Item={
+            "account_no": {"N": str(next_account_no)},
+            "name": {"S": body["name"]},
+            "balance": {"N": str(body["starting_balance"])},
+        },
+    )
+
+    return {"account_no": next_account_no}

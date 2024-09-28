@@ -24,6 +24,10 @@ async function register() {
 
   useRouter().push({ name: "login" });
 }
+
+function login() {
+  router.push({ path: "/login" });
+}
 </script>
 
 <template>

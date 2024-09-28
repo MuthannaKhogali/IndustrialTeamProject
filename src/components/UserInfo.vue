@@ -1,5 +1,9 @@
 <script setup>
 import { defineProps } from "vue";
+import { useRouter, useRoute } from "vue-router"
+
+const router = useRouter();
+const route = useRoute();
 
 const props = defineProps({
   userInfo: {
@@ -7,8 +11,16 @@ const props = defineProps({
     account_id: String,
     level: Number,
     balance: Number,
-  },
+  }
 });
+
+const show = route.name === "home"
+
+function login() {
+  router.push({ path: "/login" });
+}
+
+
 </script>
 
 <template>
@@ -25,13 +37,14 @@ const props = defineProps({
       </div>
     </div>
     <!--user money with button which will take the user to transfer screen -->
-    <div class="moneystuff col-6">
-      <div class="logo">
+    <div class="moneystuff col-6 d-flex flex-column">
+      <div class="logo ms-auto">
         <img src="../assets/logo.png" width="60" height="60" />
       </div>
-      <br>
       <h1 class="me-2">£{{ props.userInfo.balance !== undefined ? props.userInfo.balance : "Unknown" }}</h1>
-      <!-- app logo (used the logo which comes from vue.js for now)-->
+      <div class="logout">
+        <div @click="login" class="btn btn-danger" v-if="show" >Log Out</div>
+      </div>
     </div>
     <div class="container">
       <div v-if = "props.userInfo.level !== undefined" class="skill" id="user-scores"></div>
@@ -84,6 +97,10 @@ const props = defineProps({
   margin-bottom: 20px;
   text-align: right;
 }
+.logout {
+  padding-right: 5px;
+  text-align: right;
+}
 
 /*This is taken from https://www.geeksforgeeks.org/how-to-create-a-progress-bar-using-html-and-css/ */
 .container {
@@ -107,7 +124,7 @@ const props = defineProps({
 }
 
 /*Tranfer button styles*/
-button {
+.payeeBtn {
   background-color: #0f0a0a;
   border: none;
   color: white;
@@ -117,4 +134,5 @@ button {
   display: inline-block;
   font-size: 30px;
 }
+
 </style>
