@@ -52,7 +52,6 @@ function register() {
               Go
           </button>
           </form>
-          <br />
           <div
             @click="register"
             class="btn mt-4 border border-3 border-dark shadow-sm"
