@@ -11,7 +11,6 @@ async function submit() {
   if (result.status == 200) {
     result = await result.json();
     router.push("home");
-    // store.accountNo = result.account_id;
   } else {
     console.log("Login Failed");
   }
