@@ -26,10 +26,10 @@ async function register() {
     console.log(await response.json());
   }
 
-  login();
+  goToLoginPage();
 }
 
-function login() {
+function goToLoginPage() {
   router.push({ path: "/login" });
 }
 </script>
@@ -63,7 +63,7 @@ function login() {
             Register Account
           </div><br />
           <div
-            @click="login"
+            @click="goToLoginPage"
             class="btn mt-4 border border-3 border-dark shadow-sm"
             style="background-color: #306e36"
           >
