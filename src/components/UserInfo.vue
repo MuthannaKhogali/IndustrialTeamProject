@@ -14,12 +14,20 @@ const props = defineProps({
   }
 });
 
-const show = route.name === "home"
+const showHome = route.name === "home"
+const showScore = route.name === "score"
 
 function login() {
   router.push({ path: "/login" });
 }
 
+function score() {
+  router.push({ path: "/score" });
+}
+
+function home() {
+  router.push({ path: "/home/:accountNo" });
+}
 
 </script>
 
@@ -34,6 +42,8 @@ function login() {
           AC: {{ props.userInfo.account_id || "Not Found" }}
         </h6>
         <h3 v-if="props.userInfo.level !== undefined" class="userlevel">Level {{props.userInfo.level}}</h3>
+        <div @click="score" class="btn btn-primary" v-if="showHome" >About Level</div>
+        <div @click="home" class="btn btn-primary" v-if="showScore">Home</div>
       </div>
     </div>
     <!--user money with button which will take the user to transfer screen -->
