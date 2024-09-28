@@ -26,7 +26,7 @@ function score() {
 }
 
 function home() {
-  router.push({ path: "/home/:accountNo" });
+  router.go(-1);
 }
 
 </script>
