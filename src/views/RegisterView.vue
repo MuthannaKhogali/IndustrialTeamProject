@@ -2,11 +2,13 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
-const formData = ref({ name: String, starting_balance: String });
+const formData = ref({ name: "", starting_balance: "" });
 
 const router = useRouter();
 
 async function register() {
+  //console.log(formData.value.name)
+
   let response = await fetch("https://qmbank.uk/api/accounts", {
     method: "POST",
     body: {
