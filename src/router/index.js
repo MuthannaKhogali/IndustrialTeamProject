@@ -13,7 +13,7 @@ const routes = [
     redirect: '/login'
   },
   {
-    path: '/home/:accountNo',
+    path: '/home',
     name: 'home',
     component: HomeView
   },

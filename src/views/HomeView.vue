@@ -2,14 +2,15 @@
 import UserInfo from "@/components/UserInfo.vue";
 import TransactionCard from "@/components/TransactionCard.vue";
 import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { useStore } from '@/store'
+
+const store = useStore()
 
 const info = ref({});
 const userInfo = ref({});
 
 (async () => {
-  const accountNo = useRoute().params.accountNo;
-  let result = await fetch("https://qmbank.uk/api/accounts/" + accountNo);
+  let result = await fetch("https://qmbank.uk/api/accounts/" + store.accountNo);
   info.value = await result.json();
 
   userInfo.value = {
