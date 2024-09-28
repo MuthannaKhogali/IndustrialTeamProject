@@ -26,12 +26,6 @@ function register() {
   router.push({ path: "/register" });
 }
 
-function enterLogIn(event) {
-  if (event.key === 'Enter') {
-    submit();
-  }
-}
-
 </script>
 
 <template>
@@ -41,22 +35,23 @@ function enterLogIn(event) {
         <div>
           <img src="../assets/logo.png" width="200" height="210" class="pb-3" />
           <h1>Login</h1>
+          <form @submit.prevent="submit">
           <input
             type="text"
             class="rounded border-dark shadow-sm border-3"
             style="background-color: #7fb284"
             v-model="store.accountNo"
             placeholder="Account Number"
-            @keyup="enterLogIn"
           /><br />
           <div>{{ message }}</div>
-          <div
-            @click="submit"
-            class="btn mt-4 border border-3 border-dark shadow-sm"
-            style="background-color: #306e36"
-          >
-            Go
-          </div>
+          <button
+              type="submit"
+              class="btn mt-4 border border-3 border-dark shadow-sm"
+              style="background-color: #306e36"
+            >
+              Go
+          </button>
+          </form>
           <br />
           <div
             @click="register"
