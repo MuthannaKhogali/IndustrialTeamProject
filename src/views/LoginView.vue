@@ -1,31 +1,28 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useStore } from '@/store'
+import { useStore } from "@/store";
 
-const store = useStore()
+const store = useStore();
 
 const router = useRouter();
 
-const message = ref('');
-
-
+const message = ref("");
 
 async function submit() {
-  message.value = '';
+  message.value = "";
   let result = await fetch("https://qmbank.uk/api/accounts/" + store.accountNo);
   if (result.status == 200) {
     result = await result.json();
     router.push("home");
   } else {
-    message.value = "The account number does not exist!"; 
+    message.value = "The account number does not exist!";
   }
 }
 
 function register() {
   router.push({ path: "/register" });
 }
-
 </script>
 
 <template>
@@ -36,21 +33,22 @@ function register() {
           <img src="../assets/logo.png" width="200" height="210" class="pb-3" />
           <h1>Login</h1>
           <form @submit.prevent="submit">
-          <input
-            type="text"
-            class="rounded border-dark shadow-sm border-3"
-            style="background-color: #7fb284"
-            v-model="store.accountNo"
-            placeholder="Account Number"
-          /><br />
-          <div>{{ message }}</div>
-          <button
+            <input
+              type="text"
+              class="rounded border-dark shadow-sm border-3"
+              style="background-color: #7fb284"
+              v-model="store.accountNo"
+              placeholder="Account Number"
+            />
+            <br />
+            <div>{{ message }}</div>
+            <button
               type="submit"
               class="btn mt-4 border border-3 border-dark shadow-sm"
               style="background-color: #306e36"
             >
               Go
-          </button>
+            </button>
           </form>
           <div
             @click="register"
