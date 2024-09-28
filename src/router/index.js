@@ -9,6 +9,10 @@ import ScoreView from '@/views/ScoreView.vue'
 
 const routes = [
   {
+    path: '/',
+    redirect: '/login'
+  },
+  {
     path: '/home/:accountNo',
     name: 'home',
     component: HomeView
