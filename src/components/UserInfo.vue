@@ -53,7 +53,7 @@ function home() {
       </div>
       <h1 class="me-2">£{{ props.userInfo.balance !== undefined ? props.userInfo.balance : "Unknown" }}</h1>
       <div class="logout">
-        <div @click="login" class="btn btn-danger" v-if="show" >Log Out</div>
+        <div @click="login" class="btn btn-danger" v-if="showHome" >Log Out</div>
       </div>
     </div>
     <div class="container">
