@@ -4,8 +4,8 @@ import TransactionCard from "@/components/TransactionCard.vue";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 
-const info = ref(null);
-const userInfo = ref(null);
+const info = ref({});
+const userInfo = ref({});
 
 (async () => {
   const accountNo = useRoute().params.accountNo;
