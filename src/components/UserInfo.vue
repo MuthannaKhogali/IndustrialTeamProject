@@ -6,15 +6,6 @@ const store = useStore();
 const router = useRouter();
 const route = useRoute();
 
-const props = defineProps({
-  userInfo: {
-    name: String,
-    account_id: String,
-    level: Number,
-    balance: Number,
-  },
-});
-
 const showHome = route.name === "home";
 const showScore = route.name === "score";
 
@@ -38,12 +29,12 @@ function home() {
     <div class="userinfo col-6">
       <!-- hardcoded some details for now-->
       <div class="ps-2">
-        <h1 class="username">{{ props.userInfo.name || "Name Unknown" }}</h1>
+        <h1 class="username">{{ store.accountInfo.name || "Name Unknown" }}</h1>
         <h6 class="accountID">
-          AC: {{ props.userInfo.account_id || "Not Found" }}
+          AC: {{ store.accountInfo.account_id || "Not Found" }}
         </h6>
-        <h3 v-if="props.userInfo.level !== undefined" class="userlevel">
-          Level {{ props.userInfo.level }}
+        <h3 v-if="store.accountInfo.level !== undefined" class="userlevel">
+          Level {{ store.accountInfo.level }}
         </h3>
         <div @click="score" class="btn btn-primary" v-if="showHome">
           About Level
@@ -58,8 +49,8 @@ function home() {
       </div>
       <h1 class="me-2">
         £{{
-          props.userInfo.balance !== undefined
-            ? props.userInfo.balance
+          store.accountInfo.balance !== undefined
+            ? store.accountInfo.balance
             : "Unknown"
         }}
       </h1>
@@ -71,7 +62,7 @@ function home() {
     </div>
     <div class="container">
       <div
-        v-if="props.userInfo.level !== undefined"
+        v-if="store.accountInfo.level !== undefined"
         class="skill"
         id="user-scores"
       ></div>
