@@ -22,7 +22,7 @@ const props = defineProps({
           <h2>£{{ props.info.amount || 0 }}</h2>
           <h6>Exp: {{ props.info.experience || 0 }}</h6>
           <h6>{{ props.info.date || "Date Unknown" }}</h6>
-          <a href="http://localhost:8080/#/moreinfo" class="card-link">More Information</a>
+          <router-link to="/moreinfo" class="card-link">More Information</router-link>
         </div>
     </div>
 </template>
