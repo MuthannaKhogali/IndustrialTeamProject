@@ -10,7 +10,6 @@ const showHome = route.name === "home";
 const showScore = route.name === "score";
 
 function logout() {
-  store.accountNo = null;
   router.push({ path: "/login" });
 }
 

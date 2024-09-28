@@ -9,6 +9,10 @@ const router = useRouter();
 
 const message = ref("");
 
+// When returning here from the app, we need to wipe this, or else it'll show
+// the last account id that logged in.
+store.accountNo = null;
+
 async function submit() {
   message.value = "";
   // let result = await fetch("https://qmbank.uk/api/accounts/" + (store.accountInfo?.no ?? ""));
