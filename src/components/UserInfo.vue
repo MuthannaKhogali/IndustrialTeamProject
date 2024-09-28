@@ -1,8 +1,8 @@
 <script setup>
-import { useRouter, useRoute } from "vue-router"
-import { useStore } from '@/store'
+import { useRouter, useRoute } from "vue-router";
+import { useStore } from "@/store";
 
-const store = useStore()
+const store = useStore();
 const router = useRouter();
 const route = useRoute();
 
@@ -12,14 +12,14 @@ const props = defineProps({
     account_id: String,
     level: Number,
     balance: Number,
-  }
+  },
 });
 
-const showHome = route.name === "home"
-const showScore = route.name === "score"
+const showHome = route.name === "home";
+const showScore = route.name === "score";
 
 function logout() {
-  store.accountNo = null
+  store.accountNo = null;
   router.push({ path: "/login" });
 }
 
@@ -30,7 +30,6 @@ function score() {
 function home() {
   router.go(-1);
 }
-
 </script>
 
 <template>
@@ -43,8 +42,12 @@ function home() {
         <h6 class="accountID">
           AC: {{ props.userInfo.account_id || "Not Found" }}
         </h6>
-        <h3 v-if="props.userInfo.level !== undefined" class="userlevel">Level {{props.userInfo.level}}</h3>
-        <div @click="score" class="btn btn-primary" v-if="showHome" >About Level</div>
+        <h3 v-if="props.userInfo.level !== undefined" class="userlevel">
+          Level {{ props.userInfo.level }}
+        </h3>
+        <div @click="score" class="btn btn-primary" v-if="showHome">
+          About Level
+        </div>
         <div @click="home" class="btn btn-primary" v-if="showScore">Home</div>
       </div>
     </div>
@@ -53,13 +56,25 @@ function home() {
       <div class="logo ms-auto">
         <img src="../assets/logo.png" width="60" height="60" />
       </div>
-      <h1 class="me-2">£{{ props.userInfo.balance !== undefined ? props.userInfo.balance : "Unknown" }}</h1>
+      <h1 class="me-2">
+        £{{
+          props.userInfo.balance !== undefined
+            ? props.userInfo.balance
+            : "Unknown"
+        }}
+      </h1>
       <div class="logout">
-        <div @click="logout" class="btn btn-danger" v-if="showHome" >Log Out</div>
+        <div @click="logout" class="btn btn-danger" v-if="showHome">
+          Log Out
+        </div>
       </div>
     </div>
     <div class="container">
-      <div v-if = "props.userInfo.level !== undefined" class="skill" id="user-scores"></div>
+      <div
+        v-if="props.userInfo.level !== undefined"
+        class="skill"
+        id="user-scores"
+      ></div>
     </div>
   </div>
 </template>
@@ -146,5 +161,4 @@ function home() {
   display: inline-block;
   font-size: 30px;
 }
-
 </style>
