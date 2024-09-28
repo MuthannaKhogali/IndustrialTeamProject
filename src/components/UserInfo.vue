@@ -1,7 +1,9 @@
 <script setup>
 import { defineProps } from "vue";
 import { useRouter, useRoute } from "vue-router"
+import { useStore } from '@/store'
 
+const store = useStore()
 const router = useRouter();
 const route = useRoute();
 
@@ -17,7 +19,8 @@ const props = defineProps({
 const showHome = route.name === "home"
 const showScore = route.name === "score"
 
-function login() {
+function logout() {
+  store.accountNo = null
   router.push({ path: "/login" });
 }
 
@@ -53,7 +56,7 @@ function home() {
       </div>
       <h1 class="me-2">£{{ props.userInfo.balance !== undefined ? props.userInfo.balance : "Unknown" }}</h1>
       <div class="logout">
-        <div @click="login" class="btn btn-danger" v-if="showHome" >Log Out</div>
+        <div @click="logout" class="btn btn-danger" v-if="showHome" >Log Out</div>
       </div>
     </div>
     <div class="container">
