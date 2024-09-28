@@ -4,6 +4,8 @@ import { useRouter } from "vue-router";
 
 const formData = ref({ name: String, starting_balance: String });
 
+const router = useRouter();
+
 async function register() {
   let response = await fetch("https://qmbank.uk/api/accounts", {
     method: "POST",
@@ -22,7 +24,7 @@ async function register() {
     console.log(await response.json());
   }
 
-  useRouter().push({ name: "login" });
+  login();
 }
 
 function login() {
@@ -41,14 +43,14 @@ function login() {
             type="text"
             class="rounded border-dark shadow-sm border-3"
             style="background-color: #7fb284"
-            v-model="name"
+            v-model="formData.name"
             placeholder="Name"
           /><br />
           <input
             type="text"
             class="rounded border-dark shadow-sm border-3"
             style="background-color: #7fb284"
-            v-model="starting_balance"
+            v-model="formData.starting_balance"
             placeholder="Money, e.g. £500"
           /><br />
           <div
