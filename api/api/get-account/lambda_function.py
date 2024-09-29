@@ -5,9 +5,9 @@ tableName = "qmbank-accounts"
 
 
 def lambda_handler(event, context):
-    id = event["pathParameters"]["id"]
+    account_no = event["pathParameters"]["id"]
 
-    item = client.get_item(TableName=tableName, Key={"account_no": {"N": str(id)}})
+    item = client.get_item(TableName=tableName, Key={"account_no": {"S": account_no}})
 
     if "Item" not in item:
         return {"statusCode": 404}
@@ -15,7 +15,7 @@ def lambda_handler(event, context):
     item = item["Item"]
 
     response = {
-        "account_id": str(id).zfill(8),
+        "account_id": account_no,
         "name": item["name"]["S"],
         "balance": int(item["balance"]["N"]),
     }

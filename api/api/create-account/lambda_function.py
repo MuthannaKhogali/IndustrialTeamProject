@@ -26,12 +26,12 @@ def lambda_handler(event, context):
         ReturnValues="UPDATED_NEW",
     )
 
-    next_account_no = response["Attributes"]["count"]["N"]
+    next_account_no = response["Attributes"]["count"]["N"].zfill(9)
 
     client.put_item(
         TableName=tableName,
         Item={
-            "account_no": {"N": str(next_account_no)},
+            "account_no": {"S": next_account_no},
             "name": {"S": body["name"]},
             "balance": {"N": str(body["starting_balance"])},
         },
