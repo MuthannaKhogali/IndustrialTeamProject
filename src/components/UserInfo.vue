@@ -36,10 +36,10 @@ function back() {
         <h3 v-if="store.accountInfo.level !== undefined" class="userlevel">
           Level {{ store.accountInfo.level }}
         </h3>
-        <div @click="score" class="btn btn-primary" v-if="showHome">
+        <div @click="score" class="btn btn-dark mt-3" v-if="showHome">
           About Level
         </div>
-        <div @click="back" class="btn btn-primary mb-3" v-if="showBack">Back</div>
+        <div @click="back" class="btn btn-dark mb-3 mt-2" v-if="showBack">Back</div>
       </div>
     </div>
     <!--user money with button which will take the user to transfer screen -->
@@ -55,7 +55,7 @@ function back() {
         }}
       </h1>
       <div class="logout">
-        <div @click="logout" class="btn btn-danger" v-if="showHome">
+        <div @click="logout" class="btn btn-dark mt-1" v-if="showHome">
           Log Out
         </div>
       </div>
@@ -150,4 +150,5 @@ function back() {
   display: inline-block;
   font-size: 30px;
 }
+
 </style>
