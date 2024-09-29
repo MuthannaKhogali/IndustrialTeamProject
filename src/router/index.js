@@ -1,57 +1,57 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import TransactionView from '@/views/TransactionView.vue'
-import MoreInfoView from '@/views/MoreInfoView.vue'
-import LoginView from "@/views/LoginView.vue"
-import RegisterView from "@/views/RegisterView.vue"
-import PayeeDetails from '@/views/PayeeDetails.vue'
-import ScoreView from '@/views/ScoreView.vue'
+import { createRouter, createWebHashHistory } from "vue-router";
+import HomeView from "@/views/HomeView.vue";
+import TransactionView from "@/views/TransactionView.vue";
+import MoreInfoView from "@/views/MoreInfoView.vue";
+import LoginView from "@/views/LoginView.vue";
+import RegisterView from "@/views/RegisterView.vue";
+import PayeeDetails from "@/views/PayeeDetails.vue";
+import ScoreView from "@/views/ScoreView.vue";
 
 const routes = [
   {
-    path: '/',
-    redirect: '/login'
+    path: "/",
+    redirect: "/login",
   },
   {
-    path: '/home',
-    name: 'home',
-    component: HomeView
+    path: "/home",
+    name: "home",
+    component: HomeView,
   },
   {
-    path: '/transaction',
-    name: 'transaction',
-    component: TransactionView
+    path: "/transaction",
+    name: "transaction",
+    component: TransactionView,
   },
   {
-    path: '/moreinfo',
-    name: 'moreinfo',
-    component: MoreInfoView
+    path: "/moreinfo",
+    name: "moreinfo",
+    component: MoreInfoView,
   },
   {
-    path: '/login',
-    name: 'login',
-    component: LoginView
+    path: "/login",
+    name: "login",
+    component: LoginView,
   },
   {
-    path : '/register',
-    name : "register",
-    component : RegisterView
+    path: "/register",
+    name: "register",
+    component: RegisterView,
   },
   {
-    path : '/payeedetails',
-    name : "payeedetails",
-    component : PayeeDetails
+    path: "/payeedetails",
+    name: "payeedetails",
+    component: PayeeDetails,
   },
   {
-    path : '/score',
-    name : 'score',
-    component : ScoreView
-  }
-]
+    path: "/score",
+    name: "score",
+    component: ScoreView,
+  },
+];
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
