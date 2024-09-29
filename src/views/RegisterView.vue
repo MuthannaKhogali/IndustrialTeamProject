@@ -11,10 +11,10 @@ async function register() {
 
   let response = await fetch("https://qmbank.uk/api/accounts", {
     method: "POST",
-    body: {
+    body: JSON.stringify({
       name: "Lowrie",
       starting_balance: 323,
-    },
+    }),
     headers: {
       "Content-Type": "application/json;",
     },
