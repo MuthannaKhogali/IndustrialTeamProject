@@ -7,7 +7,7 @@ const router = useRouter();
 const route = useRoute();
 
 const showHome = route.name === "home";
-const showScore = route.name === "score";
+const showBack = route.name === "score" || route.name === "payeedetails" || route.name === "transaction";
 
 function logout() {
   router.push({ path: "/login" });
@@ -38,7 +38,7 @@ function home() {
         <div @click="score" class="btn btn-primary" v-if="showHome">
           About Level
         </div>
-        <div @click="home" class="btn btn-primary" v-if="showScore">Home</div>
+        <div @click="home" class="btn btn-primary" v-if="showBack">Back</div>
       </div>
     </div>
     <!--user money with button which will take the user to transfer screen -->
