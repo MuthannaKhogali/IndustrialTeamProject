@@ -38,7 +38,7 @@ function back() {
         <div @click="score" class="btn btn-primary" v-if="showHome">
           About Level
         </div>
-        <div @click="back" class="btn btn-primary" v-if="showBack">Back</div>
+        <div @click="back" class="btn btn-primary mb-3" v-if="showBack">Back</div>
       </div>
     </div>
     <!--user money with button which will take the user to transfer screen -->
