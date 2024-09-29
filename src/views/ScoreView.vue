@@ -22,13 +22,13 @@ import UsersTable from "@/components/UsersTable.vue";
           <div class="px-2">
             <div class="row py-2">
               <div class="col-4 text-start">
-                <h6>Level 3</h6>
+                <h6>Level 1</h6>
               </div>
               <div class="col-4 text-center">
                 <h6></h6>
               </div>
               <div class="col-4 text-end">
-                <h6>Level 4</h6>
+                <h6>Level 2</h6>
               </div>
             </div>
           </div>
@@ -38,7 +38,6 @@ import UsersTable from "@/components/UsersTable.vue";
             </div>
           </div>
           <div class="row">
-            <div>Test</div>
           </div>
           <div class="row px-3">
             <UsersTable />
