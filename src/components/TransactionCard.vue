@@ -5,6 +5,7 @@ const props = defineProps({
         amount: Number,
         experience: Number,
         date : String,
+        reference : String,
         colour : String
     }
 })
@@ -20,6 +21,7 @@ const props = defineProps({
           <h2>£{{ props.info.amount || 0 }}</h2>
           <h6>Exp: {{ props.info.experience || 0 }}</h6>
           <h6>{{ props.info.date || "Date Unknown" }}</h6>
+          <h6>Reference: {{ props.info.reference || "Reference Unknown" }}</h6>
           <RouterLink to="/moreinfo" class="card-link">More Information</RouterLink>
         </div>
     </div>

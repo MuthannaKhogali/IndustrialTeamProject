@@ -12,6 +12,7 @@ const transactionArray = [
     amount: 50,
     experience: 5,
     date: "Paid on Dec 26",
+    reference: "Needed Evil",
     colour: "#DB2B39",
   },
   {
@@ -19,6 +20,7 @@ const transactionArray = [
     amount: 100,
     experience: 10,
     date: "Paid on Dec 26",
+    reference: "Needed Mid",
     colour: "#F3A712",
   },
   {
@@ -26,6 +28,7 @@ const transactionArray = [
     amount: 200,
     experience: 20,
     date: "Paid on Dec 26",
+    reference: "Needed Good",
     colour: "#306E36",
   },
 ];
