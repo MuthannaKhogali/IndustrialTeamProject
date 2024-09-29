@@ -17,7 +17,7 @@ function score() {
   router.push({ path: "/score" });
 }
 
-function home() {
+function back() {
   router.go(-1);
 }
 </script>
@@ -38,7 +38,7 @@ function home() {
         <div @click="score" class="btn btn-primary" v-if="showHome">
           About Level
         </div>
-        <div @click="home" class="btn btn-primary" v-if="showBack">Back</div>
+        <div @click="back" class="btn btn-primary" v-if="showBack">Back</div>
       </div>
     </div>
     <!--user money with button which will take the user to transfer screen -->
