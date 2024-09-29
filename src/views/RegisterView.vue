@@ -43,7 +43,7 @@ function goToLoginPage() {
           <h1>Register</h1>
           <input type="text" class="rounded border-dark shadow-sm border-3" style="background-color: #7fb284"
             v-model="formData.name" placeholder="Name" /><br />
-          <input type="text" class="rounded border-dark shadow-sm border-3" style="background-color: #7fb284"
+          <input type="text" class="mt-2 rounded border-dark shadow-sm border-3" style="background-color: #7fb284"
             v-model="formData.starting_balance" placeholder="Money, e.g. £500" /><br />
           <div @click="register" class="btn mt-4 border border-3 border-dark shadow-sm"
             style="background-color: #306e36">
