@@ -35,10 +35,7 @@ const transactionArray = [
 </script>
 
 <template>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <!--whole page-->
   <div class="mainpage">
     <!--top section which shows user data stuff -->
@@ -48,11 +45,7 @@ const transactionArray = [
     <!-- hardcoded some companies for now-->
 
     <div class="row">
-      <div
-        class="transactionhistory"
-        v-bind:key="info"
-        v-for="info in transactionArray"
-      >
+      <div class="transactionhistory" v-bind:key="info" v-for="info in transactionArray">
         <TransactionCard :info="info"></TransactionCard>
       </div>
     </div>

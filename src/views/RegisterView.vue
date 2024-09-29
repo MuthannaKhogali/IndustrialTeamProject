@@ -41,32 +41,16 @@ function goToLoginPage() {
         <div>
           <img src="../assets/logo.png" width="200" height="210" class="pb-3" />
           <h1>Register</h1>
-          <input
-            type="text"
-            class="rounded border-dark shadow-sm border-3"
-            style="background-color: #7fb284"
-            v-model="formData.name"
-            placeholder="Name"
-          /><br />
-          <input
-            type="text"
-            class="rounded border-dark shadow-sm border-3"
-            style="background-color: #7fb284"
-            v-model="formData.starting_balance"
-            placeholder="Money, e.g. £500"
-          /><br />
-          <div
-            @click="register"
-            class="btn mt-4 border border-3 border-dark shadow-sm"
-            style="background-color: #306e36"
-          >
+          <input type="text" class="rounded border-dark shadow-sm border-3" style="background-color: #7fb284"
+            v-model="formData.name" placeholder="Name" /><br />
+          <input type="text" class="rounded border-dark shadow-sm border-3" style="background-color: #7fb284"
+            v-model="formData.starting_balance" placeholder="Money, e.g. £500" /><br />
+          <div @click="register" class="btn mt-4 border border-3 border-dark shadow-sm"
+            style="background-color: #306e36">
             Register Account
           </div><br />
-          <div
-            @click="goToLoginPage"
-            class="btn mt-4 border border-3 border-dark shadow-sm"
-            style="background-color: #306e36"
-          >
+          <div @click="goToLoginPage" class="btn mt-4 border border-3 border-dark shadow-sm"
+            style="background-color: #306e36">
             Have an account?
           </div>
 

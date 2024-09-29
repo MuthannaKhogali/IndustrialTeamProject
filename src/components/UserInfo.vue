@@ -60,11 +60,7 @@ function back() {
       </div>
     </div>
     <div class="container">
-      <div
-        v-if="store.accountInfo.level !== undefined"
-        class="skill"
-        id="user-scores"
-      ></div>
+      <div v-if="store.accountInfo.level !== undefined" class="skill" id="user-scores"></div>
     </div>
   </div>
 </template>
@@ -114,6 +110,7 @@ function back() {
   margin-bottom: 20px;
   text-align: right;
 }
+
 .logout {
   padding-right: 5px;
   text-align: right;

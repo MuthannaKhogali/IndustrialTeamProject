@@ -38,28 +38,17 @@ function register() {
           <img src="../assets/logo.png" width="200" height="210" class="pb-3" />
           <h1>Login</h1>
           <form @submit.prevent="submit">
-            <input
-              type="text"
-              class="rounded border-dark shadow-sm border-3"
-              style="background-color: #7fb284"
-              v-model="store.accountNo"
-              placeholder="Account Number"
-            />
+            <input type="text" class="rounded border-dark shadow-sm border-3" style="background-color: #7fb284"
+              v-model="store.accountNo" placeholder="Account Number" />
             <br />
             <div>{{ message }}</div>
-            <button
-              type="submit"
-              class="btn mt-4 border border-3 border-dark shadow-sm"
-              style="background-color: #306e36"
-            >
+            <button type="submit" class="btn mt-4 border border-3 border-dark shadow-sm"
+              style="background-color: #306e36">
               Go
             </button>
           </form>
-          <div
-            @click="register"
-            class="btn mt-4 border border-3 border-dark shadow-sm"
-            style="background-color: #306e36"
-          >
+          <div @click="register" class="btn mt-4 border border-3 border-dark shadow-sm"
+            style="background-color: #306e36">
             Register Account
           </div>
         </div>

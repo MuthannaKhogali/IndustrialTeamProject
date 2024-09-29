@@ -1,14 +1,14 @@
 <script setup>
 import UserInfo from '@/components/UserInfo.vue';
-import {ref} from "vue";
+import { ref } from "vue";
 
 
 const userInfo = { name: "Douglas Inglis", accountNo: "234232116415", userLevel: 10, balance: "17345.23" };
 
-const PayeeData = ref({payeename : "", accountnumber : "", amount : "", reference : ""})
+const PayeeData = ref({ payeename: "", accountnumber: "", amount: "", reference: "" })
 
-function CheckPayee(){
-    console.log(PayeeData)
+function CheckPayee() {
+  console.log(PayeeData)
 }
 </script>
 
@@ -21,7 +21,7 @@ function CheckPayee(){
 
     <div class="inputsection">
 
-        <!--                      FORM VERSION
+      <!--                      FORM VERSION
         <form>
             <label for="payeename">Payee Name:</label><br>
             <input type="text" v-model = "PayeeData.payeename" id="payeename" name="payeename"><br>
@@ -41,39 +41,37 @@ function CheckPayee(){
         </form>
         -->
 
-        
-        <!--https://getbootstrap.com/docs/4.0/components/input-group/-->
-        <div class="input-group mb-3">
-        <span class="input-group-text"></span>
-        <input type="text" v-model = "PayeeData.payeename" class="form-control" placeholder="Payee Name">
-        </div>
 
-        <div class="input-group mb-3">
+      <!--https://getbootstrap.com/docs/4.0/components/input-group/-->
+      <div class="input-group mb-3">
         <span class="input-group-text"></span>
-        <input type="text" v-model = "PayeeData.accountnumber" class="form-control" placeholder="Account Number">
-        </div>
+        <input type="text" v-model="PayeeData.payeename" class="form-control" placeholder="Payee Name">
+      </div>
 
-        <div class="input-group mb-3">
+      <div class="input-group mb-3">
         <span class="input-group-text"></span>
-        <input type="number" v-model = "PayeeData.amount" class="form-control" placeholder="Amount">
-        </div>
+        <input type="text" v-model="PayeeData.accountnumber" class="form-control" placeholder="Account Number">
+      </div>
 
-        <div class="input-group">
+      <div class="input-group mb-3">
         <span class="input-group-text"></span>
-        <input type="text" v-model = "PayeeData.reference" class="form-control" placeholder="Reference">
+        <input type="number" v-model="PayeeData.amount" class="form-control" placeholder="Amount">
+      </div>
+
+      <div class="input-group">
+        <span class="input-group-text"></span>
+        <input type="text" v-model="PayeeData.reference" class="form-control" placeholder="Reference">
         <!--<input type="text" v-model = "PayeeData.reference" class="form-control" aria-label="Reference">-->
-        </div>
+      </div>
 
-        <!--https://getbootstrap.com/docs/4.0/components/buttons/-->
-        <div class="payeeBtn">
-        <div style= "margin-top:20px;" class="button-container">
+      <!--https://getbootstrap.com/docs/4.0/components/buttons/-->
+      <div class="payeeBtn">
+        <div style="margin-top:20px;" class="button-container">
           <router-link to="/transaction">
-        <button type="button" @click="CheckPayee" class="btn btn-dark">Check Payee</button>
+            <button type="button" @click="CheckPayee" class="btn btn-dark">Check Payee</button>
           </router-link>
         </div>
       </div>
-
-
     </div>
   </div>
 </template>
@@ -85,8 +83,8 @@ function CheckPayee(){
 }
 
 
-.inputsection{
-    margin-top:50px;
+.inputsection {
+  margin-top: 50px;
 }
 
 /* Main page styling */
@@ -100,5 +98,4 @@ function CheckPayee(){
   height: 100vh;
   width: 100%;
 }
-
 </style>

@@ -5,13 +5,11 @@ import UsersTable from "@/components/UsersTable.vue";
 
 <template>
   <div class="mainpage">
-    <UserInfo
-      :userInfo="{
-        name: 'User',
-        account_id: '2834502',
-        balance: 2342324,
-      }"
-    />
+    <UserInfo :userInfo="{
+      name: 'User',
+      account_id: '2834502',
+      balance: 2342324,
+    }" />
     <div class="row">
       <div class="card mt-4 company rounded-0">
         <div class="card-title ps-2">
@@ -34,16 +32,16 @@ import UsersTable from "@/components/UsersTable.vue";
               </div>
             </div>
           </div>
-          <div class = "row">
+          <div class="row">
             <div>
               <h1>Streak: 7</h1>
             </div>
           </div>
-          <div class = "row">
+          <div class="row">
             <div>Test</div>
           </div>
-          <div class = "row px-3">
-            <UsersTable/>
+          <div class="row px-3">
+            <UsersTable />
           </div>
         </div>
       </div>
@@ -82,6 +80,7 @@ import UsersTable from "@/components/UsersTable.vue";
   from {
     width: 40%;
   }
+
   to {
     width: 80%;
   }
