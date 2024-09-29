@@ -4,7 +4,7 @@ from decimal import Decimal
 import uuid
 
 # Init client
-client = boto3.client("dynamodb")
+default_client = boto3.client("dynamodb",  region_name='us-east-1')
 accounts_table = "qmbank-accounts"
 transactions_table = "transactions"
 
@@ -16,7 +16,7 @@ transactions_table = "transactions"
 # }
 
 # Gets account balance based on account ID, (i think we just need balance for this function)
-def get_account_balance(account_id):
+def get_account_balance(account_id, client):
     try:
         item = client.get_item(
             TableName=accounts_table,
@@ -28,7 +28,7 @@ def get_account_balance(account_id):
         return None
     
 # Updates the balance of an account based on the account ID, based on https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html
-def update_account_balance(account_id, new_balance):
+def update_account_balance(account_id, new_balance, client):
     try:
         client.update_item(
             TableName=accounts_table,
@@ -41,7 +41,7 @@ def update_account_balance(account_id, new_balance):
         raise 
 
 # Pushes a record of the transaction to the transactions table.
-def create_transaction_record(sender_id, recipient_id, amount):
+def create_transaction_record(sender_id, recipient_id, amount, client):
     try:
         client.put_item(
             TableName=transactions_table,
@@ -58,7 +58,7 @@ def create_transaction_record(sender_id, recipient_id, amount):
 
 
 # Main lambda function
-def lambda_handler(event, context):
+def lambda_handler(event, context, client=default_client):
     try:
         # Parsing request body into dictionary, see example request
         body = json.loads(event["body"])
@@ -71,7 +71,7 @@ def lambda_handler(event, context):
             return {"statusCode": 400} # Bad Request, amount must be greater than 0
         
         # Fetches sender's balance
-        sender_account = get_account_balance(sender_id)
+        sender_account = get_account_balance(sender_id, client)
         if not sender_account:
             return {"statusCode": 404} # Not Found
         
@@ -81,7 +81,7 @@ def lambda_handler(event, context):
             return {"statusCode": 400} # Bad Request, insufficient balance
         
         # Fetches recipient's balance
-        recipient_account = get_account_balance(recipient_id)
+        recipient_account = get_account_balance(recipient_id, client)
         if not recipient_account:
             return {"statusCode": 404} # Not Found
         
@@ -93,11 +93,11 @@ def lambda_handler(event, context):
         new_recipient_balance = recipient_balance + amount
 
         # Update account balances database side
-        update_account_balance(sender_id, new_sender_balance)
-        update_account_balance(recipient_id, new_recipient_balance)
+        update_account_balance(sender_id, new_sender_balance, client)
+        update_account_balance(recipient_id, new_recipient_balance, client)
 
         # Records the transaction
-        create_transaction_record(sender_id, recipient_id, amount)
+        create_transaction_record(sender_id, recipient_id, amount, client)
 
         # Returns success
         return {
@@ -110,7 +110,9 @@ def lambda_handler(event, context):
         }
     
     except Exception as e:
-        return {"statusCode": 500} # Internal Server Error
+        return {
+            "statusCode": 500, "body": json.dumps({"message": "Internal Server Error", "error": str(e)})
+            } # Internal Server Error
         
 
 
