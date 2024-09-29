@@ -7,7 +7,7 @@ const router = useRouter();
 const route = useRoute();
 
 const showHome = route.name === "home";
-const showBack = route.name === "score" || route.name === "payeedetails" || route.name === "transaction";
+const showBack = route.name === "score" || route.name === "payeedetails" || route.name === "transaction" || route.name === "moreinfo";
 
 function logout() {
   router.push({ path: "/login" });
