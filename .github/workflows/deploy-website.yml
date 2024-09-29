@@ -28,3 +28,4 @@ jobs:
           bucket: 'qmbank.uk'
           bucket-region: eu-west-2
           dist-id: E4QQXWE3WTUDW
+          delete-removed: true
