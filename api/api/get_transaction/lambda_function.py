@@ -1,10 +1,10 @@
 import boto3
 import json
 
-client = boto3.client("dynamodb")
+default_client = boto3.client("dynamodb", region_name='us-east-1')
 transactions_table = "transactions"
 
-def lambda_handler(event, context):
+def lambda_handler(event, context, client=default_client):
     try:
         # Parse api parameters, transaction/{id}
         transaction_id = event["pathParameters"]["transaction_id"]
@@ -37,5 +37,5 @@ def lambda_handler(event, context):
     
     except Exception as e:
         return {
-            "statusCode": 500  # Internal Server Error
+            "statusCode": 500, "body": json.dumps({"message": "Internal Server Error", "error": str(e)})
         }
