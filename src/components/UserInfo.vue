@@ -23,6 +23,7 @@ function back() {
 </script>
 
 <template>
+  <div class="container-fluid">
   <div class="userandmoney row">
     <!--user name, account id and level -->
     <div class="userinfo col-6">
@@ -63,6 +64,7 @@ function back() {
       <div v-if="store.accountInfo.level !== undefined" class="skill" id="user-scores"></div>
     </div>
   </div>
+</div>
 </template>
 
 <style scoped>

@@ -10,8 +10,9 @@ import UsersTable from "@/components/UsersTable.vue";
       account_id: '2834502',
       balance: 2342324,
     }" />
+    <div class ="container-fluid">
     <div class="row">
-      <div class="card mt-4 company rounded-0">
+      <div class="card py-3 mt-4 company rounded-0">
         <div class="card-title ps-2">
           <h1>Your Score:</h1>
         </div>
@@ -46,6 +47,7 @@ import UsersTable from "@/components/UsersTable.vue";
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <style scoped>

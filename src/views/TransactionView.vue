@@ -16,7 +16,7 @@ const percentage = compInfo.score * 10 + "%";
 <template>
   <div class="mainpage">
     <UserInfo :userInfo="userInfo"></UserInfo>
-
+    <div class="container-fluid">
     <div class="row">
       <div class="card mt-4 company rounded-0">
         <div class="card-title ps-2">
@@ -47,6 +47,7 @@ const percentage = compInfo.score * 10 + "%";
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <style scoped>

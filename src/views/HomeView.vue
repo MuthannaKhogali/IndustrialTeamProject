@@ -43,11 +43,12 @@ const transactionArray = [
 
     <!-- this is the transaction history section which will display recent payments -->
     <!-- hardcoded some companies for now-->
-
+    <div class="container-fluid">
     <div class="row">
       <div class="transactionhistory" v-bind:key="info" v-for="info in transactionArray">
         <TransactionCard :info="info"></TransactionCard>
       </div>
+    </div>
     </div>
   </div>
 
@@ -74,6 +75,7 @@ const transactionArray = [
 .transactionhistory {
   background-color: white;
   margin: 10px 0px 10px 0px;
+  padding-left: 0;
 }
 
 .float {
