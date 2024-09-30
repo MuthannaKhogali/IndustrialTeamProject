@@ -1,15 +1,72 @@
 <script setup>
 import UserInfo from '@/components/UserInfo.vue';
+import router from '@/router';
 import { ref } from "vue";
 
 
-const userInfo = { name: "Douglas Inglis", accountNo: "234232116415", userLevel: 10, balance: "17345.23" };
-
+// this is the data taken from the forms entered by the user
 const PayeeData = ref({ payeename: "", accountnumber: "", amount: "", reference: "" })
 
-function CheckPayee() {
-  console.log(PayeeData)
+// this is the message which will be displayed if the request fails
+const message = ref("");
+
+// this is a function which takes the user to the transaction page if request is successful
+function goToTransactionPage() 
+{
+  router.push({ path: "/transaction" });
 }
+
+// this function is used when the check payee button is pressed. it sends the data stored in PayeeData to the api to
+// see if the payee can be found. if its successful, the user is taken to the transaction page
+async function CheckPayee() 
+{
+  console.log(PayeeData) // console msg just to check if form works
+
+  // this checks if the user entered the payee name, account number and the amount
+  if (!PayeeData.value.payeename || !PayeeData.value.accountnumber || !PayeeData.value.amount)
+  {
+    message.value = "You need to enter Payee Name, Account Number and the Amount!"; // shows message if the required fields have not been filled in by user
+    return;
+  }
+
+  // if the required data has been entered by the user, proceeds with the post request
+  let response = await fetch("https://qmbank.uk/api/accounts",  
+  {
+    method: "POST",
+    body: JSON.stringify(
+    {
+      // this is the payload for the post request, only payee name and account number need to be checked
+      payeename: PayeeData.value.payeename, 
+      accountnumber: PayeeData.value.accountnumber,
+      //amount: PayeeData.value.amount,
+      //reference: PayeeData.value.reference
+    }),
+      
+    headers: 
+    {
+      "Content-Type": "application/json;",
+    },
+  });
+
+  if (response.status == 200) // if the request is successful...
+  {  
+    const data = await response.json();
+    
+    if(data) // if found...
+    {
+      // need to move all of the entered stuff to the transaction page here
+      // payee name, accountnumber, amount, reference
+    }
+
+    goToTransactionPage(); // take the user to the transaction page
+  } 
+  
+  else 
+  {
+    message.value = "Payee Not Found!"; // displays error message if the payee is not found
+  }
+}
+
 </script>
 
 <template>
@@ -45,17 +102,17 @@ function CheckPayee() {
       <!--https://getbootstrap.com/docs/4.0/components/input-group/-->
       <div class="input-group mb-3">
         <span class="input-group-text"></span>
-        <input type="text" v-model="PayeeData.payeename" class="form-control" placeholder="Payee Name">
+        <input type="text" v-model="PayeeData.payeename" class="form-control" placeholder="Payee Name" required>
       </div>
 
       <div class="input-group mb-3">
         <span class="input-group-text"></span>
-        <input type="text" v-model="PayeeData.accountnumber" class="form-control" placeholder="Account Number">
+        <input type="text" v-model="PayeeData.accountnumber" class="form-control" placeholder="Account Number" required>
       </div>
 
       <div class="input-group mb-3">
         <span class="input-group-text"></span>
-        <input type="number" v-model="PayeeData.amount" class="form-control" placeholder="Amount">
+        <input type="number" v-model="PayeeData.amount" class="form-control" placeholder="Amount" required>
       </div>
 
       <div class="input-group">
@@ -67,11 +124,12 @@ function CheckPayee() {
       <!--https://getbootstrap.com/docs/4.0/components/buttons/-->
       <div class="payeeBtn">
         <div style="margin-top:20px;" class="button-container">
-          <router-link to="/transaction">
             <button type="button" @click="CheckPayee" class="btn btn-dark">Check Payee</button>
-          </router-link>
         </div>
       </div>
+
+      <div>{{ message }}</div> <!-- message which is displayed if the user is not found -->
+
     </div>
   </div>
 </template>
