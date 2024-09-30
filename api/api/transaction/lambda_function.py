@@ -6,7 +6,7 @@ import uuid
 # Init client
 default_client = boto3.client("dynamodb",  region_name='us-east-1')
 accounts_table = "qmbank-accounts"
-transactions_table = "transactions"
+transactions_table = "qmbank-transactions"
 
 # Example Request:
 # {
@@ -48,10 +48,10 @@ def create_transaction_record(sender_id, recipient_id, amount, client):
         client.put_item(
             TableName=transactions_table,
             Item={
-                "TransactionID": {"S": str(uuid.uuid4())}, # Unique transaction ID, I think this should work?? https://docs.python.org/3/library/uuid.html
-                "SenderID": {"N": str(sender_id)},
-                "RecipientID": {"N": str(recipient_id)},
-                "Amount": {"N": str(amount)}
+                "id": {"S": str(uuid.uuid4())}, # Unique transaction ID, I think this should work?? https://docs.python.org/3/library/uuid.html
+                "sender_id": {"N": str(sender_id)},
+                "recipient_id": {"N": str(recipient_id)},
+                "amount": {"N": str(amount)}
             }
         )
     except Exception as e:

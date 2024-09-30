@@ -3,7 +3,7 @@ import json
 from boto3.dynamodb.conditions import Key
 
 default_client = boto3.client("dynamodb", region_name='us-east-1')
-transactions_table = "transactions"
+transactions_table = "qmbank_transactions"
 
 # Gets all transactions for a given account using QUERY. Using the account_id. Gets all transactions where account is sender or recipient.
 def get_account_transactions(account_id, client=default_client):
@@ -11,7 +11,7 @@ def get_account_transactions(account_id, client=default_client):
         # QUERY table
         response = client.scan(
             TableName=transactions_table,
-            FilterExpression="SenderID = :account_id OR RecipientID = :account_id",
+            FilterExpression="sender_id = :account_id OR recipient_id = :account_id",
             ExpressionAttributeValues={":account_id": {"N": str(account_id)}}
         )
 
