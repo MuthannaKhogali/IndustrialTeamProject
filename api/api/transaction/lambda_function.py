@@ -15,7 +15,7 @@ transactions_table = "transactions"
 #   "amount": 500
 # }
 
-# Gets account balance based on account ID, (i think we just need balance for this function)
+# Gets account balance based on account ID, (we dont actually need this here anymore but it's here just incase!)
 def get_account_balance(account_id, client):
     try:
         item = client.get_item(
@@ -28,13 +28,15 @@ def get_account_balance(account_id, client):
         return None
     
 # Updates the balance of an account based on the account ID, based on https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html
-def update_account_balance(account_id, new_balance, client):
+# Updated to stop race condition
+def update_account_balance(account_id, amount, client):
     try:
         client.update_item(
             TableName=accounts_table,
             Key={"account_no": {"N": str(account_id)}},
-            UpdateExpression="SET balance = :new_balance",
-            ExpressionAttributeValues={":new_balance": {"N": str(new_balance)}}
+            UpdateExpression="SET balance = balance + :amount",
+            ExpressionAttributeValues={":amount": {"N": str(amount)}},
+            ConditionExpression="balance >= :amount"
         )
     except Exception as e:
         print(f"Error updating account balance: {e}")
@@ -70,33 +72,13 @@ def lambda_handler(event, context, client=default_client):
         if amount <= 0:
             return {"statusCode": 400} # Bad Request, amount must be greater than 0
         
-        # Fetches sender's balance
-        sender_account = get_account_balance(sender_id, client)
-        if not sender_account:
-            return {"statusCode": 404} # Not Found
+        try:
+            update_account_balance(sender_id, -amount, client)
+        except client.exceptions.ConditionalCheckFailedException:
+            return {"statusCode": 400, "body": json.dumps({"message": "Insufficient balance"})}
         
-        # Check if sender has required balance
-        sender_balance = Decimal(sender_account["balance"]["N"])
-        if sender_balance < amount:
-            return {"statusCode": 400} # Bad Request, insufficient balance
-        
-        # Fetches recipient's balance
-        recipient_account = get_account_balance(recipient_id, client)
-        if not recipient_account:
-            return {"statusCode": 404} # Not Found
-        
-        recipient_balance = Decimal(recipient_account["balance"]["N"])
+        update_account_balance(recipient_id, amount, client)
 
-
-        # TRANSACTION LOGIC
-        new_sender_balance = sender_balance - amount
-        new_recipient_balance = recipient_balance + amount
-
-        # Update account balances database side
-        update_account_balance(sender_id, new_sender_balance, client)
-        update_account_balance(recipient_id, new_recipient_balance, client)
-
-        # Records the transaction
         create_transaction_record(sender_id, recipient_id, amount, client)
 
         # Returns success
@@ -104,8 +86,7 @@ def lambda_handler(event, context, client=default_client):
             "statusCode": 200,
             "body": json.dumps({
                 "message": "Transaction successful",
-                "new_sender_balance": float(new_sender_balance),
-                "new_recipient_balance": float(new_recipient_balance)
+                "amount": float(amount)
             })
         }
     
