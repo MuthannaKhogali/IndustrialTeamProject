@@ -10,7 +10,7 @@ const props = defineProps({
 
 //this was referenced https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
 function makeDate(d) {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12:true};
   return new Date(d).toLocaleDateString(undefined, options);
 }
 
