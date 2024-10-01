@@ -1,7 +1,6 @@
 import base64
 import boto3
 import json
-from decimal import Decimal
 import time
 import uuid
 
@@ -115,18 +114,20 @@ def lambda_handler(event, context, client=default_client):
     if not isinstance(recipient_id, str):
         return error("recipient_id field is not a string")
 
+    if "amount" not in body:
+        return error("missing required amount field")
+    amount = body["amount"]
+
+    if not isinstance(amount, int):
+        return error("amount field is not a int")
+
+    if amount <= 0:
+        return error("amount must be greater than 0")
+
     reference = body.get("reference", "")
 
     if sender_id == recipient_id:
         return error("sender_id is the same as the recipient_id")
-
-    amount = Decimal(
-        str(body["amount"])
-    )  # Using python Decimal for precise floating calculation
-
-    # Validate amount
-    if amount <= 0:
-        return {"statusCode": 400}  # Bad Request, amount must be greater than 0
 
     try:
         update_sender_account_balance(sender_id, amount, client)
