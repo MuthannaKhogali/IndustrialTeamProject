@@ -13,7 +13,7 @@ def get_account_transactions(account_id, client=default_client):
         response = client.scan(
             TableName=transactions_table,
             FilterExpression="sender_id = :account_id OR recipient_id = :account_id",
-            ExpressionAttributeValues={":account_id": {"N": str(account_id)}},
+            ExpressionAttributeValues={":account_id": {"S": str(account_id)}},
         )
 
         transactions = response.get("Items", [])
