@@ -118,7 +118,8 @@ def lambda_handler(event, context, client=default_client):
     reference = body.get("reference", "")
 
     if sender_id == recipient_id:
-        return {"statusCode": 400}
+        return error("sender_id is the same as the recipient_id")
+
     amount = Decimal(
         str(body["amount"])
     )  # Using python Decimal for precise floating calculation
