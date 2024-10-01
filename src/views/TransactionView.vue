@@ -34,6 +34,10 @@ async function makePayment() {
   if (response.status === 200) {
     let res = await fetch(`https://qmbank.uk/api/accounts/${store.accountNo}`)
     if (res.status === 200){
+      const transactionsResponse = await fetch(`https://qmbank.uk/api/accounts/${store.accountNo}/transactions`);
+      if (transactionsResponse.status === 200) {
+        store.transactions = await transactionsResponse.json();
+      }
       store.accountInfo = await res.json();
       router.push({name : "home"})
     }
