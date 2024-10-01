@@ -14,7 +14,7 @@ import UsersTable from "@/components/UsersTable.vue";
     <div class="row">
       <div class="card py-3 mt-4 company rounded-0">
         <div class="card-title ps-2">
-          <h1>Your Score:</h1>
+          <h1>Your Level:</h1>
         </div>
         <div class="mx-2">
           <div class="container">
