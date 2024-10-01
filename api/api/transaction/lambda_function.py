@@ -2,6 +2,7 @@ import base64
 import boto3
 import json
 from decimal import Decimal
+import time
 import uuid
 
 # Init client
@@ -70,6 +71,7 @@ def create_transaction_record(sender_id, recipient_id, amount, client):
                 "sender_id": {"S": str(sender_id)},
                 "recipient_id": {"S": str(recipient_id)},
                 "amount": {"N": str(amount)},
+                "date": {"N": str(int(time.time()))},
             },
         )
     except Exception as e:
