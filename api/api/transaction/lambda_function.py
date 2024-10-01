@@ -65,41 +65,34 @@ def create_transaction_record(sender_id, recipient_id, amount, client):
 
 # Main lambda function
 def lambda_handler(event, context, client=default_client):
+    # Parsing request body into dictionary, see example request
+    body = json.loads(event["body"])
+    sender_id = body["sender_id"]
+    recipient_id = body["recipient_id"]
+    amount = Decimal(
+        str(body["amount"])
+    )  # Using python Decimal for precise floating calculation
+
+    # Validate amount
+    if amount <= 0:
+        return {"statusCode": 400}  # Bad Request, amount must be greater than 0
+
     try:
-        # Parsing request body into dictionary, see example request
-        body = json.loads(event["body"])
-        sender_id = body["sender_id"]
-        recipient_id = body["recipient_id"]
-        amount = Decimal(
-            str(body["amount"])
-        )  # Using python Decimal for precise floating calculation
-
-        # Validate amount
-        if amount <= 0:
-            return {"statusCode": 400}  # Bad Request, amount must be greater than 0
-
-        try:
-            update_account_balance(sender_id, -amount, client)
-        except client.exceptions.ConditionalCheckFailedException:
-            return {
-                "statusCode": 400,
-                "body": json.dumps({"message": "Insufficient balance"}),
-            }
-
-        update_account_balance(recipient_id, amount, client)
-
-        create_transaction_record(sender_id, recipient_id, amount, client)
-
-        # Returns success
+        update_account_balance(sender_id, -amount, client)
+    except client.exceptions.ConditionalCheckFailedException:
         return {
-            "statusCode": 200,
-            "body": json.dumps(
-                {"message": "Transaction successful", "amount": float(amount)}
-            ),
+            "statusCode": 400,
+            "body": json.dumps({"message": "Insufficient balance"}),
         }
 
-    except Exception as e:
-        return {
-            "statusCode": 500,
-            "body": json.dumps({"message": "Internal Server Error", "error": str(e)}),
-        }  # Internal Server Error
+    update_account_balance(recipient_id, amount, client)
+
+    create_transaction_record(sender_id, recipient_id, amount, client)
+
+    # Returns success
+    return {
+        "statusCode": 200,
+        "body": json.dumps(
+            {"message": "Transaction successful", "amount": float(amount)}
+        ),
+    }
