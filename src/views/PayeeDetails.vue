@@ -2,10 +2,13 @@
 import UserInfo from '@/components/UserInfo.vue';
 import router from '@/router';
 import { ref } from "vue";
+import { useStore } from "@/store";
+
+const store = useStore();
 
 
 // this is the data taken from the forms entered by the user
-const PayeeData = ref({  accountnumber: "", amount: "", reference: "" })
+const PayeeData = ref({  recipient_id: "", amount: "", reference: "" })
 
 // this is the message which will be displayed if the request fails
 const message = ref("");
@@ -23,29 +26,15 @@ async function CheckPayee()
   console.log(PayeeData) // console msg just to check if form works
 
   // this checks if the user entered the account number, the amount and the reference
-  if ( !PayeeData.value.accountnumber || !PayeeData.value.amount || !PayeeData.value.reference)
+  if ( !PayeeData.value.recipient_id || !PayeeData.value.amount || !PayeeData.value.reference)
   {
     message.value = "Please enter all pieces of information!"; // shows message if the required fields have not been filled in by user
     return;
   }
 
+  PayeeData.value.amount = PayeeData.value.amount * 100
   // if the required data has been entered by the user, proceeds with the post request
-  let response = await fetch("https://qmbank.uk/api/accounts",  
-  {
-    method: "POST",
-    body: JSON.stringify(
-    {
-      // this is the payload for the post request, only account number need to be checked
-      accountnumber: PayeeData.value.accountnumber,
-      //amount: PayeeData.value.amount,
-      //reference: PayeeData.value.reference
-    }),
-      
-    headers: 
-    {
-      "Content-Type": "application/json;",
-    },
-  });
+  let response = await fetch(`https://qmbank.uk/api/accounts/${PayeeData.value.recipient_id}`)
 
   if (response.status == 200) // if the request is successful...
   {  
@@ -53,7 +42,8 @@ async function CheckPayee()
     
     if(data) // if found...
     {
-      // need to move all of the entered stuff to the transaction page here
+      store.payeeInfo = data;
+      store.paymentInfo = PayeeData;
     }
 
     goToTransactionPage(); // take the user to the transaction page
@@ -72,7 +62,7 @@ async function CheckPayee()
   <div class="mainpage">
 
     <!-- top section which shows user data stuff -->
-    <UserInfo :userInfo="userInfo"></UserInfo>
+    <UserInfo/>
 
     <div class="inputsection">
 
@@ -80,7 +70,7 @@ async function CheckPayee()
 
       <div class="input-group mb-3">
         <span class="input-group-text"></span>
-        <input type="text" v-model="PayeeData.accountnumber" class="form-control" placeholder="Account Number" required>
+        <input type="text" v-model="PayeeData.recipient_id" class="form-control" placeholder="Account Number" required>
       </div>
 
       <div class="input-group mb-3">

@@ -54,9 +54,6 @@ function back() {
         </div>
       </div>
     </div>
-    <div class="container">
-      <div v-if="store.accountInfo.level !== undefined" class="skill" id="user-scores"></div>
-    </div>
   </div>
 </div>
 </template>

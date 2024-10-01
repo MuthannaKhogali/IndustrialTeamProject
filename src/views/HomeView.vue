@@ -1,10 +1,13 @@
 <script setup>
 import UserInfo from "@/components/UserInfo.vue";
 import TransactionCard from "@/components/TransactionCard.vue";
+import { useStore } from "@/store";
 
 //info.is_company ? userInfo["level"] = info["company_rag_score"] : userInfo["level"] = info["level"];
 
 //console.log(userInfo.value);
+
+const store = useStore();
 
 const transactionArray = [
   {
@@ -39,13 +42,14 @@ const transactionArray = [
   <!--whole page-->
   <div class="mainpage">
     <!--top section which shows user data stuff -->
-    <UserInfo />
-
+    <div class = "mb-2">
+      <UserInfo />
+    </div>
     <!-- this is the transaction history section which will display recent payments -->
     <!-- hardcoded some companies for now-->
     <div class="container-fluid">
     <div class="row">
-      <div class="transactionhistory" v-bind:key="info" v-for="info in transactionArray">
+      <div class="transactionhistory" v-bind:key="info" v-for="info in store.transactions">
         <TransactionCard :info="info"></TransactionCard>
       </div>
     </div>
