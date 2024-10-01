@@ -107,7 +107,14 @@ def lambda_handler(event, context, client=default_client):
         return error("missing required fields")
 
     sender_id = event["pathParameters"]["id"]
+
+    if "recipient_id" not in body:
+        return error("missing required recipient_id field")
     recipient_id = body["recipient_id"]
+
+    if not isinstance(recipient_id, str):
+        return error("recipient_id field is not a string")
+
     reference = body["reference"]
     if sender_id == recipient_id:
         return {"statusCode": 400}
