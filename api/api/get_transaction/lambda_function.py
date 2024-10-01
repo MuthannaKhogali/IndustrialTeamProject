@@ -1,8 +1,8 @@
 import boto3
 import json
 
-default_client = boto3.client("dynamodb", region_name="us-east-1")
-transactions_table = "qmbank_transactions"
+default_client = boto3.client("dynamodb", region_name="eu-west-2")
+transactions_table = "qmbank-transactions"
 
 
 def lambda_handler(event, context, client=default_client):

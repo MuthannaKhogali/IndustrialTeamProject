@@ -4,7 +4,7 @@ from decimal import Decimal
 import uuid
 
 # Init client
-default_client = boto3.client("dynamodb", region_name="us-east-1")
+default_client = boto3.client("dynamodb", region_name="eu-west-2")
 accounts_table = "qmbank-accounts"
 transactions_table = "qmbank-transactions"
 

@@ -2,8 +2,8 @@ import boto3
 import json
 from boto3.dynamodb.conditions import Key
 
-default_client = boto3.client("dynamodb", region_name="us-east-1")
-transactions_table = "qmbank_transactions"
+default_client = boto3.client("dynamodb", region_name="eu-west-2")
+transactions_table = "qmbank-transactions"
 
 
 # Gets all transactions for a given account using QUERY. Using the account_id. Gets all transactions where account is sender or recipient.
