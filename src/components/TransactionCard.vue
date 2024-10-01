@@ -12,7 +12,7 @@ const props = defineProps({
   }
 })
 
-
+const store = useStore();
 
 </script>
 
