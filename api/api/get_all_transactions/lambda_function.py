@@ -23,6 +23,10 @@ def get_account_transactions(account_id, client=default_client):
         print(f"Error fetching transactions for account: {e}")
         return None
 
+def get_recipient_name(recipient_id):
+    return default_client.get_item(
+        TableName="qmbank-accounts", Key={"account_no": {"S": recipient_id}}
+    )["Item"]["name"]["S"]
 
 def lambda_handler(event, context, client=default_client):
     # Gets account ID from path parameters. accounts/{id}/transactions
@@ -38,4 +42,14 @@ def lambda_handler(event, context, client=default_client):
             ),
         }
 
-    return transactions
+    return [
+        {
+            "recipient_name": get_recipient_name(transaction["recipient_id"]["S"]),
+            "recipient_id": transaction["recipient_id"]["S"],
+            "amount": transaction["amount"]["N"],
+            "reference": "",
+            "date": "",
+            "experience": 1,
+        }
+        for transaction in transactions
+    ]
