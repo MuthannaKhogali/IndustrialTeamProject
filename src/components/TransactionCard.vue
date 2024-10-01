@@ -7,6 +7,7 @@ const props = defineProps({
     required: true,
   }
 });
+
 </script>
 
 <template>
@@ -15,7 +16,7 @@ const props = defineProps({
       <div class="card-title">
         <h1>{{ props.info.is_outgoing ? props.info.recipient_name : props.info.sender_name || "Name Undefined" }}</h1>
       </div>
-      <h2>{{ props.info.is_outgoing ? '-' : '+' }}£{{ props.info.amount / 100 || 0 }}</h2>
+      <h2>{{ props.info.is_outgoing ? '-' : '+' }}£{{ (props.info.amount / 100).toFixed(2) || 0 }}</h2>
       <h6>Exp: {{ props.info.score || 0 }}</h6>
       <h6>{{ props.info.date || "Date Unknown" }}</h6>
       <h6>Reference: {{ props.info.reference || "No Reference" }}</h6>
