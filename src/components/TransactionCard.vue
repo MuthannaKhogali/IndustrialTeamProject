@@ -8,6 +8,12 @@ const props = defineProps({
   }
 });
 
+//this was referenced https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
+function makeDate(d) {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(d).toLocaleDateString(undefined, options);
+}
+
 </script>
 
 <template>
@@ -18,7 +24,7 @@ const props = defineProps({
       </div>
       <h2 :class="props.info.is_outgoing ? 'minus' : 'plus'">{{ props.info.is_outgoing ? '-' : '+' }}£{{ (props.info.amount / 100).toFixed(2) || 0 }}</h2>
       <h6>Exp: {{ props.info.score || 0 }}</h6>
-      <h6>{{ props.info.date || "Date Unknown" }}</h6>
+      <h6>{{ makeDate(props.info.date) || "Date Unknown" }}</h6>
       <h6>Reference: {{ props.info.reference || "No Reference" }}</h6>
       <RouterLink to="/moreinfo" class="card-link">More Information</RouterLink>
     </div>
