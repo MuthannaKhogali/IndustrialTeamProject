@@ -25,24 +25,17 @@ def get_account_transactions(account_id, client=default_client):
 
 
 def lambda_handler(event, context, client=default_client):
-    try:
-        # Gets account ID from path parameters. accounts/{id}/transactions
-        account_id = event["pathParameters"]["id"]
+    # Gets account ID from path parameters. accounts/{id}/transactions
+    account_id = event["pathParameters"]["id"]
 
-        transactions = get_account_transactions(account_id, client)
+    transactions = get_account_transactions(account_id, client)
 
-        if not transactions:
-            return {
-                "statusCode": 404,
-                "body": json.dumps(
-                    {"message": "No transactions found for this account"}
-                ),
-            }
-
-        return transactions
-
-    except Exception as e:
+    if not transactions:
         return {
-            "statusCode": 500,
-            "body": json.dumps({"message": "Internal Server Error", "error": str(e)}),
+            "statusCode": 404,
+            "body": json.dumps(
+                {"message": "No transactions found for this account"}
+            ),
         }
+
+    return transactions
