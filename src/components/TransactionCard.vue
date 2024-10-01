@@ -19,7 +19,7 @@ const props = defineProps({
       <h2>£{{ props.info.amount / 100 || 0 }}</h2>
       <h6>Exp: {{ props.info.score || 0 }}</h6>
       <h6>{{ props.info.date || "Date Unknown" }}</h6>
-      <h6>Reference: {{ props.info.reference || "Reference Unknown" }}</h6>
+      <h6>Reference: {{ props.info.reference || "No Reference" }}</h6>
       <RouterLink to="/moreinfo" class="card-link">More Information</RouterLink>
     </div>
   </div>
