@@ -1,3 +1,4 @@
+import base64
 import boto3
 import json
 from decimal import Decimal
@@ -66,7 +67,9 @@ def create_transaction_record(sender_id, recipient_id, amount, client):
 # Main lambda function
 def lambda_handler(event, context, client=default_client):
     # Parsing request body into dictionary, see example request
-    body = json.loads(event["body"])
+    body = event["body"]
+    body = base64.b64decode(body)
+    body = json.loads(body)
     sender_id = body["sender_id"]
     recipient_id = body["recipient_id"]
     amount = Decimal(
