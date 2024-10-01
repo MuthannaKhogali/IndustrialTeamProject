@@ -29,7 +29,8 @@ function back() {
         <h6 class="accountID">
           AC: {{ store.accountInfo.account_id || "Not Found" }}
         </h6>
-        <RouterLink to="score" v-if="store.accountInfo.level !== undefined" class="userlevel">
+        <RouterLink to="score" v-if="store.accountInfo.level !== undefined" class="userlevel" style=" text-decoration: none;
+  color: green; font-weight: bold;">
           Level {{ store.accountInfo.level }}
         </RouterLink><br />
         <div @click="back" class="btn btn-dark mb-3 mt-2" v-if="showBack">Back</div>
