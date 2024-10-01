@@ -83,7 +83,7 @@ def lambda_handler(event, context, client=default_client):
     body = event["body"]
     body = base64.b64decode(body)
     body = json.loads(body)
-    sender_id = body["sender_id"]
+    sender_id = event["pathParameters"]["id"]
     recipient_id = body["recipient_id"]
     amount = Decimal(
         str(body["amount"])
