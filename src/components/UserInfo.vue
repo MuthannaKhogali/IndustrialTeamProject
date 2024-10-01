@@ -13,10 +13,6 @@ function logout() {
   router.push({ path: "/login" });
 }
 
-function score() {
-  router.push({ path: "/score" });
-}
-
 function back() {
   router.go(-1);
 }
@@ -33,12 +29,10 @@ function back() {
         <h6 class="accountID">
           AC: {{ store.accountInfo.account_id || "Not Found" }}
         </h6>
-        <h3 v-if="store.accountInfo.level !== undefined" class="userlevel">
+        <RouterLink to="score" v-if="store.accountInfo.level !== undefined" class="userlevel" style=" text-decoration: none;
+  color: green; font-weight: bold;">
           Level {{ store.accountInfo.level }}
-        </h3>
-        <div @click="score" class="btn btn-dark mt-3" v-if="showHome">
-          About Level
-        </div>
+        </RouterLink><br />
         <div @click="back" class="btn btn-dark mb-3 mt-2" v-if="showBack">Back</div>
       </div>
     </div>
