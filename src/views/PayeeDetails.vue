@@ -32,7 +32,12 @@ async function CheckPayee()
     return;
   }
 
-  PayeeData.value.amount = PayeeData.value.amount * 100
+  if (store.accountInfo.balance < PayeeData.value.amount * 100) 
+  {
+    message.value = "Insufficient funds!";
+    return;
+  }
+        
   // if the required data has been entered by the user, proceeds with the post request
   let response = await fetch(`https://qmbank.uk/api/accounts/${PayeeData.value.recipient_id}`)
 
@@ -42,6 +47,7 @@ async function CheckPayee()
     
     if(data) // if found...
     {
+      PayeeData.value.amount = PayeeData.value.amount * 100
       store.payeeInfo = data;
       store.paymentInfo = PayeeData;
     }

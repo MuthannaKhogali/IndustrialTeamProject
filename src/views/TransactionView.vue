@@ -43,6 +43,7 @@ async function makePayment() {
     }
   }
 }
+
 </script>
 
 <template>
@@ -57,7 +58,7 @@ async function makePayment() {
               <h2>{{ store.payeeInfo.name }}</h2>
               <h6>AC: {{ store.payeeInfo.account_id }}</h6>
               <h6>Reference: {{ store.paymentInfo.reference }}</h6>
-              <h4>Amount: £{{ store.paymentInfo.amount / 100 }}</h4>
+              <h4>Amount: £{{ store.paymentInfo.amount / 100}}</h4>
             </div>
             <div v-if="store.payeeInfo.is_company" class="mx-2">
               <h3>Environmental Score :</h3>
