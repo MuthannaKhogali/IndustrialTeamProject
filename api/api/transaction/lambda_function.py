@@ -37,7 +37,7 @@ def update_sender_account_balance(account_id, amount, client):
             TableName=accounts_table,
             Key={"account_no": {"S": str(account_id)}},
             UpdateExpression="SET balance = balance + :amount",
-            ExpressionAttributeValues={":amount": {"N": str(amount)}},
+            ExpressionAttributeValues={":amount": {"N": str(-amount)}},
             ConditionExpression="balance >= :amount",
         )
     except Exception as e:
@@ -94,7 +94,7 @@ def lambda_handler(event, context, client=default_client):
         return {"statusCode": 400}  # Bad Request, amount must be greater than 0
 
     try:
-        update_sender_account_balance(sender_id, -amount, client)
+        update_sender_account_balance(sender_id, amount, client)
     except client.exceptions.ConditionalCheckFailedException:
         return {
             "statusCode": 400,
