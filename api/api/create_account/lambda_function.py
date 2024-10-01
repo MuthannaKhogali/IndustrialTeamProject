@@ -1,40 +1,67 @@
+import base64
 import boto3
+import json
 
-client = boto3.client("dynamodb")
+client = boto3.client("dynamodb", region_name="eu-west-2")
 tableName = "qmbank-accounts"
 
 
-def lambda_handler(event, context):
-    id = event["pathParameters"]["id"]
-
-    item = client.get_item(TableName=tableName, Key={"account_no": {"N": str(id)}})
-
-    if "Item" not in item:
-        return {"statusCode": 404}
-
-    item = item["Item"]
-
-    response = {
-        "account_id": str(id).zfill(8),
-        "name": item["name"]["S"],
-        "balance": int(item["balance"]["N"]),
+def error(errorMessage):
+    return {
+        "statusCode": 400,
+        "body": json.dumps({"error": errorMessage}),
     }
 
-    if "company_category" in item:
-        response["is_company"] = True
-        response["company_category"] = item["company_category"]["S"]
-        response["company_env_scores"] = [
-            int(item["company_env_scores"]["M"]["carbon_emissions"]["N"]),
-            int(item["company_env_scores"]["M"]["waste_management"]["N"]),
-            int(item["company_env_scores"]["M"]["sustainability_practices"]["N"]),
-        ]
-        response["company_desc"] = item["company_description"]["S"]
-        response["company_rag_score"] = sum(response["company_env_scores"])
-        # response["alternatives"] =
-    else:
-        response["is_company"] = False
-        # TODO
-        response["level"] = 1
-        response["streak"] = 0
 
-    return response
+def lambda_handler(event, context):
+    body = event.get("body", None)
+
+    if not body:
+        return error("missing required fields")
+
+    if event.get("isBase64Encoded", None):
+        body = base64.b64decode(body)
+
+    try:
+        body = json.loads(body)
+    except json.JSONDecodeError:
+        return error("invalid json received")
+
+    if not body:
+        return error("missing required fields")
+
+    if "name" not in body:
+        return error("missing required name field")
+    name = body["name"]
+
+    if not isinstance(name, str):
+        return error("name field is not a string")
+
+    if "starting_balance" not in body:
+        return error("missing required starting_balance field")
+    starting_balance = body["starting_balance"]
+
+    if not isinstance(starting_balance, int):
+        return error("starting_balance field is not a int")
+
+    response = client.update_item(
+        TableName=tableName + "-counter",
+        Key={"pk": {"S": "orderCount"}},
+        UpdateExpression="ADD #cnt :val",
+        ExpressionAttributeNames={"#cnt": "count"},
+        ExpressionAttributeValues={":val": {"N": "1"}},
+        ReturnValues="UPDATED_NEW",
+    )
+
+    next_account_no = response["Attributes"]["count"]["N"].zfill(9)
+
+    client.put_item(
+        TableName=tableName,
+        Item={
+            "account_no": {"S": next_account_no},
+            "name": {"S": body["name"]},
+            "balance": {"N": str(body["starting_balance"])},
+        },
+    )
+
+    return {"account_no": next_account_no}

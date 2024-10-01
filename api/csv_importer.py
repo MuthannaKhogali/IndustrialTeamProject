@@ -18,7 +18,7 @@ with open(csv_file_path, "r") as file:
 
     for row in csv_reader:
         item = {
-            "account_no": int(row["Account Number"]),
+            "account_no": row["Account Number"],
             "name": row["Company Name"],
             "balance": 0,
             "company_category": row["Spending Category"],
