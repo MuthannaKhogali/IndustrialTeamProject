@@ -46,11 +46,11 @@ function makeDate(d) {
 }
 
 .minus {
-  color: red;
+  color: rgb(155, 0, 0);
 }
 
 .plus {
-  color: green;
+  color: rgb(0, 115, 0);
 }
 
 </style>
