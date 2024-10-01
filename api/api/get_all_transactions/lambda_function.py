@@ -42,6 +42,8 @@ def lambda_handler(event, context, client=default_client):
             "body": json.dumps({"message": "No transactions found for this account"}),
         }
 
+    transactions.sort(key=lambda x: int(x["date"]["N"]), reverse=True)
+
     return [
         {
             "recipient_name": get_recipient_name(transaction["recipient_id"]["S"]),
