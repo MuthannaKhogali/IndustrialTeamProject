@@ -38,7 +38,7 @@ function register() {
           <img src="../assets/logo.png" width="200" height="210" class="pb-3" />
           <h1>Login</h1>
           <form @submit.prevent="submit">
-            <input type="text" class="rounded border-dark shadow-sm border-3" style="background-color: #7fb284"
+            <input type="text" pattern="\d*" class="rounded border-dark shadow-sm border-3" style="background-color: #7fb284"
               v-model="store.accountNo" placeholder="Account Number" />
             <br />
             <div>{{ message }}</div>
