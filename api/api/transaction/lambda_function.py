@@ -85,6 +85,8 @@ def lambda_handler(event, context, client=default_client):
     body = json.loads(body)
     sender_id = event["pathParameters"]["id"]
     recipient_id = body["recipient_id"]
+    if sender_id == recipient_id:
+        return {"statusCode": 400}
     amount = Decimal(
         str(body["amount"])
     )  # Using python Decimal for precise floating calculation
