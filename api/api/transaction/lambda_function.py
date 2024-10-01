@@ -31,7 +31,7 @@ def get_account_balance(account_id, client):
 
 # Updates the balance of an account based on the account ID, based on https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html
 # Updated to stop race condition
-def update_account_balance(account_id, amount, client):
+def update_sender_account_balance(account_id, amount, client):
     try:
         client.update_item(
             TableName=accounts_table,
@@ -39,6 +39,19 @@ def update_account_balance(account_id, amount, client):
             UpdateExpression="SET balance = balance + :amount",
             ExpressionAttributeValues={":amount": {"N": str(amount)}},
             ConditionExpression="balance >= :amount",
+        )
+    except Exception as e:
+        print(f"Error updating account balance: {e}")
+        raise
+
+
+def update_recipient_account_balance(account_id, amount, client):
+    try:
+        client.update_item(
+            TableName=accounts_table,
+            Key={"account_no": {"S": str(account_id)}},
+            UpdateExpression="SET balance = balance + :amount",
+            ExpressionAttributeValues={":amount": {"N": str(amount)}},
         )
     except Exception as e:
         print(f"Error updating account balance: {e}")
@@ -81,14 +94,14 @@ def lambda_handler(event, context, client=default_client):
         return {"statusCode": 400}  # Bad Request, amount must be greater than 0
 
     try:
-        update_account_balance(sender_id, -amount, client)
+        update_sender_account_balance(sender_id, -amount, client)
     except client.exceptions.ConditionalCheckFailedException:
         return {
             "statusCode": 400,
             "body": json.dumps({"message": "Insufficient balance"}),
         }
 
-    update_account_balance(recipient_id, amount, client)
+    update_recipient_account_balance(recipient_id, amount, client)
 
     create_transaction_record(sender_id, recipient_id, amount, client)
 
