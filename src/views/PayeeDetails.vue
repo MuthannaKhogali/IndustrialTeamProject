@@ -5,7 +5,7 @@ import { ref } from "vue";
 
 
 // this is the data taken from the forms entered by the user
-const PayeeData = ref({ payeename: "", accountnumber: "", amount: "", reference: "" })
+const PayeeData = ref({  accountnumber: "", amount: "", reference: "" })
 
 // this is the message which will be displayed if the request fails
 const message = ref("");
@@ -22,10 +22,10 @@ async function CheckPayee()
 {
   console.log(PayeeData) // console msg just to check if form works
 
-  // this checks if the user entered the payee name, account number and the amount
-  if (!PayeeData.value.payeename || !PayeeData.value.accountnumber || !PayeeData.value.amount)
+  // this checks if the user entered the account number, the amount and the reference
+  if ( !PayeeData.value.accountnumber || !PayeeData.value.amount || !PayeeData.value.reference)
   {
-    message.value = "You need to enter Payee Name, Account Number and the Amount!"; // shows message if the required fields have not been filled in by user
+    message.value = "Please enter all pieces of information!"; // shows message if the required fields have not been filled in by user
     return;
   }
 
@@ -35,8 +35,7 @@ async function CheckPayee()
     method: "POST",
     body: JSON.stringify(
     {
-      // this is the payload for the post request, only payee name and account number need to be checked
-      payeename: PayeeData.value.payeename, 
+      // this is the payload for the post request, only account number need to be checked
       accountnumber: PayeeData.value.accountnumber,
       //amount: PayeeData.value.amount,
       //reference: PayeeData.value.reference
@@ -55,7 +54,6 @@ async function CheckPayee()
     if(data) // if found...
     {
       // need to move all of the entered stuff to the transaction page here
-      // payee name, accountnumber, amount, reference
     }
 
     goToTransactionPage(); // take the user to the transaction page
@@ -78,32 +76,7 @@ async function CheckPayee()
 
     <div class="inputsection">
 
-      <!--                      FORM VERSION
-        <form>
-            <label for="payeename">Payee Name:</label><br>
-            <input type="text" v-model = "PayeeData.payeename" id="payeename" name="payeename"><br>
-
-            <label for="accountnumber">Account Number:</label><br>
-            <input type="text" v-model = "PayeeData.accountnumber" id="accountnumber" name="accountnumber"><br>
-
-            <label for="amount">Amount:</label><br>
-            <input type="text" v-model = "PayeeData.amount" id="amount" name="amount"><br>
-
-            <label for="reference">Reference:</label><br>
-            <input type="text" v-model = "PayeeData.reference" id="reference" name="reference"><br>
-
-            <div class="button-container">
-            <button type="button" @click="CheckPayee" class="btn btn-dark">Check Payee</button>
-            </div>
-        </form>
-        -->
-
-
       <!--https://getbootstrap.com/docs/4.0/components/input-group/-->
-      <div class="input-group mb-3">
-        <span class="input-group-text"></span>
-        <input type="text" v-model="PayeeData.payeename" class="form-control" placeholder="Payee Name" required>
-      </div>
 
       <div class="input-group mb-3">
         <span class="input-group-text"></span>
