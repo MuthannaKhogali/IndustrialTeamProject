@@ -60,7 +60,7 @@ def update_recipient_account_balance(account_id, amount, client):
 
 
 # Pushes a record of the transaction to the transactions table.
-def create_transaction_record(sender_id, recipient_id, amount, client):
+def create_transaction_record(sender_id, recipient_id, amount, reference, client):
     try:
         client.put_item(
             TableName=transactions_table,
@@ -72,6 +72,7 @@ def create_transaction_record(sender_id, recipient_id, amount, client):
                 "recipient_id": {"S": str(recipient_id)},
                 "amount": {"N": str(amount)},
                 "date": {"N": str(int(time.time()))},
+                "reference": {"S": reference},
             },
         )
     except Exception as e:
@@ -87,6 +88,7 @@ def lambda_handler(event, context, client=default_client):
     body = json.loads(body)
     sender_id = event["pathParameters"]["id"]
     recipient_id = body["recipient_id"]
+    reference = body["reference"]
     if sender_id == recipient_id:
         return {"statusCode": 400}
     amount = Decimal(
@@ -107,7 +109,7 @@ def lambda_handler(event, context, client=default_client):
 
     update_recipient_account_balance(recipient_id, amount, client)
 
-    create_transaction_record(sender_id, recipient_id, amount, client)
+    create_transaction_record(sender_id, recipient_id, amount, reference, client)
 
     # Returns success
     return {

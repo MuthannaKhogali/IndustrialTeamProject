@@ -54,7 +54,7 @@ def lambda_handler(event, context, client=default_client):
             if account_id != transaction["recipient_id"]["S"]
             else False,
             "amount": transaction["amount"]["N"],
-            "reference": "",
+            "reference": transaction["reference"]["S"],
             "date": datetime.fromtimestamp(int(transaction["date"]["N"])).isoformat(),
             "experience": 1,
         }
