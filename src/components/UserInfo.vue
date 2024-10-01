@@ -50,7 +50,7 @@ function back() {
       <h1 class="me-2">
         £{{
           store.accountInfo.balance !== undefined
-            ? store.accountInfo.balance
+            ? store.accountInfo.balance / 100
             : "Unknown"
         }}
       </h1>

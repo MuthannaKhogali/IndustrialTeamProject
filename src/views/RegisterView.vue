@@ -4,16 +4,18 @@ import { useRouter } from "vue-router";
 
 const formData = ref({ name: "", starting_balance: "" });
 
+const accountNo = ref(null)
+
 const router = useRouter();
 
 async function register() {
-  //console.log(formData.value.name)
+  console.log(formData.value.name);
 
   let response = await fetch("https://qmbank.uk/api/accounts", {
     method: "POST",
     body: JSON.stringify({
-      name: "Lowrie",
-      starting_balance: 323,
+      name: formData.value.name,
+      starting_balance: Math.ceil(formData.value.starting_balance * 100)
     }),
     headers: {
       "Content-Type": "application/json;",
@@ -23,10 +25,15 @@ async function register() {
   if (response.status != 200) {
     return;
   } else {
-    console.log(await response.json());
+    let data = await response.json();
+    
+    accountNo.value = data.account_no
+    console.log(data)
+
+    console.log(accountNo.value)
   }
 
-  goToLoginPage();
+  //goToLoginPage();
 }
 
 function goToLoginPage() {
@@ -41,19 +48,38 @@ function goToLoginPage() {
         <div>
           <img src="../assets/logo.png" width="200" height="210" class="pb-3" />
           <h1>Register</h1>
-          <input type="text" class="rounded border-dark shadow-sm border-3" style="background-color: #7fb284"
-            v-model="formData.name" placeholder="Name" /><br />
-          <input type="text" class="mt-2 rounded border-dark shadow-sm border-3" style="background-color: #7fb284"
-            v-model="formData.starting_balance" placeholder="Money, e.g. £500" /><br />
-          <div @click="register" class="btn mt-4 border border-3 border-dark shadow-sm"
-            style="background-color: #306e36">
+          <div class = "card border border-3 border-dark shadow-sm mb-2" v-if="accountNo" style="background-color: #7fb284">
+            <div class = "card-body"><h6>Your account no is: {{ accountNo }}</h6><h6>Remember this to <RouterLink to="/login">login</RouterLink></h6></div>
+          </div>
+          <input
+            type="text"
+            class="rounded border-dark shadow-sm border-3"
+            style="background-color: #7fb284"
+            v-model="formData.name"
+            placeholder="Name"
+          /><br />
+          <input
+            type="number"
+            class="mt-2 rounded border-dark shadow-sm border-3"
+            style="background-color: #7fb284"
+            v-model="formData.starting_balance"
+            placeholder="Money, e.g. £500"
+          /><br />
+          <div
+            @click="register"
+            class="btn mt-4 border border-3 border-dark shadow-sm"
+            style="background-color: #306e36"
+          >
             Register Account
-          </div><br />
-          <div @click="goToLoginPage" class="btn mt-4 border border-3 border-dark shadow-sm"
-            style="background-color: #306e36">
+          </div>
+          <br />
+          <div
+            @click="goToLoginPage"
+            class="btn mt-4 border border-3 border-dark shadow-sm"
+            style="background-color: #306e36"
+          >
             Have an account?
           </div>
-
         </div>
       </div>
     </div>
