@@ -67,8 +67,8 @@ def create_transaction_record(sender_id, recipient_id, amount, client):
                 "id": {
                     "S": str(uuid.uuid4())
                 },  # Unique transaction ID, I think this should work?? https://docs.python.org/3/library/uuid.html
-                "sender_id": {"N": str(sender_id)},
-                "recipient_id": {"N": str(recipient_id)},
+                "sender_id": {"S": str(sender_id)},
+                "recipient_id": {"S": str(recipient_id)},
                 "amount": {"N": str(amount)},
             },
         )
