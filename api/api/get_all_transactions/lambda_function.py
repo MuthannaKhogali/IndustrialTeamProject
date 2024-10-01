@@ -39,7 +39,7 @@ def lambda_handler(event, context, client=default_client):
                 ),
             }
 
-        return {"statusCode": 200, "body": json.dumps({"transactions": transactions})}
+        return transactions
 
     except Exception as e:
         return {
