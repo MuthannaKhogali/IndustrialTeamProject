@@ -9,32 +9,6 @@ import { useStore } from "@/store";
 
 const store = useStore();
 
-const transactionArray = [
-  {
-    name: "Evil Corp LTD",
-    amount: 50,
-    experience: 5,
-    date: "Paid on Dec 26",
-    reference: "Needed Evil",
-    colour: "#DB2B39",
-  },
-  {
-    name: "Mid Corp LTD",
-    amount: 100,
-    experience: 10,
-    date: "Paid on Dec 26",
-    reference: "Needed Mid",
-    colour: "#F3A712",
-  },
-  {
-    name: "Good Corp LTD",
-    amount: 200,
-    experience: 20,
-    date: "Paid on Dec 26",
-    reference: "Needed Good",
-    colour: "#306E36",
-  },
-];
 </script>
 
 <template>

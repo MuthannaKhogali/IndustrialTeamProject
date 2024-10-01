@@ -1,18 +1,12 @@
 <script setup>
-import { useStore } from "@/store";
 
+// type objects gets all the things in store.transactions
 const props = defineProps({
   info: {
-    recipient_id: String,
-    recipient_name : String,
-    amount: Number,
-    date: String,
-    reference: String,
-    score: Number
+    type: Object,
+    required: true,
   }
-})
-
-const store = useStore();
+});
 
 </script>
 

@@ -7,13 +7,6 @@ import { useRouter } from "vue-router";
 const store = useStore();
 const router =  useRouter();
 
-const userInfo = {
-  name: "Douglas Inglis",
-  accountNo: "234232116415",
-  userLevel: 8,
-  balance: "17345.23",
-};
-
 let compInfo = {
   score: store.payeeInfo.is_company
     ? (store.payeeInfo.company_rag_score / 3) * 10 + "%"
