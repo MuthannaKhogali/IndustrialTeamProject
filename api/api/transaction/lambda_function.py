@@ -115,7 +115,8 @@ def lambda_handler(event, context, client=default_client):
     if not isinstance(recipient_id, str):
         return error("recipient_id field is not a string")
 
-    reference = body["reference"]
+    reference = body.get("reference", "")
+
     if sender_id == recipient_id:
         return {"statusCode": 400}
     amount = Decimal(
