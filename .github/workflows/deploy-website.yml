@@ -1,6 +1,9 @@
 name: Website deployment
 run-name: Deploying website to S3 bucket 🚀
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   Deployment:
     runs-on: ubuntu-latest
