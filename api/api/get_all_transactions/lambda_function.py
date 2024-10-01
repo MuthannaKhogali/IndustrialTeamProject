@@ -1,4 +1,5 @@
 import boto3
+from datetime import datetime
 import json
 
 default_client = boto3.client("dynamodb", region_name="eu-west-2")
@@ -22,10 +23,12 @@ def get_account_transactions(account_id, client=default_client):
         print(f"Error fetching transactions for account: {e}")
         return None
 
+
 def get_recipient_name(recipient_id):
     return default_client.get_item(
         TableName="qmbank-accounts", Key={"account_no": {"S": recipient_id}}
     )["Item"]["name"]["S"]
+
 
 def lambda_handler(event, context, client=default_client):
     # Gets account ID from path parameters. accounts/{id}/transactions
@@ -36,9 +39,7 @@ def lambda_handler(event, context, client=default_client):
     if not transactions:
         return {
             "statusCode": 404,
-            "body": json.dumps(
-                {"message": "No transactions found for this account"}
-            ),
+            "body": json.dumps({"message": "No transactions found for this account"}),
         }
 
     return [
@@ -47,7 +48,9 @@ def lambda_handler(event, context, client=default_client):
             "recipient_id": transaction["recipient_id"]["S"],
             "sender_name": get_recipient_name(transaction["sender_id"]["S"]),
             "sender_id": transaction["sender_id"]["S"],
-            "is_outgoing": True if account_id != transaction["recipient_id"]["S"] else False,
+            "is_outgoing": True
+            if account_id != transaction["recipient_id"]["S"]
+            else False,
             "amount": transaction["amount"]["N"],
             "reference": "",
             "date": "",
