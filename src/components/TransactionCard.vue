@@ -1,6 +1,6 @@
 <script setup>
 
-// type objects gets all the things in store.transactions
+// type objects gets all the things in store.transactions https://json-schema.org/understanding-json-schema/reference/object 
 const props = defineProps({
   info: {
     type: Object,
