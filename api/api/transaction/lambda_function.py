@@ -80,12 +80,32 @@ def create_transaction_record(sender_id, recipient_id, amount, reference, client
         raise
 
 
+def error(errorMessage):
+    return {
+        "statusCode": 400,
+        "body": json.dumps({"error": errorMessage}),
+    }
+
+
 # Main lambda function
 def lambda_handler(event, context, client=default_client):
     # Parsing request body into dictionary, see example request
-    body = event["body"]
-    body = base64.b64decode(body)
-    body = json.loads(body)
+    body = event.get("body", None)
+
+    if not body:
+        return error("missing POST body")
+
+    if event.get("isBase64Encoded", None):
+        body = base64.b64decode(body)
+
+    try:
+        body = json.loads(body)
+    except json.JSONDecodeError:
+        return error("invalid json received")
+
+    if not body:
+        return error("missing required fields")
+
     sender_id = event["pathParameters"]["id"]
     recipient_id = body["recipient_id"]
     reference = body["reference"]
