@@ -28,9 +28,11 @@ const percentage = compInfo.score * 10 + "%"
                         <div class="skill" id="info-main">{{ compInfo.score }}</div>
                     </div>
                     <div class="ps-2">
-                        <h6>Waste Management : 23</h6>
-                        <h6>Sustainability Practices : 43</h6>
-                        <h6>Carbon Emission: 59</h6>
+                        <ul class="list-group list-group-flush mt-3">
+                            <li class="list-group-item">Waste Management : 3</li>
+                            <li class="list-group-item">Sustainability Practices : 3</li>
+                            <li class="list-group-item">Carbon Emission: 9</li>
+                        </ul>
                     </div>
                     <h3 class="pt-3">Alternative Companies:</h3>
                     <div class="px-3">
