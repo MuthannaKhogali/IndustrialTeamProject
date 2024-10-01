@@ -45,6 +45,9 @@ def lambda_handler(event, context, client=default_client):
         {
             "recipient_name": get_recipient_name(transaction["recipient_id"]["S"]),
             "recipient_id": transaction["recipient_id"]["S"],
+            "sender_name": get_recipient_name(transaction["sender_id"]["S"]),
+            "sender_id": transaction["sender_id"]["S"],
+            "is_outgoing": True if account_id != transaction["recipient_id"]["S"] else False,
             "amount": transaction["amount"]["N"],
             "reference": "",
             "date": "",
