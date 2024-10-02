@@ -134,10 +134,4 @@ def lambda_handler(event, context, client=default_client):
 
     create_transaction_record(sender_id, recipient_id, amount, reference, client)
 
-    # Returns success
-    return {
-        "statusCode": 200,
-        "body": json.dumps(
-            {"message": "Transaction successful", "amount": float(amount)}
-        ),
-    }
+    return {"statusCode": 200}
