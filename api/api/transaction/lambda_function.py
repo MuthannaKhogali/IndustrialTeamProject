@@ -157,6 +157,22 @@ def lambda_handler(event, context, client=default_client):
     if sender_id == recipient_id:
         return error("sender_id is the same as the recipient_id")
 
+    if (
+        client.get_item(
+            TableName=accounts_table, Key={"account_no": {"S": str(sender_id)}}
+        ).get("Item", None)
+        is None
+    ):
+        return error("sender_id doesn't exist")
+
+    if (
+        client.get_item(
+            TableName=accounts_table, Key={"account_no": {"S": str(recipient_id)}}
+        ).get("Item", None)
+        is None
+    ):
+        return error("recipient_id doesn't exist")
+
     try:
         update_sender_account_balance(sender_id, amount, client)
     except client.exceptions.ConditionalCheckFailedException:
