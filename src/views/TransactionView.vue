@@ -9,13 +9,18 @@ const router =  useRouter();
 
 let compInfo = {
   score: store.payeeInfo.is_company
-    ? (store.payeeInfo.company_rag_score / 3) * 10 + "%"
+    ? Math.floor((store.payeeInfo.company_rag_score / 3) * 10) + "%"
     : "0%",
   colour: store.payeeInfo.is_company ? "green" : "#000",
 };
 
-console.log(store.payeeInfo);
-console.log(store.paymentInfo);
+//this was referenced https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
+//reference for hour and minute if needed https://www.codu.co/articles/how-to-show-hours-and-minutes-only-with-tolocaletimestring-7dskbbzo 
+function makeDate(d) {
+  const options = { year: 'numeric', month: 'long', day: 'numeric'};
+  return new Date(d).toLocaleDateString(undefined, options);
+}
+
 
 async function makePayment() {
   console.log(JSON.stringify(store.paymentInfo));
@@ -39,6 +44,7 @@ async function makePayment() {
         store.transactions = await transactionsResponse.json();
       }
       store.accountInfo = await res.json();
+      store.paymentInfo = null;
       router.push({name : "home"})
     }
   }
@@ -48,17 +54,25 @@ async function makePayment() {
 
 <template>
   <div class="mainpage">
-    <UserInfo :userInfo="userInfo"></UserInfo>
+    <UserInfo></UserInfo>
     <div class="container-fluid">
       <div class="row">
         <div class="card mt-4 company rounded-0">
-          <h1 class="my-2"><strong>Payee Details:</strong></h1>
+          <h1 class="my-2"><strong>Payment Details:</strong></h1>
           <div class="card mx-2">
             <div class="card-title ps-2 py-2">
               <h2>{{ store.payeeInfo.name }}</h2>
               <h6>AC: {{ store.payeeInfo.account_id }}</h6>
-              <h6>Reference: {{ store.paymentInfo.reference }}</h6>
-              <h4>Amount: £{{ store.paymentInfo.amount / 100}}</h4>
+              <div>
+                <h6>Reference: {{ store.paymentInfo.reference }}</h6>
+                <div v-if = "store.paymentInfo.is_outgoing !== undefined">
+                  <h6>Date: {{ makeDate(store.paymentInfo.date) }}</h6>
+                  <h4 :class="store.paymentInfo.is_outgoing ? 'minus' : 'plus'">Amount: {{ store.paymentInfo.is_outgoing ? '-' : '+' }}£{{ store.paymentInfo.amount / 100}}</h4>
+                </div>
+                <div v-else>
+                  <h4>Amount:£{{ store.paymentInfo.amount / 100}}</h4>
+                </div>
+              </div>
             </div>
             <div v-if="store.payeeInfo.is_company" class="mx-2">
               <h3>Environmental Score :</h3>
@@ -74,12 +88,12 @@ async function makePayment() {
               </div>
               <h3 class="pt-3">Alternative Companies:</h3>
               <div class="px-3">
-                <AlternativeCarousel :transaction="true"></AlternativeCarousel>
+                <AlternativeCarousel :transaction="store.paymentInfo.is_outgoing === undefined ? true : false"></AlternativeCarousel>
               </div>
             </div>
           </div>
           <div class="mb-3">
-            <button @click="makePayment" type="button" class="btn btn-success">
+            <button v-if = "store.paymentInfo.is_outgoing === undefined" @click="makePayment" type="button" class="btn btn-success">
               Make Payment
             </button>
           </div>
@@ -90,6 +104,15 @@ async function makePayment() {
 </template>
 
 <style scoped>
+
+.minus {
+  color: rgb(155, 0, 0);
+}
+
+.plus {
+  color: rgb(0, 115, 0);
+}
+
 /*mainpage is the whole page */
 .mainpage {
   font-family: "Outfit", sans-serif;

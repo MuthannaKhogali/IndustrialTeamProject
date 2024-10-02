@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-
+import { useStore } from '@/store'
+import { useRouter } from "vue-router"
 // type objects gets all the things in store.transactions https://json-schema.org/understanding-json-schema/reference/object 
 const props = defineProps({
   info: {
@@ -9,11 +10,24 @@ const props = defineProps({
   }
 });
 
+const store = useStore();
+
+const router = useRouter();
+
 //this was referenced https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
 //reference for hour and minute if needed https://www.codu.co/articles/how-to-show-hours-and-minutes-only-with-tolocaletimestring-7dskbbzo 
 function makeDate(d) {
   const options = { year: 'numeric', month: 'long', day: 'numeric'};
   return new Date(d).toLocaleDateString(undefined, options);
+}
+
+async function callInfo(){
+  const result = await fetch("https://qmbank.uk/api/accounts/" + (props.info.is_outgoing ? props.info.recipient_id : props.info.sender_id))
+  if (result.status === 200) {
+    store.payeeInfo = await result.json();
+    store.paymentInfo = props.info
+    router.push({name : "transaction"})
+  }
 }
 
 const colour = ref('grey');
@@ -42,7 +56,7 @@ if (props.info.score <= 0.3 ) {
       <h6>Exp: {{ props.info.experience || 0 }}</h6>
       <h6>{{ makeDate(props.info.date) || "Date Unknown" }}</h6>
       <h6>Reference: {{ props.info.reference || "No Reference" }}</h6>
-      <RouterLink to="/moreinfo" class="card-link">More Information</RouterLink>
+      <span @click = "callInfo" >More Information</span>
     </div>
   </div>
 </template>
@@ -66,6 +80,17 @@ if (props.info.score <= 0.3 ) {
 
 .plus {
   color: rgb(0, 115, 0);
+}
+
+/* Link styling taken fromhttps://stackoverflow.com/questions/14070086/how-do-i-style-a-span-to-look-like-a-link-without-using-javascript */
+span {
+    color: #000000; /* Change this with links color*/
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+span:hover {
+    color: #444444; /* Change the value to with anchors hover color*/
 }
 
 </style>
