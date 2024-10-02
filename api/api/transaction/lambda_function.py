@@ -3,6 +3,9 @@ import json
 from decimal import Decimal
 import uuid
 
+from ..update_user_experience.update_user_experience import update_user_experience
+from ..calculate_env_score.env_score_calculate import calculate_environmental_impact_score
+
 # Init client
 default_client = boto3.client("dynamodb",  region_name='us-east-1')
 accounts_table = "qmbank-accounts"
@@ -43,7 +46,7 @@ def update_account_balance(account_id, amount, client):
         raise 
 
 # Pushes a record of the transaction to the transactions table.
-def create_transaction_record(sender_id, recipient_id, amount, client):
+def create_transaction_record(sender_id, recipient_id, amount, experience, client):
     try:
         client.put_item(
             TableName=transactions_table,
@@ -51,7 +54,8 @@ def create_transaction_record(sender_id, recipient_id, amount, client):
                 "id": {"S": str(uuid.uuid4())}, # Unique transaction ID, I think this should work?? https://docs.python.org/3/library/uuid.html
                 "sender_id": {"N": str(sender_id)},
                 "recipient_id": {"N": str(recipient_id)},
-                "amount": {"N": str(amount)}
+                "amount": {"N": str(amount)},
+                "experience": {"N": str(experience)}
             }
         )
     except Exception as e:
@@ -79,15 +83,41 @@ def lambda_handler(event, context, client=default_client):
         
         update_account_balance(recipient_id, amount, client)
 
-        create_transaction_record(sender_id, recipient_id, amount, client)
+        # Updates user's level and XP!
+        environmental_score_response = calculate_environmental_impact_score(recipient_id, client)
+
+        # bugfixing
+        if environmental_score_response["statusCode"] == 200:
+            environmental_score_body = json.loads(environmental_score_response["body"])
+            environmental_score = environmental_score_body.get("environmental_impact_score")
+        else:
+            return {
+                "statusCode": environmental_score_response["statusCode"],
+                "body": environmental_score_response["body"]
+            }
+
+        update_experience_response = update_user_experience(sender_id, environmental_score, client)
+
+        # bugfixing
+        if update_experience_response["statusCode"] == 200:
+            experience_body = json.loads(update_experience_response["body"])
+            experience = experience_body.get("experience_added", 0)  # Use 0 as a default if not found
+        else:
+            return {
+                "statusCode": update_experience_response["statusCode"],
+                "body": update_experience_response["body"]
+            }
+
+        create_transaction_record(sender_id, recipient_id, amount, experience, client)
 
         # Returns success
         return {
             "statusCode": 200,
             "body": json.dumps({
                 "message": "Transaction successful",
-                "amount": float(amount)
-            })
+                "amount": float(amount),
+                "xp": experience
+            ,})
         }
     
     except Exception as e:

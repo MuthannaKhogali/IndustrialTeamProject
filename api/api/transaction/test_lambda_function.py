@@ -3,8 +3,8 @@ from moto import mock_aws
 import json
 from decimal import Decimal
 
-# Import the Lambda function
-from lambda_function import lambda_handler
+# Import the Lambda function (IMPORTANT: run this with python -m test_lambda_function because of the way python imports work!?)
+from ..transaction.lambda_function import lambda_handler
 
 # Mock DynamoDB setup
 @mock_aws
@@ -35,16 +35,16 @@ def test_lambda_function():
     
     # Create the mock transactions table
     dynamodb.create_table(
-        TableName="transactions",
+        TableName="qmbank-transactions",
         KeySchema=[
             {
-                "AttributeName": "TransactionID",
+                "AttributeName": "id",
                 "KeyType": "HASH"
             }
         ],
         AttributeDefinitions=[
             {
-                "AttributeName": "TransactionID",
+                "AttributeName": "id",
                 "AttributeType": "S"
             }
         ],
@@ -60,7 +60,8 @@ def test_lambda_function():
         Item={
             "account_no": {"N": "12345678"},
             "balance": {"N": "1000"},
-            "name": {"S": "John Doe"}
+            "name": {"S": "John Doe"},
+            "user_experience": {"N": "0"}
         }
     )
     dynamodb.put_item(
@@ -68,7 +69,14 @@ def test_lambda_function():
         Item={
             "account_no": {"N": "87654321"},
             "balance": {"N": "500"},
-            "name": {"S": "Jane Doe"}
+            "name": {"S": "Jane Doe Corp"},
+            "company_env_scores": {
+                "M": {
+                    "carbon_emissions": {"N": "1"},
+                    "waste_management": {"N": "3"},
+                    "sustainability_practices": {"N": "2"}
+                }
+            }
         }
     )
 

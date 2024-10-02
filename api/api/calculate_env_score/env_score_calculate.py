@@ -4,6 +4,7 @@ import json
 default_client = boto3.client("dynamodb", region_name='eu-west-2')
 accounts_table = "qmbank-accounts"
 
+# Calculates ENV scores, returns an ENV score, a RAG rating as a string, and the three scores independently.
 def calculate_environmental_impact_score(account_id, client=default_client):
     try:
         # Gets ENV scores from database
@@ -28,7 +29,7 @@ def calculate_environmental_impact_score(account_id, client=default_client):
         total_score = carbon_emissions + waste_management + sustainability_practices
         max_total_score = 3 * max_score
 
-        environmental_impact_score = total_score / max_total_score
+        environmental_impact_score = round(total_score / max_total_score,1)
 
         # RAG rating
         if environmental_impact_score <= 0.3:

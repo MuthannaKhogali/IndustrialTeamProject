@@ -1,5 +1,6 @@
 import boto3
 from decimal import Decimal
+import json
 
 default_client = boto3.client("dynamodb", region_name="eu-west-2")
 accounts_table = "qmbank-accounts"
@@ -19,10 +20,10 @@ def update_user_experience(user_id, company_env_score, client=default_client):
 
         return {
             "statusCode": 200,
-            "body": {
+            "body": json.dumps({
                 "message": "User experience updated successfully.",
                 "experience_added": experience_to_add
-            }
+            })
         }
     except Exception as e:
         return {
