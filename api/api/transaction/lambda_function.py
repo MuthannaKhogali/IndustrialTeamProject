@@ -74,7 +74,9 @@ def update_user_experience(user_id, company_env_score, client=default_client):
 
 
 # Calculates ENV scores, returns an ENV score, a RAG rating as a string, and the three scores independently.
-def calculate_environmental_impact_score(account_id, client=default_client):
+def calculate_environmental_impact_score(
+    account_id, client=default_client
+) -> int | None:
     # Gets ENV scores from database
     item = client.get_item(
         TableName=accounts_table, Key={"account_no": {"N": str(account_id)}}
@@ -82,45 +84,21 @@ def calculate_environmental_impact_score(account_id, client=default_client):
 
     # If item doesnt exist, or doesnt have ENV scores, we return 404 Not Found
     if "Item" not in item or "company_env_scores" not in item["Item"]:
-        return {
-            "statusCode": 404,
-            "body": "Company or Environmental Scores Not Found",
-        }
+        return None
 
-    env_scores = item["Item"]["company_env_scores"]["M"]
+    item = item["Item"]
+
+    env_scores = item["company_env_scores"]["M"]
     carbon_emissions = int(env_scores["carbon_emissions"]["N"])
     waste_management = int(env_scores["waste_management"]["N"])
     sustainability_practices = int(env_scores["sustainability_practices"]["N"])
 
-    # Score is between 1 and 10 per category
-    max_score = 10
-
     # ENV score calculation
     total_score = carbon_emissions + waste_management + sustainability_practices
-    max_total_score = 3 * max_score
 
-    environmental_impact_score = round(total_score / max_total_score, 1)
+    environmental_impact_score = total_score / 30
 
-    # RAG rating
-    if environmental_impact_score <= 0.3:
-        rag_rating = "RED"
-    elif environmental_impact_score <= 0.7:
-        rag_rating = "AMBER"
-    else:
-        rag_rating = "GREEN"
-
-    return {
-        "statusCode": 200,
-        "body": json.dumps(
-            {
-                "environmental_impact_score": environmental_impact_score,
-                "rag_rating": rag_rating,
-                "carbon_emissions_score": carbon_emissions,
-                "waste_management_score": waste_management,
-                "sustainability_practices_score": sustainability_practices,
-            }
-        ),
-    }
+    return environmental_impact_score
 
 
 # Pushes a record of the transaction to the transactions table.
@@ -201,19 +179,7 @@ def lambda_handler(event, context, client=default_client):
     update_recipient_account_balance(recipient_id, amount, client)
 
     # Updates user's level and XP!
-    environmental_score_response = calculate_environmental_impact_score(
-        recipient_id, client
-    )
-
-    # bugfixing
-    if environmental_score_response["statusCode"] == 200:
-        environmental_score_body = json.loads(environmental_score_response["body"])
-        environmental_score = environmental_score_body.get("environmental_impact_score")
-    else:
-        return {
-            "statusCode": environmental_score_response["statusCode"],
-            "body": environmental_score_response["body"],
-        }
+    environmental_score = calculate_environmental_impact_score(recipient_id, client)
 
     update_experience_response = update_user_experience(
         sender_id, environmental_score, client
