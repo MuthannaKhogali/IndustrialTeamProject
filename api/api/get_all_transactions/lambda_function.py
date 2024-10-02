@@ -31,6 +31,29 @@ def get_recipient_name(recipient_id):
     )["Item"]["name"]["S"]
 
 
+def add_company_score(transaction):
+    # The account number in a transaction should be valid.
+    if "is_outgoing" not in transaction:
+        return transaction
+
+    item = default_client.get_item(
+        TableName="qmbank-accounts",
+        Key={"account_no": {"S": transaction["recipient_id"]}},
+    )["Item"]
+
+    if "company_category" not in item:
+        return transaction
+
+    scores = [
+        int(item["company_env_scores"]["M"]["carbon_emissions"]["N"]),
+        int(item["company_env_scores"]["M"]["waste_management"]["N"]),
+        int(item["company_env_scores"]["M"]["sustainability_practices"]["N"]),
+    ]
+    transaction["score"] = sum(scores) / 30
+
+    return transaction
+
+
 def add_is_outgoing(account_id, transaction):
     if account_id == transaction["recipient_id"]:
         transaction["is_outgoing"] = False
@@ -69,5 +92,7 @@ def lambda_handler(event, context, client=default_client):
 
     add_is_outgoing_partial = partial(add_is_outgoing, account_id)
     response = [add_is_outgoing_partial(x) for x in response]
+
+    response = [add_company_score(x) for x in response]
 
     return response
