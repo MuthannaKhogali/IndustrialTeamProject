@@ -30,16 +30,16 @@ async function callInfo(){
   }
 }
 
-const colour = ref('grey');
+const colour = ref('#444444');
 
 console.log(props.info.score)
 
 if (props.info.score <= 0.3 ) {
-      colour.value = "red"
+      colour.value = "#8B0000"
   } else if (props.info.score > 0.3 && props.info.score < 0.7){
-    colour.value = "orange"
+    colour.value = "#BA8E23"
   } else if (props.info.score >= 0.7){
-    colour.value = "green"
+    colour.value = "#2E6F40"
  }
 
 
