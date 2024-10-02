@@ -53,7 +53,7 @@ def update_recipient_account_balance(account_id, amount, client):
 def update_user_experience(user_id, experience_points, client=default_client):
     client.update_item(
         TableName=accounts_table,
-        Key={"account_no": {"N": str(user_id)}},
+        Key={"account_no": {"S": str(user_id)}},
         UpdateExpression="ADD user_experience :increment",
         ExpressionAttributeValues={":increment": {"N": str(experience_points)}},
     )
@@ -65,7 +65,7 @@ def calculate_environmental_impact_score(
 ) -> int | None:
     # Gets ENV scores from database
     item = client.get_item(
-        TableName=accounts_table, Key={"account_no": {"N": str(account_id)}}
+        TableName=accounts_table, Key={"account_no": {"S": str(account_id)}}
     )
 
     # If item doesnt exist, or doesnt have ENV scores, we return 404 Not Found
