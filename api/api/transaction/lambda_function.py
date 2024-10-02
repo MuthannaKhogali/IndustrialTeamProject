@@ -128,10 +128,7 @@ def lambda_handler(event, context, client=default_client):
     try:
         update_sender_account_balance(sender_id, amount, client)
     except client.exceptions.ConditionalCheckFailedException:
-        return {
-            "statusCode": 400,
-            "body": json.dumps({"message": "Insufficient balance"}),
-        }
+        return error("sender has insufficient balance")
 
     update_recipient_account_balance(recipient_id, amount, client)
 
