@@ -1,5 +1,6 @@
 import boto3
 from datetime import datetime
+from functools import partial
 import json
 
 default_client = boto3.client("dynamodb", region_name="eu-west-2")
@@ -30,6 +31,14 @@ def get_recipient_name(recipient_id):
     )["Item"]["name"]["S"]
 
 
+def add_is_outgoing(account_id, transaction):
+    if account_id == transaction["recipient_id"]:
+        transaction["is_outgoing"] = False
+    else:
+        transaction["is_outgoing"] = True
+    return transaction
+
+
 def lambda_handler(event, context, client=default_client):
     # Gets account ID from path parameters. accounts/{id}/transactions
     account_id = event["pathParameters"]["id"]
@@ -44,15 +53,12 @@ def lambda_handler(event, context, client=default_client):
 
     transactions.sort(key=lambda x: int(x["date"]["N"]), reverse=True)
 
-    return [
+    response = [
         {
             "recipient_name": get_recipient_name(transaction["recipient_id"]["S"]),
             "recipient_id": transaction["recipient_id"]["S"],
             "sender_name": get_recipient_name(transaction["sender_id"]["S"]),
             "sender_id": transaction["sender_id"]["S"],
-            "is_outgoing": True
-            if account_id != transaction["recipient_id"]["S"]
-            else False,
             "amount": transaction["amount"]["N"],
             "reference": transaction["reference"]["S"],
             "date": datetime.fromtimestamp(int(transaction["date"]["N"])).isoformat(),
@@ -60,3 +66,8 @@ def lambda_handler(event, context, client=default_client):
         }
         for transaction in transactions
     ]
+
+    add_is_outgoing_partial = partial(add_is_outgoing, account_id)
+    response = [add_is_outgoing_partial(x) for x in response]
+
+    return response
