@@ -35,7 +35,7 @@ def update_sender_account_balance(account_id, amount, client):
     client.update_item(
         TableName=accounts_table,
         Key={"account_no": {"S": str(account_id)}},
-        UpdateExpression="SET balance = balance + :amount",
+        UpdateExpression="SET balance = balance - :amount",
         ExpressionAttributeValues={":amount": {"N": str(amount)}},
         ConditionExpression="balance >= :amount",
     )
