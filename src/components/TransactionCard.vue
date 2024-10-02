@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue'
 
 // type objects gets all the things in store.transactions https://json-schema.org/understanding-json-schema/reference/object 
 const props = defineProps({
@@ -14,6 +15,20 @@ function makeDate(d) {
   const options = { year: 'numeric', month: 'long', day: 'numeric'};
   return new Date(d).toLocaleDateString(undefined, options);
 }
+
+const colour = ref('grey');
+
+console.log(props.info.score)
+
+if (props.info.score <= 0.3 ) {
+      colour.value = "red"
+  } else if (props.info.score > 0.3 && props.info.score < 0.7){
+    colour.value = "orange"
+  } else if (props.info.score >= 0.7){
+    colour.value = "green"
+ }
+
+
 
 </script>
 
@@ -41,7 +56,7 @@ function makeDate(d) {
   text-align: left;
   border-style: solid;
   border-width: 0px 0px 0px 35px;
-  border-color: v-bind("props.info.colour");
+  border-color: v-bind(colour);
   border-radius: 20px;
 }
 
