@@ -7,7 +7,7 @@ from ..update_user_experience.update_user_experience import update_user_experien
 from ..calculate_env_score.env_score_calculate import calculate_environmental_impact_score
 
 # Init client
-default_client = boto3.client("dynamodb",  region_name='us-east-1')
+default_client = boto3.client("dynamodb",  region_name='eu-west-2')
 accounts_table = "qmbank-accounts"
 transactions_table = "qmbank-transactions"
 

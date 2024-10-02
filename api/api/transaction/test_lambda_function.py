@@ -10,7 +10,7 @@ from ..transaction.lambda_function import lambda_handler
 @mock_aws
 def test_lambda_function():
     # Create a mock DynamoDB table
-    dynamodb = boto3.client("dynamodb", region_name="us-east-1")
+    dynamodb = boto3.client("dynamodb", region_name="eu-west-2")
     
     # Create the mock accounts table
     dynamodb.create_table(
