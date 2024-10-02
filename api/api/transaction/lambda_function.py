@@ -50,27 +50,13 @@ def update_recipient_account_balance(account_id, amount, client):
     )
 
 
-def update_user_experience(user_id, company_env_score, client=default_client):
-    # calculate user's experience from decimal to an int (This is easier to store in the database as just an int, and also makes XP more exciting. big numbers are better)
-    # If the decimal value is longer than 2 digits, it will simply round down and add the experience (0.357 becomes 35XP.)
-    experience_to_add = int(company_env_score * 100)
-
+def update_user_experience(user_id, experience_points, client=default_client):
     client.update_item(
         TableName=accounts_table,
         Key={"account_no": {"N": str(user_id)}},
         UpdateExpression="ADD user_experience :increment",
-        ExpressionAttributeValues={":increment": {"N": str(experience_to_add)}},
+        ExpressionAttributeValues={":increment": {"N": str(experience_points)}},
     )
-
-    return {
-        "statusCode": 200,
-        "body": json.dumps(
-            {
-                "message": "User experience updated successfully.",
-                "experience_added": experience_to_add,
-            }
-        ),
-    }
 
 
 # Calculates ENV scores, returns an ENV score, a RAG rating as a string, and the three scores independently.
@@ -181,24 +167,20 @@ def lambda_handler(event, context, client=default_client):
     # Updates user's level and XP!
     environmental_score = calculate_environmental_impact_score(recipient_id, client)
 
-    update_experience_response = update_user_experience(
-        sender_id, environmental_score, client
-    )
+    # calculate user's experience from decimal to an int (This is easier to store in the database as just an int, and also makes XP more exciting. big numbers are better)
+    # If the decimal value is longer than 2 digits, it will simply round down and add the experience (0.357 becomes 35XP.)
+    transaction_experience_points = int(environmental_score * 100)
 
-    # bugfixing
-    if update_experience_response["statusCode"] == 200:
-        experience_body = json.loads(update_experience_response["body"])
-        experience = experience_body.get(
-            "experience_added", 0
-        )  # Use 0 as a default if not found
-    else:
-        return {
-            "statusCode": update_experience_response["statusCode"],
-            "body": update_experience_response["body"],
-        }
+    if environmental_score is not None:
+        update_user_experience(sender_id, transaction_experience_points, client)
 
     create_transaction_record(
-        sender_id, recipient_id, amount, reference, experience, client
+        sender_id,
+        recipient_id,
+        amount,
+        reference,
+        transaction_experience_points,
+        client,
     )
 
     return {"statusCode": 200}
