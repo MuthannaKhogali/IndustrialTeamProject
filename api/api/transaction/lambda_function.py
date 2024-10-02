@@ -35,44 +35,76 @@ def update_sender_account_balance(account_id, amount, client):
     client.update_item(
         TableName=accounts_table,
         Key={"account_no": {"S": str(account_id)}},
-        UpdateExpression="SET balance = balance + :amount",
+        UpdateExpression="SET balance = balance - :amount",
         ExpressionAttributeValues={":amount": {"N": str(amount)}},
         ConditionExpression="balance >= :amount",
     )
 
 
 def update_recipient_account_balance(account_id, amount, client):
-    try:
-        client.update_item(
-            TableName=accounts_table,
-            Key={"account_no": {"S": str(account_id)}},
-            UpdateExpression="SET balance = balance + :amount",
-            ExpressionAttributeValues={":amount": {"N": str(amount)}},
-        )
-    except Exception as e:
-        print(f"Error updating account balance: {e}")
-        raise
+    client.update_item(
+        TableName=accounts_table,
+        Key={"account_no": {"S": str(account_id)}},
+        UpdateExpression="SET balance = balance + :amount",
+        ExpressionAttributeValues={":amount": {"N": str(amount)}},
+    )
+
+
+def update_user_experience(user_id, experience_points, client=default_client):
+    client.update_item(
+        TableName=accounts_table,
+        Key={"account_no": {"S": str(user_id)}},
+        UpdateExpression="ADD user_experience :increment",
+        ExpressionAttributeValues={":increment": {"N": str(experience_points)}},
+    )
+
+
+# Calculates ENV scores, returns an ENV score, a RAG rating as a string, and the three scores independently.
+def calculate_environmental_impact_score(
+    account_id, client=default_client
+) -> int | None:
+    # Gets ENV scores from database
+    item = client.get_item(
+        TableName=accounts_table, Key={"account_no": {"S": str(account_id)}}
+    )
+
+    # If item doesnt exist, or doesnt have ENV scores, we return 404 Not Found
+    if "Item" not in item or "company_env_scores" not in item["Item"]:
+        return None
+
+    item = item["Item"]
+
+    env_scores = item["company_env_scores"]["M"]
+    carbon_emissions = int(env_scores["carbon_emissions"]["N"])
+    waste_management = int(env_scores["waste_management"]["N"])
+    sustainability_practices = int(env_scores["sustainability_practices"]["N"])
+
+    # ENV score calculation
+    total_score = carbon_emissions + waste_management + sustainability_practices
+
+    environmental_impact_score = total_score / 30
+
+    return environmental_impact_score
 
 
 # Pushes a record of the transaction to the transactions table.
-def create_transaction_record(sender_id, recipient_id, amount, reference, client):
-    try:
-        client.put_item(
-            TableName=transactions_table,
-            Item={
-                "id": {
-                    "S": str(uuid.uuid4())
-                },  # Unique transaction ID, I think this should work?? https://docs.python.org/3/library/uuid.html
-                "sender_id": {"S": str(sender_id)},
-                "recipient_id": {"S": str(recipient_id)},
-                "amount": {"N": str(amount)},
-                "date": {"N": str(int(time.time()))},
-                "reference": {"S": reference},
-            },
-        )
-    except Exception as e:
-        print(f"Error creating transaction record: {e}")
-        raise
+def create_transaction_record(
+    sender_id, recipient_id, amount, reference, experience, client
+):
+    client.put_item(
+        TableName=transactions_table,
+        Item={
+            "id": {
+                "S": str(uuid.uuid4())
+            },  # Unique transaction ID, I think this should work?? https://docs.python.org/3/library/uuid.html
+            "sender_id": {"S": str(sender_id)},
+            "recipient_id": {"S": str(recipient_id)},
+            "amount": {"N": str(amount)},
+            "date": {"N": str(int(time.time()))},
+            "reference": {"S": reference},
+            "experience": {"N": str(experience)},
+        },
+    )
 
 
 def error(errorMessage):
@@ -132,6 +164,23 @@ def lambda_handler(event, context, client=default_client):
 
     update_recipient_account_balance(recipient_id, amount, client)
 
-    create_transaction_record(sender_id, recipient_id, amount, reference, client)
+    # Updates user's level and XP!
+    environmental_score = calculate_environmental_impact_score(recipient_id, client)
+
+    # calculate user's experience from decimal to an int (This is easier to store in the database as just an int, and also makes XP more exciting. big numbers are better)
+    # If the decimal value is longer than 2 digits, it will simply round down and add the experience (0.357 becomes 35XP.)
+    transaction_experience_points = int(environmental_score * 100)
+
+    if environmental_score is not None:
+        update_user_experience(sender_id, transaction_experience_points, client)
+
+    create_transaction_record(
+        sender_id,
+        recipient_id,
+        amount,
+        reference,
+        transaction_experience_points,
+        client,
+    )
 
     return {"statusCode": 200}
