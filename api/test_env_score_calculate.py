@@ -6,7 +6,7 @@ from env_score_calculate import calculate_environmental_impact_score
 
 @mock_aws
 def test_env_score_calculate():
-    dynamodb = boto3.client("dynamodb", region_name="us-east-1")
+    dynamodb = boto3.client("dynamodb", region_name="eu-west-2")
 
     dynamodb.create_table(
         TableName="qmbank-accounts",

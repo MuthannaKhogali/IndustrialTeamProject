@@ -1,7 +1,7 @@
 import boto3
 import json
 
-default_client = boto3.client("dynamodb", region_name='us-east-1')
+default_client = boto3.client("dynamodb", region_name='eu-west-2')
 accounts_table = "qmbank-accounts"
 
 def calculate_environmental_impact_score(account_id, client=default_client):
