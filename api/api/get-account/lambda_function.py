@@ -49,6 +49,6 @@ def lambda_handler(event, context):
     else:
         response["is_company"] = False
         response["level"] = calculate_user_level(int(item.get("user_experience", {}).get("N", 0)))
-        response["streak"] = 0
+        response["streak"] = item.get("user_streak", {}).get("N", 0)
 
     return response
