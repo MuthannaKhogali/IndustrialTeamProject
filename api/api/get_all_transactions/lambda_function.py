@@ -9,26 +9,15 @@ transactions_table = "qmbank-transactions"
 
 # Gets all transactions for a given account using QUERY. Using the account_id. Gets all transactions where account is sender or recipient.
 def get_account_transactions(account_id, client=default_client):
-    try:
-        # QUERY table
-        response = client.scan(
-            TableName=transactions_table,
-            FilterExpression="sender_id = :account_id OR recipient_id = :account_id",
-            ExpressionAttributeValues={":account_id": {"S": str(account_id)}},
-        )
+    # QUERY table
+    response = client.scan(
+        TableName=transactions_table,
+        FilterExpression="sender_id = :account_id OR recipient_id = :account_id",
+        ExpressionAttributeValues={":account_id": {"S": str(account_id)}},
+    )
 
-        transactions = response.get("Items", [])
-        return transactions
-
-    except Exception as e:
-        print(f"Error fetching transactions for account: {e}")
-        return None
-
-
-def get_recipient_name(recipient_id):
-    return default_client.get_item(
-        TableName="qmbank-accounts", Key={"account_no": {"S": recipient_id}}
-    )["Item"]["name"]["S"]
+    transactions = response.get("Items", [])
+    return transactions
 
 
 def add_company_score(transaction):
@@ -78,14 +67,14 @@ def lambda_handler(event, context, client=default_client):
 
     response = [
         {
-            "recipient_name": get_recipient_name(transaction["recipient_id"]["S"]),
             "recipient_id": transaction["recipient_id"]["S"],
-            "sender_name": get_recipient_name(transaction["sender_id"]["S"]),
+            "recipient_name": transaction["recipient_name"]["S"],
             "sender_id": transaction["sender_id"]["S"],
+            "sender_name": transaction["sender_name"]["S"],
             "amount": transaction["amount"]["N"],
             "reference": transaction["reference"]["S"],
             "date": datetime.fromtimestamp(int(transaction["date"]["N"])).isoformat(),
-            "experience": 1,
+            "experience": int(transaction["experience"]["N"]),
         }
         for transaction in transactions
     ]

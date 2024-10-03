@@ -63,29 +63,37 @@ def update_user_streak(sender_id, recipient, client=default_client):
     # +1 streak if green, -1 if orange, reset if red.
     env_score = calculate_environmental_impact_score(recipient["account_no"]["S"])
 
-    update_value = 1
-
+    # ConditionExpression cannot be empty, so only add it if it exists.
     if env_score <= 0.3:
-        update_expression = "SET user_streak = :value"
-        update_value = 0
+        update_item_args = {
+            "UpdateExpression": "SET user_streak = :zero",
+            "ExpressionAttributeValues": {
+                ":zero": {"N": "0"},
+            },
+        }
     elif env_score <= 0.7:
-        update_expression = "ADD user_streak :value"
-        update_value = -1
+        update_item_args = {
+            "UpdateExpression": "ADD user_streak :value",
+            "ExpressionAttributeValues": {
+                ":value": {"N": "-1"},
+                ":one": {"N": "1"},
+            },
+            # If the user_streak doesn't already exist the condition would fail, so don't fail in that case.
+            "ConditionExpression": "user_streak >= :one OR attribute_not_exists(user_streak)",
+        }
     else:
-        update_expression = "ADD user_streak :value"
-        update_value = 1
+        update_item_args = {
+            "UpdateExpression": "ADD user_streak :value",
+            "ExpressionAttributeValues": {
+                ":value": {"N": "1"},
+            },
+        }
 
     try:
         client.update_item(
             TableName=accounts_table,
             Key={"account_no": {"S": str(sender_id)}},
-            UpdateExpression=update_expression,
-            ExpressionAttributeValues={
-                ":zero": {"N": "0"},
-                ":value": {"N": str(update_value)},
-            },
-            # If the user_streak doesn't already exist the condition would fail, so don't fail in that case.
-            ConditionExpression="user_streak >= :zero OR attribute_not_exists(user_streak)",
+            **update_item_args,
         )
     except client.exceptions.ConditionalCheckFailedException:
         # This may happen if we try to subtract the user streak below zero, but is expected behaviour.
@@ -122,7 +130,14 @@ def calculate_environmental_impact_score(
 
 # Pushes a record of the transaction to the transactions table.
 def create_transaction_record(
-    sender_id, recipient_id, amount, reference, experience, client
+    sender_id,
+    sender_name,
+    recipient_id,
+    recipient_name,
+    amount,
+    reference,
+    experience,
+    client,
 ):
     client.put_item(
         TableName=transactions_table,
@@ -131,7 +146,9 @@ def create_transaction_record(
                 "S": str(uuid.uuid4())
             },  # Unique transaction ID, I think this should work?? https://docs.python.org/3/library/uuid.html
             "sender_id": {"S": str(sender_id)},
+            "sender_name": {"S": str(sender_name)},
             "recipient_id": {"S": str(recipient_id)},
+            "recipient_name": {"S": str(recipient_name)},
             "amount": {"N": str(amount)},
             "date": {"N": str(int(time.time()))},
             "reference": {"S": reference},
@@ -190,12 +207,10 @@ def lambda_handler(event, context, client=default_client):
     if sender_id == recipient_id:
         return error("sender_id is the same as the recipient_id")
 
-    if (
-        client.get_item(
-            TableName=accounts_table, Key={"account_no": {"S": str(sender_id)}}
-        ).get("Item", None)
-        is None
-    ):
+    sender = client.get_item(
+        TableName=accounts_table, Key={"account_no": {"S": str(sender_id)}}
+    ).get("Item", None)
+    if sender_id is None:
         return error("sender_id doesn't exist")
 
     recipient = client.get_item(
@@ -213,6 +228,8 @@ def lambda_handler(event, context, client=default_client):
 
     # Updates user's level and XP!
     environmental_score = calculate_environmental_impact_score(recipient_id, client)
+    if environmental_score is None:
+        environmental_score = 0
 
     # calculate user's experience from decimal to an int (This is easier to store in the database as just an int, and also makes XP more exciting. big numbers are better)
     # If the decimal value is longer than 2 digits, it will simply round down and add the experience (0.357 becomes 35XP.)
@@ -221,11 +238,14 @@ def lambda_handler(event, context, client=default_client):
     if environmental_score is not None:
         update_user_experience(sender_id, transaction_experience_points, client)
 
-    update_user_streak(sender_id, recipient)
+    if int(recipient["account_no"]["S"]) < 69:
+        update_user_streak(sender_id, recipient)
 
     create_transaction_record(
         sender_id,
+        sender["name"]["S"],
         recipient_id,
+        recipient["name"]["S"],
         amount,
         reference,
         transaction_experience_points,

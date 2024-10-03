@@ -19,6 +19,49 @@ def calculate_user_level(user_experience, x=0.35, y=1.5):
     return max_level  # Return level 10 if XP exceeds all boundaries
 
 
+def get_alternatives(company_category: str, account_id: str) -> dict:
+    alternatives = client.query(
+        TableName=tableName,
+        IndexName="company_category-index",
+        KeyConditionExpression="#attr = :value",
+        ExpressionAttributeNames={"#attr": "company_category"},
+        ExpressionAttributeValues={":value": {"S": company_category}},
+    )["Items"]
+
+    alternatives = [
+        {
+            "account_id": alternative["account_no"]["S"],
+            "name": alternative["name"]["S"],
+            "company_category": alternative["company_category"]["S"],
+            "company_env_scores": [
+                int(alternative["company_env_scores"]["M"]["carbon_emissions"]["N"]),
+                int(alternative["company_env_scores"]["M"]["waste_management"]["N"]),
+                int(
+                    alternative["company_env_scores"]["M"]["sustainability_practices"][
+                        "N"
+                    ]
+                ),
+            ],
+            "company_desc": alternative["company_description"]["S"],
+            "company_rag_score": (
+                int(alternative["company_env_scores"]["M"]["carbon_emissions"]["N"])
+                + int(alternative["company_env_scores"]["M"]["waste_management"]["N"])
+                + int(
+                    alternative["company_env_scores"]["M"]["sustainability_practices"][
+                        "N"
+                    ]
+                )
+            ),
+        }
+        for alternative in alternatives
+        if alternative["account_no"]["S"] != account_id
+    ]
+
+    alternatives.sort(key=lambda x: int(x["company_rag_score"]), reverse=True)
+
+    return alternatives
+
+
 def lambda_handler(event, context):
     account_no = event["pathParameters"]["id"]
 
@@ -45,10 +88,14 @@ def lambda_handler(event, context):
         ]
         response["company_desc"] = item["company_description"]["S"]
         response["company_rag_score"] = sum(response["company_env_scores"])
-        # response["alternatives"] =
+        response["alternatives"] = get_alternatives(
+            response["company_category"], response["account_id"]
+        )
     else:
         response["is_company"] = False
-        response["level"] = calculate_user_level(int(item.get("user_experience", {}).get("N", 0)))
+        response["level"] = calculate_user_level(
+            int(item.get("user_experience", {}).get("N", 0))
+        )
         response["streak"] = item.get("user_streak", {}).get("N", 0)
 
     return response
