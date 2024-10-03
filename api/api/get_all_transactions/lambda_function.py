@@ -25,12 +25,6 @@ def get_account_transactions(account_id, client=default_client):
         return None
 
 
-def get_recipient_name(recipient_id):
-    return default_client.get_item(
-        TableName="qmbank-accounts", Key={"account_no": {"S": recipient_id}}
-    )["Item"]["name"]["S"]
-
-
 def add_company_score(transaction):
     # The account number in a transaction should be valid.
     if "is_outgoing" not in transaction:
@@ -78,10 +72,10 @@ def lambda_handler(event, context, client=default_client):
 
     response = [
         {
-            "recipient_name": get_recipient_name(transaction["recipient_id"]["S"]),
             "recipient_id": transaction["recipient_id"]["S"],
-            "sender_name": get_recipient_name(transaction["sender_id"]["S"]),
+            "recipient_name": transaction["recipient_name"]["S"],
             "sender_id": transaction["sender_id"]["S"],
+            "sender_name": transaction["sender_name"]["S"],
             "amount": transaction["amount"]["N"],
             "reference": transaction["reference"]["S"],
             "date": datetime.fromtimestamp(int(transaction["date"]["N"])).isoformat(),

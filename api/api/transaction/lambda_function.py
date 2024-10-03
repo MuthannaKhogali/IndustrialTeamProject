@@ -122,7 +122,7 @@ def calculate_environmental_impact_score(
 
 # Pushes a record of the transaction to the transactions table.
 def create_transaction_record(
-    sender_id, recipient_id, amount, reference, experience, client
+    sender_id, sender_name, recipient_id, recipient_name, amount, reference, experience, client
 ):
     client.put_item(
         TableName=transactions_table,
@@ -131,7 +131,9 @@ def create_transaction_record(
                 "S": str(uuid.uuid4())
             },  # Unique transaction ID, I think this should work?? https://docs.python.org/3/library/uuid.html
             "sender_id": {"S": str(sender_id)},
+            "sender_name": {"S": str(sender_name)},
             "recipient_id": {"S": str(recipient_id)},
+            "recipient_name": {"S": str(recipient_name)},
             "amount": {"N": str(amount)},
             "date": {"N": str(int(time.time()))},
             "reference": {"S": reference},
@@ -190,12 +192,10 @@ def lambda_handler(event, context, client=default_client):
     if sender_id == recipient_id:
         return error("sender_id is the same as the recipient_id")
 
-    if (
-        client.get_item(
-            TableName=accounts_table, Key={"account_no": {"S": str(sender_id)}}
-        ).get("Item", None)
-        is None
-    ):
+    sender = client.get_item(
+        TableName=accounts_table, Key={"account_no": {"S": str(sender_id)}}
+    ).get("Item", None)
+    if sender_id is None:
         return error("sender_id doesn't exist")
 
     recipient = client.get_item(
@@ -225,7 +225,9 @@ def lambda_handler(event, context, client=default_client):
 
     create_transaction_record(
         sender_id,
+        sender["name"]["S"],
         recipient_id,
+        recipient["name"]["S"],
         amount,
         reference,
         transaction_experience_points,
