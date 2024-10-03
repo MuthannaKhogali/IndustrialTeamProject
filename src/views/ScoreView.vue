@@ -41,13 +41,16 @@ console.log(store.accountInfo.level)
           </div>
           <div class="row">
             <div>
-              <h1>Streak: {{ store.accountInfo.streak }}</h1>
+              <h1>Streak🔥: {{ store.accountInfo.streak }}</h1>
+              <p>Streaks are built by making multiple eco-friendly transactions in a row</p>
             </div>
           </div>
           <div class="row">
           </div>
           <div class="row px-3">
-            <UsersTable />
+            <Suspense>
+              <UsersTable />
+            </Suspense>
           </div>
         </div>
       </div>

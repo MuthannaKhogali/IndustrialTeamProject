@@ -1,22 +1,30 @@
+<script setup>
+const result = await fetch("https://qmbank.uk/api/leaderboard")
+
+const leaderboard = await result.json();
+
+
+
+</script>
+
 <template>
   <table class="table">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Company</th>
-        <th scope="col">Contact</th>
+        <th scope="col">Name</th>
+        <th scope="col">Level</th>
+        <th scope="col">Experience</th>
+        <th scope="col">🔥</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody v-for="(info, index) in leaderboard">
       <tr>
-        <th scope="row">1</th>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Centro comercial Moctezuma</td>
-        <td>Francisco Chang</td>
+        <th scope="row">{{index + 1 }}</th>
+        <td>{{ info.name }}</td>
+        <td>{{ info.level }}</td>
+        <td>{{ info.experience }}</td>
+        <td>{{ info.streak }}</td>
       </tr>
     </tbody>
   </table>

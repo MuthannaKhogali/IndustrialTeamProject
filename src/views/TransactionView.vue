@@ -70,9 +70,9 @@ async function makePayment() {
     <UserInfo></UserInfo>
     <div class="container-fluid">
       <div class="row">
-        <div class="card mt-4 company rounded-0">
-          <h1 class="my-2"><strong>Payment Details:</strong></h1>
-          <div class="card mx-2">
+        <div class="card mt-3 company rounded-0">
+          
+          <div class="card mt-3 mx-2">
             <div class="card-title ps-2 py-2">
               <h2>{{ store.payeeInfo.name }}</h2>
               <h6>AC: {{ store.payeeInfo.account_id }}</h6>
