@@ -63,29 +63,37 @@ def update_user_streak(sender_id, recipient, client=default_client):
     # +1 streak if green, -1 if orange, reset if red.
     env_score = calculate_environmental_impact_score(recipient["account_no"]["S"])
 
-    update_value = 1
-
+    # ConditionExpression cannot be empty, so only add it if it exists.
     if env_score <= 0.3:
-        update_expression = "SET user_streak = :value"
-        update_value = 0
+        update_item_args = {
+            "UpdateExpression": "SET user_streak = :zero",
+            "ExpressionAttributeValues": {
+                ":zero": {"N": "0"},
+            },
+        }
     elif env_score <= 0.7:
-        update_expression = "ADD user_streak :value"
-        update_value = -1
+        update_item_args = {
+            "UpdateExpression": "ADD user_streak :value",
+            "ExpressionAttributeValues": {
+                ":value": {"N": "-1"},
+                ":one": {"N": "1"},
+            },
+            # If the user_streak doesn't already exist the condition would fail, so don't fail in that case.
+            "ConditionExpression": "user_streak >= :one OR attribute_not_exists(user_streak)",
+        }
     else:
-        update_expression = "ADD user_streak :value"
-        update_value = 1
+        update_item_args = {
+            "UpdateExpression": "ADD user_streak :value",
+            "ExpressionAttributeValues": {
+                ":value": {"N": "1"},
+            },
+        }
 
     try:
         client.update_item(
             TableName=accounts_table,
             Key={"account_no": {"S": str(sender_id)}},
-            UpdateExpression=update_expression,
-            ExpressionAttributeValues={
-                ":zero": {"N": "0"},
-                ":value": {"N": str(update_value)},
-            },
-            # If the user_streak doesn't already exist the condition would fail, so don't fail in that case.
-            ConditionExpression="user_streak >= :zero OR attribute_not_exists(user_streak)",
+            **update_item_args,
         )
     except client.exceptions.ConditionalCheckFailedException:
         # This may happen if we try to subtract the user streak below zero, but is expected behaviour.
