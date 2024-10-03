@@ -19,11 +19,8 @@ async function submit() {
   let result = await fetch("https://qmbank.uk/api/accounts/" + store.accountNo);
   if (result.status === 200) {
     store.accountInfo = await result.json();
-    let transactions = await fetch("https://qmbank.uk/api/accounts/" + store.accountNo + "/transactions");
-    if (transactions.status === 200) {
-      store.transactions = await transactions.json();
-    }
-    router.push("home");
+    console.log(store.accountInfo)
+    router.push({name : "home"});
   } else {
     message.value = "The account number does not exist!";
   }

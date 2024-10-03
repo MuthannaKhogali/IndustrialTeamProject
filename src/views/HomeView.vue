@@ -9,24 +9,39 @@ import { useStore } from "@/store";
 
 const store = useStore();
 
+(async () => {
+  let transactions = await fetch(
+    "https://qmbank.uk/api/accounts/" + store.accountNo + "/transactions"
+  );
+  if (transactions.status === 200) {
+    store.transactions = await transactions.json();
+  }
+})();
 </script>
 
 <template>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
   <!--whole page-->
   <div class="mainpage">
     <!--top section which shows user data stuff -->
-    <div class = "mb-2">
+    <div class="mb-2">
       <UserInfo />
     </div>
     <!-- this is the transaction history section which will display recent payments -->
     <!-- hardcoded some companies for now-->
     <div class="container-fluid">
-    <div class="row">
-      <div class="transactionhistory" v-bind:key="info" v-for="info in store.transactions">
-        <TransactionCard :info="info"></TransactionCard>
+      <div class="row">
+        <div
+          class="transactionhistory"
+          v-bind:key="info"
+          v-for="info in store.transactions"
+        >
+          <TransactionCard :info="info"></TransactionCard>
+        </div>
       </div>
-    </div>
     </div>
   </div>
 

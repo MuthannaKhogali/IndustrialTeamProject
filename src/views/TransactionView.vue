@@ -3,24 +3,38 @@ import UserInfo from "@/components/UserInfo.vue";
 import AlternativeCarousel from "@/components/AlternativeCarousel.vue";
 import { useStore } from "@/store";
 import { useRouter } from "vue-router";
+import { ref, computed } from "vue";
 
 const store = useStore();
-const router =  useRouter();
+const router = useRouter();
 
-let compInfo = {
-  score: store.payeeInfo.is_company
+const rag_score = computed(() => {
+  return store.payeeInfo.is_company
     ? Math.floor((store.payeeInfo.company_rag_score / 3) * 10) + "%"
-    : "0%",
-  colour: store.payeeInfo.is_company ? "green" : "#000",
-};
+    : null;
+});
+
+const colour = computed(() => {
+  if (store.payeeInfo.is_company) {
+    const score = store.payeeInfo.company_rag_score / 3 / 10;
+    if (score <= 0.3) {
+      return "#8B0000";
+    } else if (score > 0.3 && score < 0.7) {
+      return "#BA8E23";
+    } else if (score >= 0.7) {
+      return "#2E6F40";
+    }
+  }
+});
+
+console.log("running");
 
 //this was referenced https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
-//reference for hour and minute if needed https://www.codu.co/articles/how-to-show-hours-and-minutes-only-with-tolocaletimestring-7dskbbzo 
+//reference for hour and minute if needed https://www.codu.co/articles/how-to-show-hours-and-minutes-only-with-tolocaletimestring-7dskbbzo
 function makeDate(d) {
-  const options = { year: 'numeric', month: 'long', day: 'numeric'};
+  const options = { year: "numeric", month: "long", day: "numeric" };
   return new Date(d).toLocaleDateString(undefined, options);
 }
-
 
 async function makePayment() {
   console.log(JSON.stringify(store.paymentInfo));
@@ -37,19 +51,18 @@ async function makePayment() {
   );
 
   if (response.status === 200) {
-    let res = await fetch(`https://qmbank.uk/api/accounts/${store.accountNo}`)
-    if (res.status === 200){
+    let res = await fetch(`https://qmbank.uk/api/accounts/${store.accountNo}`);
+    if (res.status === 200) {
       const transactionsResponse = await fetch(`https://qmbank.uk/api/accounts/${store.accountNo}/transactions`);
       if (transactionsResponse.status === 200) {
         store.transactions = await transactionsResponse.json();
       }
       store.accountInfo = await res.json();
       store.paymentInfo = null;
-      router.push({name : "home"})
+      router.push({ name: "home" });
     }
   }
 }
-
 </script>
 
 <template>
@@ -63,37 +76,65 @@ async function makePayment() {
             <div class="card-title ps-2 py-2">
               <h2>{{ store.payeeInfo.name }}</h2>
               <h6>AC: {{ store.payeeInfo.account_id }}</h6>
-              <div>
-                <h6>Reference: {{ store.paymentInfo.reference }}</h6>
-                <div v-if = "store.paymentInfo.is_outgoing !== undefined">
-                  <h6>Date: {{ makeDate(store.paymentInfo.date) }}</h6>
-                  <h4 :class="store.paymentInfo.is_outgoing ? 'minus' : 'plus'">Amount: {{ store.paymentInfo.is_outgoing ? '-' : '+' }}£{{ store.paymentInfo.amount / 100}}</h4>
-                </div>
-                <div v-else>
-                  <h4>Amount:£{{ store.paymentInfo.amount / 100}}</h4>
-                </div>
+              <div v-if="store.paymentInfo.recipient_id">
+                  <h6>Reference: {{ store.paymentInfo.reference }}</h6>
+                  <div v-if="store.paymentInfo.is_outgoing !== undefined">
+                    <h6>Date: {{ makeDate(store.paymentInfo.date) }}</h6>
+                    <h4
+                      :class="store.paymentInfo.is_outgoing ? 'minus' : 'plus'"
+                    >
+                      Amount: {{ store.paymentInfo.is_outgoing ? "-" : "+" }}£{{
+                        store.paymentInfo.amount / 100
+                      }}
+                    </h4>
+                  </div>
+                  <div v-else>
+                    <h4>Amount:£{{ store.paymentInfo.amount / 100 }}</h4>
+                  </div>
               </div>
             </div>
             <div v-if="store.payeeInfo.is_company" class="mx-2">
               <h3>Environmental Score :</h3>
               <div class="container">
-                <div class="skill" id="info-main">{{ compInfo.score }}</div>
+                <div
+                  class="skill"
+                  :style="{ 'background-color': colour, width: rag_score }"
+                >
+                  {{ rag_score }}
+                </div>
               </div>
               <div class="ps-2">
                 <ul class="list-group list-group-flush mt-3">
-                  <li class="list-group-item">Waste Management : 3</li>
-                  <li class="list-group-item">Sustainability Practices : 3</li>
-                  <li class="list-group-item">Carbon Emission: 9</li>
+                  <li class="list-group-item">
+                    Waste Management :
+                    {{ store.payeeInfo.company_env_scores[0] }}
+                  </li>
+                  <li class="list-group-item">
+                    Sustainability Practices :
+                    {{ store.payeeInfo.company_env_scores[1] }}
+                  </li>
+                  <li class="list-group-item">
+                    Carbon Emission: {{ store.payeeInfo.company_env_scores[2] }}
+                  </li>
                 </ul>
               </div>
               <h3 class="pt-3">Alternative Companies:</h3>
               <div class="px-3">
-                <AlternativeCarousel :transaction="store.paymentInfo.is_outgoing === undefined ? true : false"></AlternativeCarousel>
+                <AlternativeCarousel
+                  :transaction="
+                    store.paymentInfo.is_outgoing === undefined ? true : false
+                  "
+                ></AlternativeCarousel>
               </div>
             </div>
           </div>
           <div class="mb-3">
-            <button v-if = "store.paymentInfo.is_outgoing === undefined" @click="makePayment" type="button" class="btn btn-success">
+            <button
+              v-if="store.paymentInfo.is_outgoing === undefined"
+              @click="makePayment"
+              type="button"
+              class="btn btn-success"
+            >
               Make Payment
             </button>
           </div>
@@ -104,7 +145,6 @@ async function makePayment() {
 </template>
 
 <style scoped>
-
 .minus {
   color: rgb(155, 0, 0);
 }
@@ -153,10 +193,5 @@ async function makePayment() {
   text-align: right;
   font-size: 20px;
   border-radius: 15px;
-}
-
-#info-main {
-  background-color: v-bind("compInfo.colour");
-  width: v-bind("compInfo.score");
 }
 </style>

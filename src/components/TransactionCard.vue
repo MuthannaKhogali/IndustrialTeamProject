@@ -11,7 +11,6 @@ const props = defineProps({
 });
 
 const store = useStore();
-
 const router = useRouter();
 
 //this was referenced https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString

@@ -1,35 +1,20 @@
 <script setup>
-import CarouselCard from "@/components/CarouselCard.vue"
+import CarouselCard from "@/components/CarouselCard.vue";
+import { useStore } from "@/store";
 
 const props = defineProps({
     transaction: Boolean
 })
 
-const alternatives = [
-    {
-        colour: "#F3A712",
-        score: 5,
-        name: "OK Company",
-        accountNo: "23495945",
-        active: false
-    },
-    {
-        colour: "#306E36",
-        score: 8,
-        name: "Great Company",
-        accountNo: "23495945",
-        active: true
-    }
-]
-
+const store = useStore();
 
 </script>
 
 <template>
     <div id="carouselExampleIndicators" class="carousel carousel-dark slide pb-3">
         <div class="carousel-inner">
-            <div class="carousel-item" v-for="info in alternatives" v-bind:key="info.name"
-                v-bind:class="(info.active ? 'active' : '')">
+            <div class="carousel-item" v-for="(info, index) in store.payeeInfo.alternatives" v-bind:key="info"
+                v-bind:class="(index === 0 ? 'active' : '')">
                 <CarouselCard :info="info" :transaction="props.transaction"></CarouselCard>
             </div>
         </div>
