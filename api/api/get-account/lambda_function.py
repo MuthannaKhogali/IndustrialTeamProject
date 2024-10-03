@@ -19,7 +19,7 @@ def calculate_user_level(user_experience, x=0.35, y=1.5):
     return max_level  # Return level 10 if XP exceeds all boundaries
 
 
-def get_alternatives(company_category: str) -> dict:
+def get_alternatives(company_category: str, account_id: str) -> dict:
     alternatives = client.query(
         TableName=tableName,
         IndexName="company_category-index",
@@ -54,6 +54,7 @@ def get_alternatives(company_category: str) -> dict:
             ),
         }
         for alternative in alternatives
+        if alternative["account_no"]["S"] != account_id
     ]
 
     alternatives.sort(key=lambda x: int(x["company_rag_score"]), reverse=True)
@@ -87,7 +88,9 @@ def lambda_handler(event, context):
         ]
         response["company_desc"] = item["company_description"]["S"]
         response["company_rag_score"] = sum(response["company_env_scores"])
-        response["alternatives"] = get_alternatives(response["company_category"])
+        response["alternatives"] = get_alternatives(
+            response["company_category"], response["account_id"]
+        )
     else:
         response["is_company"] = False
         response["level"] = calculate_user_level(
