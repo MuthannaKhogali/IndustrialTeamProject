@@ -74,7 +74,7 @@ def lambda_handler(event, context, client=default_client):
             "amount": transaction["amount"]["N"],
             "reference": transaction["reference"]["S"],
             "date": datetime.fromtimestamp(int(transaction["date"]["N"])).isoformat(),
-            "experience": 1,
+            "experience": int(transaction["experience"]["N"]),
         }
         for transaction in transactions
     ]
