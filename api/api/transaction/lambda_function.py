@@ -59,6 +59,39 @@ def update_user_experience(user_id, experience_points, client=default_client):
     )
 
 
+def update_user_streak(sender_id, recipient, client=default_client):
+    # +1 streak if green, -1 if orange, reset if red.
+    env_score = calculate_environmental_impact_score(recipient["account_no"]["S"])
+
+    update_value = 1
+
+    if env_score <= 0.3:
+        update_expression = "SET user_streak = :value"
+        update_value = 0
+    elif env_score <= 0.7:
+        update_expression = "ADD user_streak :value"
+        update_value = -1
+    else:
+        update_expression = "ADD user_streak :value"
+        update_value = 1
+
+    try:
+        client.update_item(
+            TableName=accounts_table,
+            Key={"account_no": {"S": str(sender_id)}},
+            UpdateExpression=update_expression,
+            ExpressionAttributeValues={
+                ":zero": {"N": "0"},
+                ":value": {"N": str(update_value)},
+            },
+            # If the user_streak doesn't already exist the condition would fail, so don't fail in that case.
+            ConditionExpression="user_streak >= :zero OR attribute_not_exists(user_streak)",
+        )
+    except client.exceptions.ConditionalCheckFailedException:
+        # This may happen if we try to subtract the user streak below zero, but is expected behaviour.
+        pass
+
+
 # Calculates ENV scores, returns an ENV score, a RAG rating as a string, and the three scores independently.
 def calculate_environmental_impact_score(
     account_id, client=default_client
@@ -165,12 +198,10 @@ def lambda_handler(event, context, client=default_client):
     ):
         return error("sender_id doesn't exist")
 
-    if (
-        client.get_item(
-            TableName=accounts_table, Key={"account_no": {"S": str(recipient_id)}}
-        ).get("Item", None)
-        is None
-    ):
+    recipient = client.get_item(
+        TableName=accounts_table, Key={"account_no": {"S": str(recipient_id)}}
+    ).get("Item", None)
+    if recipient is None:
         return error("recipient_id doesn't exist")
 
     try:
@@ -189,6 +220,8 @@ def lambda_handler(event, context, client=default_client):
 
     if environmental_score is not None:
         update_user_experience(sender_id, transaction_experience_points, client)
+
+    update_user_streak(sender_id, recipient)
 
     create_transaction_record(
         sender_id,
