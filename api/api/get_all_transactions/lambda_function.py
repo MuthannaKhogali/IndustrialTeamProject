@@ -9,20 +9,15 @@ transactions_table = "qmbank-transactions"
 
 # Gets all transactions for a given account using QUERY. Using the account_id. Gets all transactions where account is sender or recipient.
 def get_account_transactions(account_id, client=default_client):
-    try:
-        # QUERY table
-        response = client.scan(
-            TableName=transactions_table,
-            FilterExpression="sender_id = :account_id OR recipient_id = :account_id",
-            ExpressionAttributeValues={":account_id": {"S": str(account_id)}},
-        )
+    # QUERY table
+    response = client.scan(
+        TableName=transactions_table,
+        FilterExpression="sender_id = :account_id OR recipient_id = :account_id",
+        ExpressionAttributeValues={":account_id": {"S": str(account_id)}},
+    )
 
-        transactions = response.get("Items", [])
-        return transactions
-
-    except Exception as e:
-        print(f"Error fetching transactions for account: {e}")
-        return None
+    transactions = response.get("Items", [])
+    return transactions
 
 
 def add_company_score(transaction):
