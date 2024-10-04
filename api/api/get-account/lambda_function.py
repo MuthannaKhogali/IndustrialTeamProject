@@ -15,6 +15,32 @@ def calculate_user_level(user_experience):
     return min(10, math.floor(math.log((4 * user_experience / 10) + 1, 5)))
 
 
+def progress_to_next_level(current_level, points):
+    # It is 5am. I am not capable of anything past this caveman level maths right now.
+    if current_level == 0:
+        return points / 10
+    elif current_level == 1:
+        return points / 50
+    elif current_level == 2:
+        return points / 250
+    elif current_level == 3:
+        return points / 1_250
+    elif current_level == 4:
+        return points / 6_250
+    elif current_level == 5:
+        return points / 31_250
+    elif current_level == 6:
+        return points / 156_250
+    elif current_level == 7:
+        return points / 781_250
+    elif current_level == 8:
+        return points / 3_906_250
+    elif current_level == 9:
+        return points / 19_531_250
+    if current_level == 10:
+        return 0
+
+
 def get_alternatives(company_category: str, account_id: str) -> dict:
     alternatives = client.query(
         TableName=tableName,
@@ -91,6 +117,10 @@ def lambda_handler(event, context):
         response["is_company"] = False
         response["level"] = calculate_user_level(
             int(item.get("user_experience", {}).get("N", 0))
+        )
+        response["percentage_to_next_level"] = progress_to_next_level(
+            calculate_user_level(int(item.get("user_experience", {}).get("N", 0))),
+            int(item.get("user_experience", {}).get("N", 0)),
         )
         response["streak"] = item.get("user_streak", {}).get("N", 0)
 
