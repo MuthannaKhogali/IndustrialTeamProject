@@ -31,8 +31,8 @@ function back() {
         </h6>
         <RouterLink to="score" v-if="store.accountInfo.level !== undefined" class="userlevel" style=" text-decoration: none;
   color: green; font-weight: bold;">
-          Level {{ store.accountInfo.level }}
-        </RouterLink><br />
+          Level {{ store.accountInfo.level }} <span style = "color : #ffb02e">🔥{{ store.accountInfo.streak }}</span>
+        </RouterLink><br/>
         <div @click="back" class="btn btn-dark mb-3 mt-2" v-if="showBack">Back</div>
       </div>
     </div>

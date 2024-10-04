@@ -41,7 +41,7 @@ console.log(store.accountInfo.level)
           </div>
           <div class="row">
             <div>
-              <h1>Streak🔥: {{ store.accountInfo.streak }}</h1>
+              <h1>Streak:<span style = "color : #ffb02e">🔥{{ store.accountInfo.streak }}</span></h1>
               <p>Streaks are built by making multiple eco-friendly transactions in a row</p>
             </div>
           </div>

@@ -29,13 +29,11 @@ async function swapPayee(transaction){
     const result = await fetch("https://qmbank.uk/api/accounts/" + props.info.account_id)
     if (result.status === 200) {
         store.payeeInfo = await result.json();
-        console.table(store.transactions)
         if (transaction) {
             store.paymentInfo.recipient_id = store.payeeInfo.account_id;
         } else {
             store.paymentInfo.recipient_id = null
         }
-        console.table(store.transactions)
         router.push({path : "/transaction"});
     }
 }
@@ -57,7 +55,7 @@ console.log(percentage);
             {{ percentage }}
           </div>
         </div>
-        <div class="mt-3 ms-4">
+        <div class="mt-3 d-flex justify-content-center">
           <button
             v-if = "transaction"
             type="button"

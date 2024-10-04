@@ -27,8 +27,6 @@ const colour = computed(() => {
   }
 });
 
-console.log("running");
-
 //this was referenced https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
 //reference for hour and minute if needed https://www.codu.co/articles/how-to-show-hours-and-minutes-only-with-tolocaletimestring-7dskbbzo
 function makeDate(d) {
@@ -37,7 +35,6 @@ function makeDate(d) {
 }
 
 async function makePayment() {
-  console.log(JSON.stringify(store.paymentInfo));
 
   const response = await fetch(
     `https://qmbank.uk/api/accounts/${store.accountNo}/transactions`,

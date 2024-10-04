@@ -23,7 +23,6 @@ function goToTransactionPage()
 // see if the payee can be found. if its successful, the user is taken to the transaction page
 async function CheckPayee() 
 {
-  console.log(PayeeData) // console msg just to check if form works
 
   // this checks if the user entered the account number, the amount and the reference
   if ( !PayeeData.value.recipient_id || !PayeeData.value.amount || !PayeeData.value.reference)
