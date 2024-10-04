@@ -240,6 +240,8 @@ def lambda_handler(event, context, client=default_client):
     transaction_experience_points *= 1 + 0.02 * min(50, int(sender.get("user_streak", {}).get("N", 0)))
     transaction_experience_points = int(transaction_experience_points)
 
+    transaction_experience_points = int(transaction_experience_points / 50 * (amount / 100))
+
     if "company_category" not in sender:
         update_user_experience(sender_id, transaction_experience_points, client)
         update_user_streak(sender_id, recipient)
