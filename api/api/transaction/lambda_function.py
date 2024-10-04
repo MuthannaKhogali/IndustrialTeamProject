@@ -103,7 +103,7 @@ def update_user_streak(sender_id, recipient, client=default_client):
 # Calculates ENV scores, returns an ENV score, a RAG rating as a string, and the three scores independently.
 def calculate_environmental_impact_score(
     account_id, client=default_client
-) -> int | None:
+) -> int:
     # Gets ENV scores from database
     item = client.get_item(
         TableName=accounts_table, Key={"account_no": {"S": str(account_id)}}
@@ -111,7 +111,7 @@ def calculate_environmental_impact_score(
 
     # If item doesnt exist, or doesnt have ENV scores, we return 404 Not Found
     if "Item" not in item or "company_env_scores" not in item["Item"]:
-        return None
+        return 0
 
     item = item["Item"]
 
@@ -233,12 +233,17 @@ def lambda_handler(event, context, client=default_client):
 
     # calculate user's experience from decimal to an int (This is easier to store in the database as just an int, and also makes XP more exciting. big numbers are better)
     # If the decimal value is longer than 2 digits, it will simply round down and add the experience (0.357 becomes 35XP.)
-    transaction_experience_points = int(environmental_score * 100)
+    transaction_experience_points = environmental_score * 100
+    transaction_experience_points -= 50 if environmental_score != 0 else 0
 
-    if environmental_score is not None:
+    # Add streaks
+    transaction_experience_points *= 1 + 0.02 * min(50, int(sender.get("user_streak", {}).get("N", 0)))
+    transaction_experience_points = int(transaction_experience_points)
+
+    transaction_experience_points = int(transaction_experience_points / 50 * (amount / 100))
+
+    if "company_category" not in sender:
         update_user_experience(sender_id, transaction_experience_points, client)
-
-    if int(recipient["account_no"]["S"]) < 69:
         update_user_streak(sender_id, recipient)
 
     create_transaction_record(
