@@ -118,7 +118,7 @@ def lambda_handler(event, context):
         response["level"] = calculate_user_level(
             int(item.get("user_experience", {}).get("N", 0))
         )
-        response["percentage_to_next_level"] = progress_to_next_level(
+        response["percentage_through_level"] = progress_to_next_level(
             calculate_user_level(int(item.get("user_experience", {}).get("N", 0))),
             int(item.get("user_experience", {}).get("N", 0)),
         )
