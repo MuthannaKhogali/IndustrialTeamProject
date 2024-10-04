@@ -235,6 +235,10 @@ def lambda_handler(event, context, client=default_client):
     # If the decimal value is longer than 2 digits, it will simply round down and add the experience (0.357 becomes 35XP.)
     transaction_experience_points = environmental_score * 100 - 50
 
+    # Add streaks
+    transaction_experience_points *= 1 + 0.02 * min(50, int(sender.get("user_streak", {}).get("N", 0)))
+    transaction_experience_points = int(transaction_experience_points)
+
     if environmental_score is not None:
         update_user_experience(sender_id, transaction_experience_points, client)
         update_user_streak(sender_id, recipient)
