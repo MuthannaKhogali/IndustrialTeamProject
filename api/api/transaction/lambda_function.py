@@ -233,12 +233,10 @@ def lambda_handler(event, context, client=default_client):
 
     # calculate user's experience from decimal to an int (This is easier to store in the database as just an int, and also makes XP more exciting. big numbers are better)
     # If the decimal value is longer than 2 digits, it will simply round down and add the experience (0.357 becomes 35XP.)
-    transaction_experience_points = int(environmental_score * 100)
+    transaction_experience_points = environmental_score * 100 - 50
 
     if environmental_score is not None:
         update_user_experience(sender_id, transaction_experience_points, client)
-
-    if int(recipient["account_no"]["S"]) < 69:
         update_user_streak(sender_id, recipient)
 
     create_transaction_record(
