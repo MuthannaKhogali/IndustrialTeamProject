@@ -61,6 +61,7 @@ def lambda_handler(event, context):
             "account_no": {"S": next_account_no},
             "name": {"S": body["name"]},
             "balance": {"N": str(body["starting_balance"])},
+            "gsi": {"S": "1"},
         },
     )
 
