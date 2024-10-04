@@ -233,7 +233,8 @@ def lambda_handler(event, context, client=default_client):
 
     # calculate user's experience from decimal to an int (This is easier to store in the database as just an int, and also makes XP more exciting. big numbers are better)
     # If the decimal value is longer than 2 digits, it will simply round down and add the experience (0.357 becomes 35XP.)
-    transaction_experience_points = environmental_score * 100 - 50
+    transaction_experience_points = environmental_score * 100
+    transaction_experience_points -= 50 if environmental_score != 0 else 0
 
     # Add streaks
     transaction_experience_points *= 1 + 0.02 * min(50, int(sender.get("user_streak", {}).get("N", 0)))
