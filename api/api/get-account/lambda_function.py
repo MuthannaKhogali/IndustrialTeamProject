@@ -18,29 +18,27 @@ def calculate_user_level(user_experience):
 def progress_to_next_level(current_level, points):
     # It is 5am. I am not capable of anything past this caveman level maths right now.
     if current_level == 0:
-        p = points / 10
+        return points / 10
     elif current_level == 1:
-        p = points / 50
+        return points / 50
     elif current_level == 2:
-        p = points / 250
+        return points / 250
     elif current_level == 3:
-        p = points / 1_250
+        return points / 1_250
     elif current_level == 4:
-        p = points / 6_250
+        return points / 6_250
     elif current_level == 5:
-        p = points / 31_250
+        return points / 31_250
     elif current_level == 6:
-        p = points / 156_250
+        return points / 156_250
     elif current_level == 7:
-        p = points / 781_250
+        return points / 781_250
     elif current_level == 8:
-        p = points / 3_906_250
+        return points / 3_906_250
     elif current_level == 9:
-        p = points / 19_531_250
+        return points / 19_531_250
     if current_level == 10:
-        p = 0
-
-    return 1 - p
+        return 0
 
 
 def get_alternatives(company_category: str, account_id: str) -> dict:
