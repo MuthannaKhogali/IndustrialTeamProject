@@ -7,15 +7,16 @@ const store = useStore();
 console.log(store.accountInfo.level)
 
 
+const percent = Math.floor(store.accountInfo.percentage_through_level * 100) + "%"
+
+
+
+
 </script>
 
 <template>
   <div class="mainpage">
-    <UserInfo :userInfo="{
-      name: 'User',
-      account_id: '2834502',
-      balance: 2342324,
-    }" />
+    <UserInfo />
     <div class ="container-fluid">
     <div class="row">
       <div class="card py-3 mt-4 company rounded-0">
@@ -24,7 +25,7 @@ console.log(store.accountInfo.level)
         </div>
         <div class="mx-2">
           <div class="container">
-            <div class="skill" id="info-main">80/100 EXP</div>
+            <div class="skill" id="info-main">{{ percent }}</div>
           </div>
           <div class="px-2">
             <div class="row py-2">
@@ -35,7 +36,7 @@ console.log(store.accountInfo.level)
                 <h6></h6>
               </div>
               <div class="col-4 text-end">
-                <h6>Level {{ store.accountInfo.level + 1 }}</h6>
+                <h6>Level {{ store.accountInfo.level !== 10 ? store.accountInfo.level + 1 : "Max" }}</h6>
               </div>
             </div>
           </div>
@@ -92,7 +93,7 @@ console.log(store.accountInfo.level)
   }
 
   to {
-    width: 80%;
+    width: v-bind("percent");
   }
 }
 
@@ -113,8 +114,8 @@ console.log(store.accountInfo.level)
 }
 
 #info-main {
-  background-color: green;
-  width: 80%;
+  background-color: #2E6F40;
+  width: v-bind("percent");
   animation: progressAnimation 3s;
 }
 </style>
