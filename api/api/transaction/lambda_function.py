@@ -103,7 +103,7 @@ def update_user_streak(sender_id, recipient, client=default_client):
 # Calculates ENV scores, returns an ENV score, a RAG rating as a string, and the three scores independently.
 def calculate_environmental_impact_score(
     account_id, client=default_client
-) -> int | None:
+) -> int:
     # Gets ENV scores from database
     item = client.get_item(
         TableName=accounts_table, Key={"account_no": {"S": str(account_id)}}
@@ -111,7 +111,7 @@ def calculate_environmental_impact_score(
 
     # If item doesnt exist, or doesnt have ENV scores, we return 404 Not Found
     if "Item" not in item or "company_env_scores" not in item["Item"]:
-        return None
+        return 0
 
     item = item["Item"]
 
@@ -239,7 +239,7 @@ def lambda_handler(event, context, client=default_client):
     transaction_experience_points *= 1 + 0.02 * min(50, int(sender.get("user_streak", {}).get("N", 0)))
     transaction_experience_points = int(transaction_experience_points)
 
-    if environmental_score is not None:
+    if "company_category" not in sender:
         update_user_experience(sender_id, transaction_experience_points, client)
         update_user_streak(sender_id, recipient)
 
