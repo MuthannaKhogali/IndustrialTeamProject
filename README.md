@@ -1,4 +1,5 @@
-# vueroutertesting
+# QMBank
+An eco friendly banking application. To run locall follow instructions.
 
 ## Project setup
 ```
