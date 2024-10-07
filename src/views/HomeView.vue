@@ -3,18 +3,17 @@ import UserInfo from "@/components/UserInfo.vue";
 import TransactionCard from "@/components/TransactionCard.vue";
 import { useStore } from "@/store";
 
-//info.is_company ? userInfo["level"] = info["company_rag_score"] : userInfo["level"] = info["level"];
-
-//console.log(userInfo.value);
-
 const store = useStore();
 
+//Runs a the page loads getting all the users transactions in an array
 (async () => {
   let transactions = await fetch(
     "https://qmbank.uk/api/accounts/" + store.accountNo + "/transactions"
   );
   if (transactions.status === 200) {
     store.transactions = await transactions.json();
+  } else {
+    store.transactions = null;
   }
 })();
 </script>
@@ -31,9 +30,9 @@ const store = useStore();
       <UserInfo />
     </div>
     <!-- this is the transaction history section which will display recent payments -->
-    <!-- hardcoded some companies for now-->
     <div class="container-fluid">
       <div class="row">
+        <!--Loops through all transactions pulled from the API feeds the data into transaction cards-->
         <div
           class="transactionhistory"
           v-bind:key="info"

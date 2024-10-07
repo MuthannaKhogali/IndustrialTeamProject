@@ -8,12 +8,14 @@ import { ref, computed } from "vue";
 const store = useStore();
 const router = useRouter();
 
+//Set RAG score. Has to be a computed value in case of page reload.
 const rag_score = computed(() => {
   return store.payeeInfo.is_company
     ? Math.floor((store.payeeInfo.company_rag_score / 3) * 10) + "%"
     : null;
 });
 
+//Compute the colour for the company RAG percent bar
 const colour = computed(() => {
   if (store.payeeInfo.is_company) {
     const score = store.payeeInfo.company_rag_score / 3 / 10;
@@ -35,7 +37,7 @@ function makeDate(d) {
 }
 
 async function makePayment() {
-
+  //Post the paymenr info stored from the payee details page.
   const response = await fetch(
     `https://qmbank.uk/api/accounts/${store.accountNo}/transactions`,
     {
@@ -48,13 +50,18 @@ async function makePayment() {
   );
 
   if (response.status === 200) {
+    //If successful get the users account details again to get their updated balance
     let res = await fetch(`https://qmbank.uk/api/accounts/${store.accountNo}`);
     if (res.status === 200) {
+      //If that's successful get the users transactions
       const transactionsResponse = await fetch(`https://qmbank.uk/api/accounts/${store.accountNo}/transactions`);
       if (transactionsResponse.status === 200) {
+        //If transactions found store them
         store.transactions = await transactionsResponse.json();
       }
+      //Set account info to GET result
       store.accountInfo = await res.json();
+      //Clear the payment information and go home
       store.paymentInfo = null;
       router.push({ name: "home" });
     }

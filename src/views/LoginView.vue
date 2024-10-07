@@ -13,15 +13,19 @@ const message = ref("");
 // the last account id that logged in.
 store.accountNo = null;
 
+//logs in the user
 async function submit() {
+  //Feedback message to be displayed if any issues with login
   message.value = "";
-  // let result = await fetch("https://qmbank.uk/api/accounts/" + (store.accountInfo?.no ?? ""));
+
+  //Attempt to fetch info on accountNo user entered
   let result = await fetch("https://qmbank.uk/api/accounts/" + store.accountNo);
   if (result.status === 200) {
+    //Store the information returned and push to the home page
     store.accountInfo = await result.json();
-    console.log(store.accountInfo)
     router.push({name : "home"});
   } else {
+    //Otherwise let the user know what's happened
     message.value = "The account number does not exist!";
   }
 }

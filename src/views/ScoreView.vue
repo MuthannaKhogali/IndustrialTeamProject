@@ -6,11 +6,8 @@ import { useStore } from "@/store";
 const store = useStore();
 console.log(store.accountInfo.level)
 
-
+//Get percentage for score bar css
 const percent = Math.floor(store.accountInfo.percentage_through_level * 100) + "%"
-
-
-
 
 </script>
 

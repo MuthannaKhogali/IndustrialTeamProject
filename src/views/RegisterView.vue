@@ -8,9 +8,9 @@ const accountNo = ref(null)
 
 const router = useRouter();
 
+//Registers a new user
 async function register() {
-  console.log(formData.value.name);
-
+  //Posts name and monetary amount entered by user
   let response = await fetch("https://qmbank.uk/api/accounts", {
     method: "POST",
     body: JSON.stringify({
@@ -24,16 +24,11 @@ async function register() {
 
   if (response.status != 200) {
     return;
-  } else {
-    let data = await response.json();
-    
-    accountNo.value = data.account_no
-    console.log(data)
-
-    console.log(accountNo.value)
   }
 
-  //goToLoginPage();
+  //If we're successful get back the freshly created account number and display it
+  let data = await response.json();
+  accountNo.value = data.account_no
 }
 
 function goToLoginPage() {
@@ -48,9 +43,11 @@ function goToLoginPage() {
         <div>
           <img src="../assets/logo.png" width="200" height="210" class="pb-3" />
           <h1>Register</h1>
+          <!--To be displayed once the account has been created-->
           <div class = "card border border-3 border-dark shadow-sm mb-2" v-if="accountNo" style="background-color: #7fb284">
             <div class = "card-body"><h6>Your account no is: {{ accountNo }}</h6><h6>Remember this to <RouterLink to="/login">login</RouterLink></h6></div>
           </div>
+          <!--Name input-->
           <input
             type="text"
             class="rounded border-dark shadow-sm border-3"
@@ -58,6 +55,7 @@ function goToLoginPage() {
             v-model="formData.name"
             placeholder="Name"
           /><br />
+          <!--Money Input-->
           <input
             type="number"
             class="mt-2 rounded border-dark shadow-sm border-3"
@@ -65,6 +63,7 @@ function goToLoginPage() {
             v-model="formData.starting_balance"
             placeholder="Money, e.g. £500"
           /><br />
+          <!--Register Button-->
           <div
             @click="register"
             class="btn mt-4 border border-3 border-dark shadow-sm"
